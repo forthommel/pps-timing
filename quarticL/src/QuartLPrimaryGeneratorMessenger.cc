@@ -38,7 +38,9 @@
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithADoubleAndUnit.hh"
 
+#include "globals.hh"
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 
 QuartLPrimaryGeneratorMessenger::QuartLPrimaryGeneratorMessenger(
                                  QuartLPrimaryGeneratorAction* QuartLGun)
@@ -73,7 +75,7 @@ void QuartLPrimaryGeneratorMessenger::SetNewValue(
 { 
   if( command == polarCmd ) {
       G4double angle = polarCmd->GetNewDoubleValue(newValue);
-      if ( angle == -360.0*deg ) {
+      if ( angle == -360.0 ) {
          QuartLAction->SetOptPhotonPolar();
       } else {
          QuartLAction->SetOptPhotonPolar(angle);

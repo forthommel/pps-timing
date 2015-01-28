@@ -26,6 +26,7 @@
 #include "G4OpBoundaryProcess.hh"
 
 // 
+using namespace CLHEP;
 
 QuartLDetectorConstruction::QuartLDetectorConstruction()
 {

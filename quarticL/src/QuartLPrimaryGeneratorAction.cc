@@ -5,6 +5,7 @@
 #include "QuartLPrimaryGeneratorMessenger.hh"
 
 #include "Randomize.hh"
+#include "globals.hh"
 
 #include "G4Event.hh"
 #include "G4ParticleGun.hh"
@@ -12,6 +13,8 @@
 #include "G4ParticleDefinition.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+using namespace CLHEP;
 
 QuartLPrimaryGeneratorAction::QuartLPrimaryGeneratorAction()
 {

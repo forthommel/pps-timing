@@ -6,6 +6,8 @@
 #include "G4Step.hh"
 // #include "G4BestUnit.hh"
 
+using namespace CLHEP;
+
 DetectorSD::DetectorSD(G4String name): G4VSensitiveDetector(name)
 {
 

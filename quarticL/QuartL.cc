@@ -7,10 +7,13 @@
 
 #include "G4ios.hh"
 
-#include "LHEP.hh"
+//#include "LHEP.hh" //FIXME
+#include "QGSP_BERT.hh"
+#include "globals.hh"
 #include "G4OpticalPhysics.hh"
 
 #include "QuartLDetectorConstruction.hh"
+#include "G4VModularPhysicsList.hh"
 
 // #include "QuartLPhysicsList.hh"
 
@@ -25,6 +28,9 @@
 #ifdef G4VIS_USE
 #include "G4VisExecutive.hh"
 #endif
+
+//FIXME remove me!
+#include "G4PhysListFactory.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -50,11 +56,17 @@ int main(int argc,char** argv)
   runManager-> SetUserInitialization(detector);
   //
   
-  
+  G4PhysListFactory* physListFactory = new G4PhysListFactory();
+  const std::vector<G4String> v = physListFactory->AvailablePhysLists();
+  G4cout << "=== Dump of all available physics lists ===" << G4endl;
+  for (std::vector<G4String>::const_iterator it=v.begin(); it!=v.end(); it++) {
+    G4cout << " -> " << *it << G4endl;
+  }
   
 //  G4VUserPhysicsList* physics = new QuartLPhysicsList;
 
-  G4VModularPhysicsList* physics = new LHEP;		//22.01 from AK
+  //G4VModularPhysicsList* physics = new LHEP;		//22.01 from AK
+  G4VModularPhysicsList* physics = new QGSP_BERT;		//22.01 from AK
   physics->RegisterPhysics(new G4OpticalPhysics);
 
   runManager-> SetUserInitialization(physics);
