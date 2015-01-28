@@ -1,0 +1,56 @@
+#
+# Macro file for the initialization phase of "exampleN06.cc"
+# when running in interactive mode
+#
+# Sets some default verbose
+#
+/control/verbose 1
+/run/verbose 1
+#
+/gun/particle proton
+/gun/energy 0.1 GeV
+#/gun/energy 3000 GeV
+#was 120
+#
+#
+# create empty scene
+#
+/vis/scene/create
+#
+# Create a scene handler for a specific graphics system
+# (Edit the next line(s) to choose another graphic system)
+#
+#/vis/open DAWNFILE
+#/vis/open OGLIX
+# Export to VRML, 3.03.
+/vis/open VRML1FILE
+#
+//vis/scene/add/trajectories
+#/vis/modeling/trajectories/create/generic
+#/vis/modeling/trajectories/generic-0/default/setLineColour red
+#
+#/vis/viewer/zoom 1.5
+#
+/vis/viewer/flush
+#
+# for drawing the tracks
+# Draw trajectories at end of event, showing trajectory points as
+# markers of size 2 pixels
+#
+#was---------
+/vis/scene/add/trajectories
+/vis/modeling/trajectories/create/drawByCharge
+#/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts true
+#/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 2
+#---------------------
+# (if too many tracks cause core dump => storeTrajectory 0)
+#
+/vis/scene/endOfEventAction accumulate
+#
+# Refresh ready for run
+/vis/viewer/refresh
+#
+# Now ready for /run/beamOn.
+
+/run/beamOn 1
+#/vis/viewer/flush
