@@ -1,7 +1,14 @@
 #ifndef DetectorSD_h
 #define DetectorSD_h 1
 
+#include "QuartLRunAction.hh"
+
+#include "G4ParticleDefinition.hh"
+#include "G4ParticleTypes.hh"
+#include "G4RunManager.hh"
+#include "G4Step.hh"
 #include "G4VSensitiveDetector.hh"
+
 class G4Step;
 class RunAction;
 
