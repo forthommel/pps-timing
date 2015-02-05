@@ -36,7 +36,7 @@ QuartLDetectorConstruction::BuildOpticalProperties()
 
   Air = man->FindOrBuildMaterial("G4_AIR");  
   Sil = man->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
-  //was Sil = man->FindOrBuildMaterial("G4_ALUMINUM_OXIDE");   //Sapphire
+  //was Sil = man->FindOrBuildMaterial("G4_ALUMINUM_OXIDE"); //Sapphire
   Glass = man->FindOrBuildMaterial("G4_GLASS_PLATE");
     
   //
@@ -88,21 +88,21 @@ QuartLDetectorConstruction::BuildOpticalProperties()
     const G4int nEntries = 13; 
     G4double PhEn[nEntries] =			//Photon Energy
             { 2.10*eV, 
-	      2.32*eV, 2.40*eV, 2.53*eV, 2.80*eV,
-	      3.53*eV, 3.81*eV, 4.02*eV, 4.42*eV,
-	      4.82*eV, 5.08*eV, 5.48*eV, 5.82*eV
-	      };
+      2.32*eV, 2.40*eV, 2.53*eV, 2.80*eV,
+      3.53*eV, 3.81*eV, 4.02*eV, 4.42*eV,
+      4.82*eV, 5.08*eV, 5.48*eV, 5.82*eV
+      };
     G4double RI_Sil[nEntries] =
             { 1.768, 1.771, 1.773, 1.775, 1.797, 1.780, 1.805,
-	      1.811, 1.824, 1.840, 1.851, 1.870, 1.890 
-	      }; 
+      1.811, 1.824, 1.840, 1.851, 1.870, 1.890 
+      }; 
  
        
     G4double Absor_Sil[nEntries] =
            { 0.5*m,  0.5*m,   0.5*m,    0.5*m, 
-	     0.5*m,  0.5*m,   0.5*m,    0.5*m,
-	     0.47*m, 0.45*m,  0.42*m,   0.40*m, 0.37*m	     
-	      };
+      0.5*m,  0.5*m,   0.5*m,    0.5*m,
+      0.47*m, 0.45*m,  0.42*m,   0.40*m, 0.37*m	     
+      };
     ------------------------------------------------------*/
   //
   
@@ -129,7 +129,7 @@ QuartLDetectorConstruction::BuildOpticalProperties()
     RI_Gl[i] = 1.70;
     Absor_Gl[i] = 1.*m;
   }
-	    
+  
   G4MaterialPropertiesTable* MPT_Gl = new G4MaterialPropertiesTable();
   MPT_Gl->AddProperty("RINDEX", PhEn_Gl, RI_Gl, nEntries_Gl);
   MPT_Gl->AddProperty("ABSLENGTH", PhEn_Gl, Absor_Gl, nEntries_Gl);
@@ -138,13 +138,13 @@ QuartLDetectorConstruction::BuildOpticalProperties()
   //
   //  Optical Properties of the Surface 
   //
-  G4double sigma_alpha = 0.1;			//0.1
+  G4double sigma_alpha = 0.1;
   
   OpSilSurface = new G4OpticalSurface("SiOSurface");
   
   OpSilSurface->SetType(dielectric_dielectric);
   OpSilSurface->SetFinish(polished);
-  //  OpSilSurface->SetModel(glisur);
+  // OpSilSurface->SetModel(glisur);
   OpSilSurface->SetModel(unified);  
   OpSilSurface->SetSigmaAlpha(sigma_alpha);
   
@@ -153,12 +153,11 @@ QuartLDetectorConstruction::BuildOpticalProperties()
   //
   const G4int nEntries_OP = 2;
   
-  G4double PhEn_OP[nEntries_OP] = {1.76*eV, 5.79*eV};  //Si02
-  
-  //  G4double PhEn_OP[nEntries_OP] = {2.10*eV, 5.82*eV};    //Al2O3
+  G4double PhEn_OP[nEntries_OP] = {1.76*eV, 5.79*eV};  // Si02
+  //  G4double PhEn_OP[nEntries_OP] = {2.10*eV, 5.82*eV}; //Al2O3
   
   // Optical SiO2/Al2O3 Surface
-  G4double RefractiveIndex[nEntries_OP] = {1.455, 1.534}; //  SiO2
+  G4double RefractiveIndex[nEntries_OP] = {1.455, 1.534}; // SiO2
   G4double SpecularLobe[nEntries_OP] = {0.1, 0.1};
   G4double SpecularSpike[nEntries_OP] = {0.9, 0.9};
   G4double Backscatter[nEntries_OP] = {0.0, 0.0};
@@ -183,7 +182,7 @@ QuartLDetectorConstruction::Construct()
   BuildOpticalProperties();
   
   //
-  //	------------- Volumes  and Detector --------------
+  // ------------- Volumes  and Detector --------------
   //
   // The experimental Hall
   //
@@ -239,7 +238,7 @@ QuartLDetectorConstruction::BuildOneStation(G4ThreeVector pos)
     -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
     -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
     -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm
-  };			      
+  };
   
   G4double Xoffs[nBar] = { 
      4.7*mm,  4.7*mm,  4.7*mm,  4.7*mm,
@@ -247,9 +246,9 @@ QuartLDetectorConstruction::BuildOneStation(G4ThreeVector pos)
     -1.5*mm, -1.5*mm, -1.5*mm, -1.5*mm,
     -4.6*mm, -4.6*mm, -4.6*mm, -4.6*mm,
     -7.7*mm, -7.7*mm, -7.7*mm, -7.7*mm
-  }; 		      		 			      			      
+  };
   
-  G4double Zoffs[nBar] = { // Z adjustment
+  G4double Zoffs[nBar] = {
     0.*mm,  2.5*mm,  0.*mm,  2.5*mm,
     5.*mm,  7.5*mm,  5.*mm,  7.5*mm,
     10.*mm, 12.5*mm, 10.*mm, 12.5*mm,
@@ -257,10 +256,10 @@ QuartLDetectorConstruction::BuildOneStation(G4ThreeVector pos)
     20.*mm, 22.5*mm, 20.*mm, 22.5*mm
   };
   
-  G4ThreeVector Cellsh;		//Physical Volumes shifting
-  G4ThreeVector Windsh;		//For Window shifting
+  G4ThreeVector Cellsh; // Physical Volumes shifting
+  G4ThreeVector Windsh; // For Window shifting
   
-  G4Box* window_box = new G4Box("Window", wind_x/2., wind_z/2., wind_z/2.);    
+  G4Box* window_box = new G4Box("Window", wind_x/2., wind_z/2., wind_z/2.);
     
   for (G4int i=0; i<nBar; i++) {
     if (fNumBars>MAX_BARS) {
@@ -273,10 +272,10 @@ QuartLDetectorConstruction::BuildOneStation(G4ThreeVector pos)
     barv_l = RadL[i];
     barh_l = LigL[i];
     
-    BarV[fNumBars] = new G4Box("BarV", bar_x/2., bar_y/2., barv_l/2.);	//Vertical Bar (Radiator)
-    BarH[fNumBars] = new G4Box("BarH", barh_l/2., bar_y/2., bar_x/2.);	//Horizontal Bar (LightG)
+    BarV[fNumBars] = new G4Box("BarV", bar_x/2., bar_y/2., barv_l/2.); // Vertical Bar (Radiator)
+    BarH[fNumBars] = new G4Box("BarH", barh_l/2., bar_y/2., bar_x/2.); // Horizontal Bar (LightG)
     //
-    //	Logical OR, Passive Method
+    // Logical OR, Passive Method
     //
     
     G4ThreeVector Trans(barh_l/2.+bar_x/2., 0., barv_l/2.-bar_x/2.);
@@ -294,9 +293,9 @@ QuartLDetectorConstruction::BuildOneStation(G4ThreeVector pos)
       expHall_log,
       false,
       fNumBars); 
-    //			
+    //
     //------------------------------------------------------------
-    //	Glass Window of Sensitive Detector
+    // Glass Window of Sensitive Detector
     //
     
     window_log[fNumBars] = new G4LogicalVolume(window_box, Glass, "Window", 0, 0, 0);
@@ -318,7 +317,7 @@ QuartLDetectorConstruction::BuildOneStation(G4ThreeVector pos)
     // Bar-Air Border
     SilAirBord[fNumBars] = new G4LogicalBorderSurface("SilAirBord", Bar_phys[i], expHall_phys, OpSilSurface);
     // Bar-PM Window Surface
-    PMSilSurf[fNumBars] = new G4LogicalBorderSurface("PMSilBord", Bar_phys[i], window_phys[i], OpSilSurface); //  PMSilSurf
+    PMSilSurf[fNumBars] = new G4LogicalBorderSurface("PMSilBord", Bar_phys[i], window_phys[i], OpSilSurface); // PMSilSurf
 
     fNumBars += 1;
   }

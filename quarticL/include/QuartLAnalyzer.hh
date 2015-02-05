@@ -1,10 +1,14 @@
 #ifndef QuartLAnalyzer_h
 #define QuartLAnalyzer_h
 
-#include "TTree.h"
 #include "G4Step.hh"
 
+#include "TTree.h"
+#include "TFile.h"
+#include "TH2.h"
+
 #define MAX_HITS 25000
+#define MAX_MODULES 4
 
 /** Analysis class intended to store into a TTree the photons kinematic information for each event. */
 class QuartLAnalyzer
@@ -26,8 +30,12 @@ class QuartLAnalyzer
     void Store();
   
   private:
-    G4String fFilename;
+    TFile *fFile;
     TTree *fTree;
+    
+    G4String fFilename;
+    
+    TH2D *fHitMap[MAX_MODULES];
     
     G4int fNumHits;
     
