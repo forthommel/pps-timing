@@ -23,11 +23,12 @@ class DetectorSD: public G4VSensitiveDetector
     void EndOfEvent(G4HCofThisEvent*);
     
   private:
-    RunAction* runAction;
+    QuartLRunAction* runAction;
+    
     G4double detEnergy;
     /** Track time */
     G4double detTime;
-    /** First photon */
+    /** Time of arrival for the first photon */
     G4double firstPh;
 };
 

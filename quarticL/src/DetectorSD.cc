@@ -5,7 +5,7 @@ using namespace CLHEP;
 DetectorSD::DetectorSD(G4String name) :
   G4VSensitiveDetector(name)
 {
-  runAction = (RunAction*)G4RunManager::GetRunManager()->GetUserRunAction();
+  runAction = (QuartLRunAction*)G4RunManager::GetRunManager()->GetUserRunAction();
 }
 
 DetectorSD::~DetectorSD() {}
@@ -15,7 +15,7 @@ DetectorSD::Initialize(G4HCofThisEvent*)
 {
   //  Reset
   detEnergy = 0;
-  firstPh   = 100.;
+  firstPh = 100.;
 }
 
 G4bool
@@ -81,7 +81,8 @@ DetectorSD::ProcessHits(G4Step* step, G4TouchableHistory*)
     //--------------------------------------------------------------------------------------	
     ///////////////////////////////////////////////      
     G4Track* track = step->GetTrack(); 
-    track->SetTrackStatus(fStopAndKill);   
+    
+    track->SetTrackStatus(fStopAndKill); // One kills the particle after its arrival in the sensitive detector
   }
   //------------------------------------------- 
  
@@ -96,7 +97,7 @@ DetectorSD::EndOfEvent(G4HCofThisEvent*)
   // was, 9.06       G4cout <<  ie << " " << ie << " " << ie << G4endl;		//20.06
   // was 21.01.2015      G4cout <<  ie << " " << dummy << " " << dummy <<" "
   //                           /              <<dummy <<" " << dummy << G4endl;		//20.06
-  G4cout <<  ie << " " << dummy << " " << dummy << G4endl;	
+  G4cout <<  ie << " " << detEnergy << " " << dummy << G4endl;	
   // G4cout << "First Ph " << firstPh << G4endl;
   //------------------------------------------------------- 
   

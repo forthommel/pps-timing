@@ -97,7 +97,7 @@ int main(int argc,char** argv)
   //
   G4UImanager* UI = G4UImanager::GetUIpointer(); 
    
-  if (argc==1)   // Define UI session for interactive mode
+  if (argc==1) // Define UI session for interactive mode
     {
       G4UIsession* session = 0;
 #ifdef G4UI_USE_TCSH
@@ -112,7 +112,7 @@ int main(int argc,char** argv)
       delete session;
    }
    
-  else         // Batch mode
+  else // Batch mode
    {
      G4String command = "/control/execute ";
      G4String fileName = argv[1];

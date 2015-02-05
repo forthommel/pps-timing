@@ -40,6 +40,9 @@ class QuartLDetectorConstruction : public G4VUserDetectorConstruction
     G4VPhysicalVolume* Construct();
 
   private:
+    /** Generate and add material properties table */
+    void BuildOpticalProperties();
+  
     G4double expHall_x;
     G4double expHall_y;
     G4double expHall_z;
@@ -55,6 +58,12 @@ class QuartLDetectorConstruction : public G4VUserDetectorConstruction
     G4double wind_x;
     G4double wind_y;
     G4double wind_z;
+    
+    G4Material* Air;
+    G4Material* Sil;
+    G4Material* Glass;
+    
+    G4OpticalSurface* OpSilSurface;
 };
 
 #endif

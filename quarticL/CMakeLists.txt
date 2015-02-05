@@ -22,6 +22,13 @@ endif()
 include(${Geant4_USE_FILE})
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
+#----------------------------------------------------------------------------
+# ROOT include
+#
+set(GCC_COMPILE_FLAGS "-Wno-shadow")
+add_definitions(${GCC_COMPILE_FLAGS})
+find_package(ROOT REQUIRED)
+include_directories(${ROOT_INCLUDE_DIR})
 
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
@@ -34,7 +41,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(QuartL QuartL.cc ${sources} ${headers})
-target_link_libraries(QuartL    ${Geant4_LIBRARIES})
+target_link_libraries(QuartL ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we

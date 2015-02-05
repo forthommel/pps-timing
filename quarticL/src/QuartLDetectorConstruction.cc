@@ -28,58 +28,57 @@ QuartLDetectorConstruction::~QuartLDetectorConstruction(){;}
 
 // 
 
-G4VPhysicalVolume* QuartLDetectorConstruction::Construct()
+void
+QuartLDetectorConstruction::BuildOpticalProperties()
 {
-  
   G4NistManager* man = G4NistManager::Instance();
-  
-  G4Material* Air   = man->FindOrBuildMaterial("G4_AIR");
-  //  G4cout << Air <<G4endl;
-  
-  G4Material* Sil   = man->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
-  //was  G4Material* Sil   = man->FindOrBuildMaterial("G4_ALUMINUM_OXIDE");   //Sapphire
-  G4Material* Glass = man->FindOrBuildMaterial("G4_GLASS_PLATE");
- 
+
+  Air = man->FindOrBuildMaterial("G4_AIR");  
+  Sil = man->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
+  //was Sil = man->FindOrBuildMaterial("G4_ALUMINUM_OXIDE");   //Sapphire
+  Glass = man->FindOrBuildMaterial("G4_GLASS_PLATE");
+    
   //
-  // ------------ Generate & Add Material Properties Table ------------
+  // Optical properties for air
   //
-  const G4int nEntries = 10; 
+  const G4int nEntries_Air = 10;
   
-  G4double PhEn[nEntries] =			//Photon Energy
+  G4double PhEn_Air[nEntries_Air] =	// Photon energies
     {
       1.76*eV, 1.96*eV, 2.27*eV, 2.44*eV, 2.65*eV,
       3.06*eV, 3.71*eV, 4.50*eV, 5.19*eV, 5.79*eV
     };
-  
-  //
-  // Air
-  //
-  G4double RI_Air[nEntries] =
-    {
-      1.00, 1.00, 1.00, 1.00, 1.00, 
-      1.00, 1.00, 1.00, 1.00, 1.00 
-    };
-  
+    
+  G4double RI_Air[nEntries_Air];
+  for (G4int i=0; i<nEntries_Air; i++) {
+    RI_Air[i] = 1.00;
+  }
   
   G4MaterialPropertiesTable* MPT_Air = new G4MaterialPropertiesTable();
-  MPT_Air->AddProperty("RINDEX", PhEn, RI_Air, nEntries);
+  MPT_Air->AddProperty("RINDEX", PhEn_Air, RI_Air, nEntries_Air);
   Air->SetMaterialPropertiesTable(MPT_Air);
-  //
-  //		 now  Quartz (SiO2) 
-  //
   
-  G4double RI_Sil[nEntries] =
+  //
+  // Optical properties for Quartz (SiO2) 
+  //
+  const G4int nEntries_Sil = 10;
+
+  G4double PhEn_Sil[nEntries_Sil] =	// Photon energies
+    {
+      1.76*eV, 1.96*eV, 2.27*eV, 2.44*eV, 2.65*eV,
+      3.06*eV, 3.71*eV, 4.50*eV, 5.19*eV, 5.79*eV
+    };  
+  
+  G4double RI_Sil[nEntries_Sil] =
     {
       1.455, 1.457, 1.460, 1.462, 1.464,
       1.470, 1.480, 1.496, 1.513, 1.534
     }; 
  
-       
-  G4double Absor_Sil[nEntries] =
-    {
-      0.5*m,  0.5*m,   0.5*m,    0.5*m,  0.5*m,
-      0.5*m,  0.5*m,   0.5*m,    0.5*m,  0.5*m	     
-    };
+  G4double Absor_Sil[nEntries_Sil];
+  for (G4int i=0; i<nEntries_Sil; i++) {
+    Absor_Sil[i] = 0.5*m;
+  }
   
   //
   //	Sapphire (Al2O3) Part
@@ -107,70 +106,81 @@ G4VPhysicalVolume* QuartLDetectorConstruction::Construct()
   //
   
   G4MaterialPropertiesTable* MPT_Sil = new G4MaterialPropertiesTable();
-  MPT_Sil->AddProperty("RINDEX",   PhEn,    RI_Sil,      nEntries);
-  MPT_Sil->AddProperty("ABSLENGTH",PhEn, Absor_Sil,      nEntries);  
+  MPT_Sil->AddProperty("RINDEX", PhEn_Sil, RI_Sil, nEntries_Sil);
+  MPT_Sil->AddProperty("ABSLENGTH", PhEn_Sil, Absor_Sil, nEntries_Sil);
   
   Sil->SetMaterialPropertiesTable(MPT_Sil);
+  
   //
-  //	Window Glass PMT
+  // Optical properties for PMT's window glass
   //
-  G4double RI_Gl[nEntries] =			// was 1.70
+  const G4int nEntries_Gl = 10;
+  
+  G4double PhEn_Gl[nEntries_Gl] =	// Photon energies
     {
-      1.70, 1.70, 1.70, 1.70, 1.70,
-      1.70, 1.70, 1.70, 1.70, 1.70 
-    };	     
-	     
-  G4double Absor_Gl[nEntries] =
-    {
-      1.*m,  1.*m,    1.*m,    1.*m, 1.*m,
-      1.*m,  1.*m,    1.*m,    1.*m,  1.*m
-    };	     
+      1.76*eV, 1.96*eV, 2.27*eV, 2.44*eV, 2.65*eV,
+      3.06*eV, 3.71*eV, 4.50*eV, 5.19*eV, 5.79*eV
+    };
+    
+  G4double RI_Gl[nEntries_Gl];
+  G4double Absor_Gl[nEntries_Gl];
+  for (G4int i=0; i<nEntries_Gl; i++) {
+    RI_Gl[i] = 1.70;
+    Absor_Gl[i] = 1.*m;
+  }
 	    
   G4MaterialPropertiesTable* MPT_Gl = new G4MaterialPropertiesTable();
-  MPT_Gl->AddProperty("RINDEX",    PhEn,    RI_Gl,     nEntries);
-  MPT_Gl->AddProperty("ABSLENGTH", PhEn, Absor_Gl,     nEntries);
+  MPT_Gl->AddProperty("RINDEX", PhEn_Gl, RI_Gl, nEntries_Gl);
+  MPT_Gl->AddProperty("ABSLENGTH", PhEn_Gl, Absor_Gl, nEntries_Gl);
   Glass->SetMaterialPropertiesTable(MPT_Gl);
+  
   //
   //  Optical Properties of the Surface 
   //
   G4double sigma_alpha = 0.1;			//0.1
   
-  G4OpticalSurface* OpSilSurface = new G4OpticalSurface("SiOSurface");
+  OpSilSurface = new G4OpticalSurface("SiOSurface");
   
   OpSilSurface->SetType(dielectric_dielectric);
-  OpSilSurface->SetFinish(polished);  
-  //  OpSilSurface->SetModel(glisur); 	 
-  OpSilSurface->SetModel(unified);     
-  OpSilSurface->SetSigmaAlpha(sigma_alpha);  
-  //
-  // Generate & Add Material Properties Table attached to the optical surfaces
-  //
-  const G4int num = 2;
+  OpSilSurface->SetFinish(polished);
+  //  OpSilSurface->SetModel(glisur);
+  OpSilSurface->SetModel(unified);  
+  OpSilSurface->SetSigmaAlpha(sigma_alpha);
   
-  G4double Ephoton[num] = {1.76*eV, 5.79*eV};  //Si02
-  
-  //  G4double Ephoton[num] = {2.10*eV, 5.82*eV};    //Al2O3
   //
-//   Optical SiO2/Al2O3 Surface
-// 
-
-  G4double RefractiveIndex[num] = {1.455, 1.534}; 		//  SiO2
-  G4double SpecularLobe[num]    = {0.1, 0.1};                    //0.1
-  G4double SpecularSpike[num]   = {0.9, 0.9};                    //0.9
-  G4double Backscatter[num]     = {0.0, 0.0};                    //0.0
-
-  G4double QualSurfaceRefl[num] = {0.99, 0.99};			//0.98 
+  // Material Properties Table attached to the optical surfaces
+  //
+  const G4int nEntries_OP = 2;
+  
+  G4double PhEn_OP[nEntries_OP] = {1.76*eV, 5.79*eV};  //Si02
+  
+  //  G4double PhEn_OP[nEntries_OP] = {2.10*eV, 5.82*eV};    //Al2O3
+  
+  // Optical SiO2/Al2O3 Surface
+  G4double RefractiveIndex[nEntries_OP] = {1.455, 1.534}; //  SiO2
+  G4double SpecularLobe[nEntries_OP] = {0.1, 0.1};
+  G4double SpecularSpike[nEntries_OP] = {0.9, 0.9};
+  G4double Backscatter[nEntries_OP] = {0.0, 0.0};
+  G4double QualSurfaceRefl[nEntries_OP] = {0.99, 0.99};
 
   G4MaterialPropertiesTable* ST_Sur = new G4MaterialPropertiesTable();
   
-  ST_Sur->AddProperty("RINDEX",        Ephoton, RefractiveIndex,         num);  
-  ST_Sur->AddProperty("REFLECTIVITY",  Ephoton, QualSurfaceRefl,num);
+  ST_Sur->AddProperty("RINDEX", PhEn_OP, RefractiveIndex, nEntries_OP);  
+  ST_Sur->AddProperty("REFLECTIVITY", PhEn_OP, QualSurfaceRefl, nEntries_OP);
 
-  ST_Sur->AddProperty("SPECULARLOBECONSTANT",  Ephoton, SpecularLobe,    num); //
-  ST_Sur->AddProperty("SPECULARSPIKECONSTANT", Ephoton, SpecularSpike,   num);
-  ST_Sur->AddProperty("BACKSCATTERCONSTANT",   Ephoton, Backscatter,     num); //
+  ST_Sur->AddProperty("SPECULARLOBECONSTANT", PhEn_OP, SpecularLobe, nEntries_OP);
+  ST_Sur->AddProperty("SPECULARSPIKECONSTANT", PhEn_OP, SpecularSpike, nEntries_OP);
+  ST_Sur->AddProperty("BACKSCATTERCONSTANT", PhEn_OP, Backscatter, nEntries_OP);
 
-  OpSilSurface->SetMaterialPropertiesTable(ST_Sur);  
+  OpSilSurface->SetMaterialPropertiesTable(ST_Sur);
+}
+
+G4VPhysicalVolume*
+QuartLDetectorConstruction::Construct()
+{
+  
+  BuildOpticalProperties();
+  
   //
   //	------------- Volumes  and Detector --------------
   //
@@ -178,7 +188,11 @@ G4VPhysicalVolume* QuartLDetectorConstruction::Construct()
   //
   G4Box* expHall_box = new G4Box("World",expHall_x,expHall_y,expHall_z);
   
-  G4LogicalVolume* expHall_log = new G4LogicalVolume(expHall_box,Air,"World",0,0,0);
+  G4LogicalVolume* expHall_log = new G4LogicalVolume(
+    expHall_box,
+    Air,
+    "World",
+    0,0,0);
   
   G4VPhysicalVolume* expHall_phys = new G4PVPlacement(0,G4ThreeVector(),expHall_log,"World",0,false,0);
   
