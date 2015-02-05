@@ -1,5 +1,5 @@
-#ifndef QuartLStackingAction_H
-#define QuartLStackingAction_H 1
+#ifndef QuartLStackingAction_h
+#define QuartLStackingAction_h
 
 #include "G4UserStackingAction.hh"
 
@@ -26,4 +26,3 @@ class QuartLStackingAction : public G4UserStackingAction
 };
 
 #endif
-

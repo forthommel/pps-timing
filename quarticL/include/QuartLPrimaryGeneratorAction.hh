@@ -1,5 +1,5 @@
 #ifndef QuartLPrimaryGeneratorAction_h
-#define QuartLPrimaryGeneratorAction_h 1
+#define QuartLPrimaryGeneratorAction_h
 
 #include "G4VUserPrimaryGeneratorAction.hh"
 
@@ -35,4 +35,4 @@ class QuartLPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     QuartLPrimaryGeneratorMessenger* gunMessenger;
 };
 
-#endif /*QuartLPrimaryGeneratorAction_h*/
+#endif

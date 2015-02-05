@@ -1,31 +1,5 @@
 #include "QuartLDetectorConstruction.hh"
-#include "DetectorSD.hh"
-//-------------------------------------------
-#include "G4NistManager.hh"
-#include "globals.hh"
-#include "G4VisAttributes.hh" 
-#include "G4SDManager.hh"
-//------------------------------------------
-#include "G4UnionSolid.hh"
-#include "G4Material.hh"
-#include "G4MaterialTable.hh"
-#include "G4Element.hh"
-#include "G4ElementTable.hh"
- 
-#include "G4Box.hh"
-#include "G4PVReplica.hh"
-#include "G4LogicalVolume.hh"
-#include "G4RotationMatrix.hh"
-#include "G4ThreeVector.hh"
-#include "G4Transform3D.hh"
-#include "G4PVPlacement.hh"
 
-#include "G4OpticalSurface.hh"
-#include "G4LogicalSkinSurface.hh"
-#include "G4LogicalBorderSurface.hh"
-#include "G4OpBoundaryProcess.hh"
-
-// 
 using namespace CLHEP;
 
 QuartLDetectorConstruction::QuartLDetectorConstruction()
@@ -292,7 +266,7 @@ G4VPhysicalVolume* QuartLDetectorConstruction::Construct()
   G4LogicalVolume*   Bar_log[nBar];
   G4VPhysicalVolume* Bar_phys[nBar];
   
-  G4ThreeVector      Trans;
+  //G4ThreeVector      Trans;
   G4ThreeVector      Cellsh;		//Physical Volumes shifting
   G4ThreeVector      Windsh;		//For Window shifting
   
@@ -336,21 +310,21 @@ G4VPhysicalVolume* QuartLDetectorConstruction::Construct()
     
   }
   
+  
   G4LogicalBorderSurface* SilAirBord[nBar];
+  G4LogicalBorderSurface* PMSilSurf[nBar];
+
   //
   //	Bar-Air Border
-  //    
-  
+  //
   for (int i=0; i<nBar; i++) {
     SilAirBord[i] = new G4LogicalBorderSurface("SilAirBord", Bar_phys[i], expHall_phys, OpSilSurface);    
   }   
+  
   //
   //	Bar-PM Window Surface
-  //		
-  
-  G4LogicalBorderSurface*  PMSilSurf[nBar];
-  
-  for (int i=0; i<nBar; i++) {
+  //
+    for (int i=0; i<nBar; i++) {
     PMSilSurf[i] = new G4LogicalBorderSurface("PMSilBord", Bar_phys[i], window_phys[i], OpSilSurface);      //  PMSilSurf
   }
   

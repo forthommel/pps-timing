@@ -2,7 +2,8 @@
 
 using namespace CLHEP;
 
-DetectorSD::DetectorSD(G4String name): G4VSensitiveDetector(name)
+DetectorSD::DetectorSD(G4String name) :
+  G4VSensitiveDetector(name)
 {
   runAction = (RunAction*)G4RunManager::GetRunManager()->GetUserRunAction();
 }
@@ -33,8 +34,8 @@ DetectorSD::ProcessHits(G4Step* step, G4TouchableHistory*)
   
   G4ThreeVector wc = step->GetPreStepPoint()->GetPosition();
   
-  G4double yw = wc.y();
-  G4double zw = wc.z();
+  //G4double yw = wc.y();
+  //G4double zw = wc.z();
   
   //------------------------------------------------------  
   //  G4cout << "Track Time " << time << G4endl;
@@ -51,19 +52,19 @@ DetectorSD::ProcessHits(G4Step* step, G4TouchableHistory*)
     //      G4cout<<" Secondary " << G4endl;
     //      runAction->FillArrivalHist(time);
     //    }
-    G4int i = step->GetPreStepPoint()->GetPhysicalVolume()->GetCopyNo();  
-    G4double time = step->GetPreStepPoint()->GetGlobalTime();
+    //G4int i = step->GetPreStepPoint()->GetPhysicalVolume()->GetCopyNo();  
+    time = step->GetPreStepPoint()->GetGlobalTime();
     
-    G4double timeloc = step->GetPreStepPoint()->GetLocalTime();
+    //G4double timeloc = step->GetPreStepPoint()->GetLocalTime();
     //not work    G4double timepro = step->GetPreStepPoint()->GetProperTime();    
 
-    G4double lentr = step->GetTrack()->GetTrackLength();
+    //G4double lentr = step->GetTrack()->GetTrackLength();
     
     G4ThreeVector vertr = step->GetTrack()->GetVertexPosition();
     // G4cout << "Vertex " << vertr.x()/mm<<" " << vertr.y()/mm 
     //        << " " << vertr.z()/mm  << G4endl;
     
-    G4double ecer = step->GetPreStepPoint()->GetTotalEnergy(); 
+    //G4double ecer = step->GetPreStepPoint()->GetTotalEnergy(); 
 
     // G4cout << "Bar N " << i <<"  Time " << time/ns << G4endl;
     // was G4cout <<  i << " " << time/ns << G4endl;

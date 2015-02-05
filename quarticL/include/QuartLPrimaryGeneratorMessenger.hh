@@ -1,5 +1,5 @@
 #ifndef QuartLPrimaryGeneratorMessenger_h
-#define QuartLPrimaryGeneratorMessenger_h 1
+#define QuartLPrimaryGeneratorMessenger_h
 
 #include "G4UImessenger.hh"
 #include "G4UIdirectory.hh"
@@ -28,4 +28,3 @@ class QuartLPrimaryGeneratorMessenger: public G4UImessenger
 };
 
 #endif
-

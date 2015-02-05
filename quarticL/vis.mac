@@ -15,7 +15,7 @@
 # (Edit the next line(s) to choose another graphic system)
 #
 ###/vis/open DAWNFILE
-/vis/open OGLIX
+#/vis/open OGLIX
 #
 /vis/viewer/zoom 1.5
 /vis/viewer/flush

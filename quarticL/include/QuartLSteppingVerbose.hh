@@ -1,5 +1,5 @@
 #ifndef QuartLSteppingVerbose_h
-#define QuartLSteppingVerbose_h 1
+#define QuartLSteppingVerbose_h
 
 #include "G4SteppingVerbose.hh"
 

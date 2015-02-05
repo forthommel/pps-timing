@@ -1,5 +1,5 @@
 #ifndef QuartLEventAction_h
-#define QuartLEventAction_h 1
+#define QuartLEventAction_h
 
 #include "G4Event.hh"
 #include "G4EventManager.hh"
@@ -23,5 +23,3 @@ class QuartLEventAction : public G4UserEventAction
 };
 
 #endif
-
-    

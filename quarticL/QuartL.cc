@@ -32,8 +32,6 @@
 //FIXME remove me!
 #include "G4PhysListFactory.hh"
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 int main(int argc,char** argv)
 {
   // Seed the random number generator manually
@@ -63,15 +61,12 @@ int main(int argc,char** argv)
     G4cout << " -> " << *it << G4endl;
   }
   
-//  G4VUserPhysicsList* physics = new QuartLPhysicsList;
-
+  //G4VUserPhysicsList* physics = new QuartLPhysicsList;
   //G4VModularPhysicsList* physics = new LHEP;		//22.01 from AK
-  G4VModularPhysicsList* physics = new QGSP_BERT;		//22.01 from AK
+  G4VModularPhysicsList* physics = new QGSP_BERT;
   physics->RegisterPhysics(new G4OpticalPhysics);
 
   runManager-> SetUserInitialization(physics);
-  
-  
   
 #ifdef G4VIS_USE
   // visualization manager

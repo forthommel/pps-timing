@@ -1,6 +1,7 @@
 #include "G4Timer.hh"
-#include "QuartLRunAction.hh"
 #include "G4Run.hh"
+
+#include "QuartLRunAction.hh"
 
 QuartLRunAction::QuartLRunAction()
 {

@@ -1,5 +1,5 @@
 #ifndef DetectorSD_h
-#define DetectorSD_h 1
+#define DetectorSD_h
 
 #include "QuartLRunAction.hh"
 
@@ -25,8 +25,10 @@ class DetectorSD: public G4VSensitiveDetector
   private:
     RunAction* runAction;
     G4double detEnergy;
-    G4double detTime;		//Track Time
-    G4double firstPh;	        //First Photon
+    /** Track time */
+    G4double detTime;
+    /** First photon */
+    G4double firstPh;
 };
 
 #endif

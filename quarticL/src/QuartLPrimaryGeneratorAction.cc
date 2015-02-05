@@ -6,8 +6,8 @@ QuartLPrimaryGeneratorAction::QuartLPrimaryGeneratorAction()
 {
   G4int n_particle = 1;
   
-  G4double z_mv = G4UniformRand() * 0.1*cm;  
-  G4double y_mv = G4UniformRand() * 0.1*cm;  
+  //G4double z_mv = G4UniformRand() * 0.1*cm;  
+  //G4double y_mv = G4UniformRand() * 0.1*cm;  
   
   particleGun = new G4ParticleGun(n_particle);
   
