@@ -6,9 +6,12 @@ DetectorSD::DetectorSD(G4String name) :
   G4VSensitiveDetector(name)
 {
   runAction = (QuartLRunAction*)G4RunManager::GetRunManager()->GetUserRunAction();
+  analyzer = new QuartLAnalyzer;
 }
 
-DetectorSD::~DetectorSD() {}
+DetectorSD::~DetectorSD() {
+  delete analyzer;
+}
 
 void
 DetectorSD::Initialize(G4HCofThisEvent*)
@@ -25,6 +28,8 @@ DetectorSD::ProcessHits(G4Step* step, G4TouchableHistory*)
   //  is summarized in detEnergy
   G4double edep = step->GetTotalEnergyDeposit();
   detEnergy += edep;
+  
+  analyzer->AddHitInEvent(step);
   //
   // Time of the Track
   //
@@ -103,5 +108,6 @@ DetectorSD::EndOfEvent(G4HCofThisEvent*)
   
   //  Fill Histo...
   //  runAction->FillHist(detEnergy);
+  analyzer->Store();
 }
 

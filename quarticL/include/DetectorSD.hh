@@ -9,6 +9,8 @@
 #include "G4Step.hh"
 #include "G4VSensitiveDetector.hh"
 
+#include "QuartLAnalyzer.hh"
+
 class G4Step;
 class RunAction;
 
@@ -30,6 +32,8 @@ class DetectorSD: public G4VSensitiveDetector
     G4double detTime;
     /** Time of arrival for the first photon */
     G4double firstPh;
+    
+    QuartLAnalyzer *analyzer;
 };
 
 #endif
