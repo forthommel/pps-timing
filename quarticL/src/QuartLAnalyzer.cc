@@ -8,10 +8,12 @@ QuartLAnalyzer::QuartLAnalyzer(G4String filename) :
   fTree->Branch("vx", fVx, "vx[hits]/D");
   fTree->Branch("vy", fVy, "vy[hits]/D");
   fTree->Branch("vz", fVz, "vz[hits]/D");
+  fTree->Branch("production_time", fProductionTime, "production_time[hits]/D");
   fTree->Branch("px", fPx, "px[hits]/D");
   fTree->Branch("py", fPy, "py[hits]/D");
   fTree->Branch("pz", fPz, "pz[hits]/D");
   fTree->Branch("E", fE, "E[hits]/D");
+  fTree->Branch("station_id", fStationId, "station_id[hits]/I");
   fTree->Branch("cell_id", fCellId, "cell_id[hits]/I");
 }
 
@@ -31,13 +33,16 @@ QuartLAnalyzer::AddHitInEvent(G4Step* step)
   fVx[fNumHits] = vertex.x();
   fVy[fNumHits] = vertex.y();
   fVz[fNumHits] = vertex.z();
+  fProductionTime[fNumHits] = step->GetPreStepPoint()->GetGlobalTime();
 
   fPx[fNumHits] = momentum.x();
   fPy[fNumHits] = momentum.y();
   fPz[fNumHits] = momentum.z();
   fE[fNumHits] = track->GetTotalEnergy();
   
-  fCellId[fNumHits] = step->GetPreStepPoint()->GetPhysicalVolume()->GetCopyNo();
+  G4int globalId = step->GetPreStepPoint()->GetPhysicalVolume()->GetCopyNo();
+  fCellId[fNumHits] = globalId%20;
+  fStationId[fNumHits] = (globalId-fCellId[fNumHits])/20;
   
   fNumHits += 1;
 }

@@ -2,15 +2,16 @@
 
 using namespace CLHEP;
 
-QuartLDetectorConstruction::QuartLDetectorConstruction()
+QuartLDetectorConstruction::QuartLDetectorConstruction() :
+  fNumBars(0), fNumStations(0)
 {
 //  expHall_x = expHall_y = expHall_z = 1*m;
 
-  expHall_x = 300*mm;		//was 120
-  expHall_y = 300*mm;		//was 120
-  expHall_z = 300*mm;  		//was 100 
+  expHall_x = 300*mm;		// was 120
+  expHall_y = 300*mm;		// was 120
+  expHall_z = 300*mm;  	// was 100 
  
-  bar_x    =   3*mm;		//From Mike, 
+  bar_x    =   3*mm;		// From Mike
   bar_y    =   3*mm;
  
   barh_l   =  40*mm;		// 
@@ -173,12 +174,12 @@ QuartLDetectorConstruction::BuildOpticalProperties()
   ST_Sur->AddProperty("BACKSCATTERCONSTANT", PhEn_OP, Backscatter, nEntries_OP);
 
   OpSilSurface->SetMaterialPropertiesTable(ST_Sur);
+  
 }
 
 G4VPhysicalVolume*
 QuartLDetectorConstruction::Construct()
 {
-  
   BuildOpticalProperties();
   
   //
@@ -186,75 +187,63 @@ QuartLDetectorConstruction::Construct()
   //
   // The experimental Hall
   //
-  G4Box* expHall_box = new G4Box("World",expHall_x,expHall_y,expHall_z);
+  G4Box* expHall_box = new G4Box("World", expHall_x, expHall_y, expHall_z);
   
-  G4LogicalVolume* expHall_log = new G4LogicalVolume(
+  windowSD = new DetectorSD("DetectorSD");
+  G4SDManager* sdMan = G4SDManager::GetSDMpointer();
+  sdMan->AddNewDetector(windowSD);
+  
+  expHall_log = new G4LogicalVolume(
     expHall_box,
     Air,
     "World",
     0,0,0);
   
-  G4VPhysicalVolume* expHall_phys = new G4PVPlacement(0,G4ThreeVector(),expHall_log,"World",0,false,0);
+  expHall_phys = new G4PVPlacement(0, G4ThreeVector(), expHall_log, "World", 0, false, 0);
   
+  BuildOneStation(G4ThreeVector(0., 0., 0.));
+  BuildOneStation(G4ThreeVector(0., 0., 70.*mm));
+  /*BuildOneStation(G4ThreeVector(0., 0., 140.*mm));
+  BuildOneStation(G4ThreeVector(0., 0., 210.*mm));*/
+    
+  return expHall_phys;
+}
+
+void
+QuartLDetectorConstruction::BuildOneStation(G4ThreeVector pos)
+{
   //
   // BAR: The L Bar, 22.01.2012, 14.01.2015
-  //	
-  
-  const G4int nBar = 40; 
+  //
+  const G4int nBar = 20;
   
   G4double RadL[nBar] = {
-    // First Station
     18*mm, 23*mm, 18*mm, 23*mm,
     28*mm, 33*mm, 28*mm, 33*mm,
     38*mm, 43*mm, 38*mm, 43*mm,
     48*mm, 53*mm, 48*mm, 53*mm,
-    58*mm, 63*mm, 58*mm, 63*mm,             
-    // Second Station
-    18*mm, 23*mm, 18*mm, 23*mm,
-    28*mm, 33*mm, 28*mm, 33*mm,
-    38*mm, 43*mm, 38*mm, 43*mm,
-    48*mm, 53*mm, 48*mm, 53*mm,
-    58*mm, 63*mm, 58*mm, 63*mm       
+    58*mm, 63*mm, 58*mm, 63*mm
   };
-			    
+  
   G4double LigL[nBar] =  {
-    // First Station
-    58.80*mm, 58.80*mm, 58.80*mm, 58.80*mm,
-    61.90*mm, 61.90*mm, 61.90*mm, 61.90*mm,
-    65.00*mm, 65.00*mm, 65.00*mm, 65.00*mm,
-    68.10*mm, 68.10*mm, 68.10*mm, 68.10*mm,
-    71.20*mm, 71.20*mm, 71.20*mm, 71.20*mm,
-    // Second Station
     58.80*mm, 58.80*mm, 58.80*mm, 58.80*mm,
     61.90*mm, 61.90*mm, 61.90*mm, 61.90*mm,
     65.00*mm, 65.00*mm, 65.00*mm, 65.00*mm,
     68.10*mm, 68.10*mm, 68.10*mm, 68.10*mm,
     71.20*mm, 71.20*mm, 71.20*mm, 71.20*mm
   };
-			     			      
+  
   G4double Yoffs[nBar] = {
     -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
     -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
     -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
     -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
-    -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm, 
-    
-    -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
-    -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
-    -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
-    -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
-    -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm  
+    -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm
   };			      
   
   G4double Xoffs[nBar] = { 
-    4.7*mm,  4.7*mm,  4.7*mm,  4.7*mm,
-    1.6*mm,  1.6*mm,  1.6*mm,  1.6*mm,
-    -1.5*mm, -1.5*mm, -1.5*mm, -1.5*mm,
-    -4.6*mm, -4.6*mm, -4.6*mm, -4.6*mm,
-    -7.7*mm, -7.7*mm, -7.7*mm, -7.7*mm,
-    
-    4.7*mm,  4.7*mm,  4.7*mm,  4.7*mm,
-    1.6*mm,  1.6*mm,  1.6*mm,  1.6*mm,
+     4.7*mm,  4.7*mm,  4.7*mm,  4.7*mm,
+     1.6*mm,  1.6*mm,  1.6*mm,  1.6*mm,
     -1.5*mm, -1.5*mm, -1.5*mm, -1.5*mm,
     -4.6*mm, -4.6*mm, -4.6*mm, -4.6*mm,
     -7.7*mm, -7.7*mm, -7.7*mm, -7.7*mm
@@ -265,84 +254,75 @@ QuartLDetectorConstruction::Construct()
     5.*mm,  7.5*mm,  5.*mm,  7.5*mm,
     10.*mm, 12.5*mm, 10.*mm, 12.5*mm,
     15.*mm, 17.5*mm, 15.*mm, 17.5*mm,
-    20.*mm, 22.5*mm, 20.*mm, 22.5*mm,
-    //Shift between First and Second Station 
-    70.*mm,  72.5*mm,  70.*mm,  72.5*mm,	
-    75.*mm,  77.5*mm,  75.*mm,  77.5*mm,
-    80.*mm,  82.5*mm,  80.*mm,  82.5*mm,
-    85.*mm,  87.5*mm,  85.*mm,  87.5*mm,
-    90.*mm,  92.5*mm,  90.*mm,  92.5*mm			
-  };			    
-
-  G4Box*             BarV[nBar];
-  G4Box*             BarH[nBar];
-  G4UnionSolid*      Bar[nBar];
-  G4LogicalVolume*   Bar_log[nBar];
-  G4VPhysicalVolume* Bar_phys[nBar];
+    20.*mm, 22.5*mm, 20.*mm, 22.5*mm
+  };
   
-  //G4ThreeVector      Trans;
-  G4ThreeVector      Cellsh;		//Physical Volumes shifting
-  G4ThreeVector      Windsh;		//For Window shifting
+  G4ThreeVector Cellsh;		//Physical Volumes shifting
+  G4ThreeVector Windsh;		//For Window shifting
   
-  G4Box* window_box = new G4Box("Window",wind_x/2., wind_z/2., wind_z/2.);    
-  G4LogicalVolume*   window_log[nBar]; 
-  G4VPhysicalVolume* window_phys[nBar];
-  
-  DetectorSD* windowSD = new DetectorSD("DetectorSD"); 
-  G4SDManager* sdMan = G4SDManager::GetSDMpointer();
-  sdMan->AddNewDetector(windowSD);      
-  
-  for (int i=0; i < nBar; i++) {
+  G4Box* window_box = new G4Box("Window", wind_x/2., wind_z/2., wind_z/2.);    
+    
+  for (G4int i=0; i<nBar; i++) {
+    if (fNumBars>MAX_BARS) {
+      std::ostringstream ss;
+      ss << "Too many cells to be constructed !" << G4endl
+         << "  Maximal number of stations : " << MAX_BARS;
+      G4Exception("QuartLDetectorConstruction::BuildOneStation", "TooManyCells", FatalException, ss);
+    }
     
     barv_l = RadL[i];
     barh_l = LigL[i];
     
-    BarV[i] = new G4Box("BarV",bar_x/2.,bar_y/2., barv_l/2.);	//Vertical Bar (Radiator)
-    
-    BarH[i] = new G4Box("BarH",barh_l/2.,bar_y/2., bar_x/2.);	//Horizontal Bar (LightG)
+    BarV[fNumBars] = new G4Box("BarV", bar_x/2., bar_y/2., barv_l/2.);	//Vertical Bar (Radiator)
+    BarH[fNumBars] = new G4Box("BarH", barh_l/2., bar_y/2., bar_x/2.);	//Horizontal Bar (LightG)
     //
     //	Logical OR, Passive Method
     //
     
-    G4ThreeVector Trans(barh_l/2.+bar_x/2., 0., barv_l/2.-bar_x/2.);  
+    G4ThreeVector Trans(barh_l/2.+bar_x/2., 0., barv_l/2.-bar_x/2.);
     
-    Bar[i] = new G4UnionSolid("BarV+BarH", BarV[i], BarH[i], 0, Trans);
+    std::ostringstream ss;
+    ss << "Bar_" << fNumStations << "_" << i;
     
-    Bar_log[i] = new G4LogicalVolume(Bar[i],  Sil ,"Bar",0,0,0);
-    
-    
-    Bar_phys[i] = new G4PVPlacement(0, G4ThreeVector(Xoffs[i], Yoffs[i], Zoffs[i]), Bar_log[i], "Bar", expHall_log, false, i ); 
+    Bar[fNumBars] = new G4UnionSolid("BarV+BarH", BarV[fNumBars], BarH[fNumBars], 0, Trans);
+    Bar_log[fNumBars] = new G4LogicalVolume(Bar[fNumBars],  Sil , ss.str(), 0, 0, 0);
+    Bar_phys[fNumBars] = new G4PVPlacement(
+      0,
+      G4ThreeVector(Xoffs[i]+pos.x(), Yoffs[i]+pos.y(), Zoffs[i]+pos.z()),
+      Bar_log[fNumBars],
+      ss.str(),
+      expHall_log,
+      false,
+      fNumBars); 
     //			
     //------------------------------------------------------------
     //	Glass Window of Sensitive Detector
     //
     
-    window_log[i] = new G4LogicalVolume(window_box, Glass,"Window",0,0,0);
-    window_log[i]->SetSensitiveDetector(windowSD);
+    window_log[fNumBars] = new G4LogicalVolume(window_box, Glass, "Window", 0, 0, 0);
+    window_log[fNumBars]->SetSensitiveDetector(windowSD);
     
-    window_phys[i] = new G4PVPlacement(0, G4ThreeVector(barh_l+bar_x/2.+wind_x/2.+Xoffs[i], Yoffs[i], barv_l/2.-wind_z/2.+Zoffs[i]), window_log[i], "Window", expHall_log, false, i);
+    window_phys[fNumBars] = new G4PVPlacement(
+      0,
+      G4ThreeVector(
+        Xoffs[i]+pos.x()+wind_x/2.+barh_l+bar_x/2.,
+        Yoffs[i]+pos.y(),
+        Zoffs[i]+pos.z()-wind_z/2.+barv_l/2.
+      ),
+      window_log[fNumBars],
+      "Window",
+      expHall_log,
+      false,
+      fNumBars);
     
-  }
-  
-  
-  G4LogicalBorderSurface* SilAirBord[nBar];
-  G4LogicalBorderSurface* PMSilSurf[nBar];
+    // Bar-Air Border
+    SilAirBord[fNumBars] = new G4LogicalBorderSurface("SilAirBord", Bar_phys[i], expHall_phys, OpSilSurface);
+    // Bar-PM Window Surface
+    PMSilSurf[fNumBars] = new G4LogicalBorderSurface("PMSilBord", Bar_phys[i], window_phys[i], OpSilSurface); //  PMSilSurf
 
-  //
-  //	Bar-Air Border
-  //
-  for (int i=0; i<nBar; i++) {
-    SilAirBord[i] = new G4LogicalBorderSurface("SilAirBord", Bar_phys[i], expHall_phys, OpSilSurface);    
-  }   
-  
-  //
-  //	Bar-PM Window Surface
-  //
-    for (int i=0; i<nBar; i++) {
-    PMSilSurf[i] = new G4LogicalBorderSurface("PMSilBord", Bar_phys[i], window_phys[i], OpSilSurface);      //  PMSilSurf
+    fNumBars += 1;
   }
-  
-  return expHall_phys;
+  fNumStations += 1;
 }
 
 // 

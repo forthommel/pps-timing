@@ -30,6 +30,8 @@
 
 #include "DetectorSD.hh"
 
+#define MAX_BARS 20*10
+
 class QuartLDetectorConstruction : public G4VUserDetectorConstruction
 {
   public:
@@ -42,13 +44,20 @@ class QuartLDetectorConstruction : public G4VUserDetectorConstruction
   private:
     /** Generate and add material properties table */
     void BuildOpticalProperties();
+    void BuildOneStation(G4ThreeVector);
   
+    G4int fNumBars;
+    G4int fNumStations;
+    
     G4double expHall_x;
     G4double expHall_y;
     G4double expHall_z;
 
+    /** x position of the Radiator Bar */
     G4double bar_x;
+    /** y position of the Radiator Bar */
     G4double bar_y;
+    /** z position of the Radiator Bar */
     G4double bar_z;
     /** Horizontal length for Radiator Bar */
     G4double barh_l;
@@ -64,6 +73,22 @@ class QuartLDetectorConstruction : public G4VUserDetectorConstruction
     G4Material* Glass;
     
     G4OpticalSurface* OpSilSurface;
+    
+    G4VPhysicalVolume* expHall_phys;
+    G4LogicalVolume* expHall_log;
+    
+    DetectorSD* windowSD;
+    
+    G4Box* BarV[MAX_BARS];
+    G4Box* BarH[MAX_BARS];
+    G4UnionSolid* Bar[MAX_BARS];
+    G4LogicalVolume* Bar_log[MAX_BARS];
+    G4VPhysicalVolume* Bar_phys[MAX_BARS];
+    G4LogicalBorderSurface* SilAirBord[MAX_BARS];
+    G4LogicalBorderSurface* PMSilSurf[MAX_BARS];
+    G4LogicalVolume* window_log[MAX_BARS]; 
+    G4VPhysicalVolume* window_phys[MAX_BARS];
+
 };
 
 #endif

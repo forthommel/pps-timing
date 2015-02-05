@@ -65,9 +65,9 @@ QuartLPrimaryGeneratorAction::~QuartLPrimaryGeneratorAction()
 }
 
 void
-QuartLPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
+QuartLPrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
-  particleGun->GeneratePrimaryVertex(anEvent);
+  particleGun->GeneratePrimaryVertex(event);
 }
 
 void

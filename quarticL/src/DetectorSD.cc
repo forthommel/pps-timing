@@ -3,14 +3,14 @@
 using namespace CLHEP;
 
 DetectorSD::DetectorSD(G4String name) :
-  G4VSensitiveDetector(name)
+  G4VSensitiveDetector(name), runAction(0), analyzer(0)
 {
   runAction = (QuartLRunAction*)G4RunManager::GetRunManager()->GetUserRunAction();
   analyzer = new QuartLAnalyzer;
 }
 
 DetectorSD::~DetectorSD() {
-  delete analyzer;
+  if (analyzer) delete analyzer;
 }
 
 void
@@ -97,17 +97,7 @@ DetectorSD::ProcessHits(G4Step* step, G4TouchableHistory*)
 void
 DetectorSD::EndOfEvent(G4HCofThisEvent*)
 {
-  G4int ie=-1;
-  G4double dummy = -1.; 
-  // was, 9.06       G4cout <<  ie << " " << ie << " " << ie << G4endl;		//20.06
-  // was 21.01.2015      G4cout <<  ie << " " << dummy << " " << dummy <<" "
-  //                           /              <<dummy <<" " << dummy << G4endl;		//20.06
-  G4cout <<  ie << " " << detEnergy << " " << dummy << G4endl;	
-  // G4cout << "First Ph " << firstPh << G4endl;
-  //------------------------------------------------------- 
-  
-  //  Fill Histo...
-  //  runAction->FillHist(detEnergy);
+  // Filling the tree with kinematic information...
   analyzer->Store();
 }
 

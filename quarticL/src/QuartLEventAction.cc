@@ -11,10 +11,10 @@ QuartLEventAction::BeginOfEventAction(const G4Event*)
 {}
  
 void
-QuartLEventAction::EndOfEventAction(const G4Event*)
+QuartLEventAction::EndOfEventAction(const G4Event* event)
 {
   // Trajectory drawing now done by vis mananger under vis comamnds.
   // See vis.mac.
-  G4cout << "End of event !" << G4endl;
+  G4cout << "End of event " << event->GetEventID() << " !" << G4endl;
 }
 
