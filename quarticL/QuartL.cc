@@ -58,9 +58,11 @@ int main(int argc,char** argv)
   runManager-> SetUserInitialization(detector);
   //
 
-  //G4VUserPhysicsList* physics = new QuartLPhysicsList;
-  //G4VModularPhysicsList* physics = new LHEP;    //22.01 from AK
-  G4VModularPhysicsList* physics = new QGSP_BERT;
+  G4VModularPhysicsList* physics;
+
+  //physics = new QuartLPhysicsList;
+  //physics = new LHEP;    //22.01 from AK
+  physics = new QGSP_BERT;
   physics->RegisterPhysics(new G4OpticalPhysics);
 
   runManager-> SetUserInitialization(physics);

@@ -6,12 +6,11 @@ DetectorSD::DetectorSD(G4String name) :
   G4VSensitiveDetector(name), runAction(0), analyzer(0)
 {
   runAction = (QuartLRunAction*)G4RunManager::GetRunManager()->GetUserRunAction();
-  analyzer = new QuartLAnalyzer;
+  analyzer = (QuartLAnalyzer*)runAction->GetAnalyzer();
 }
 
-DetectorSD::~DetectorSD() {
-  if (analyzer) delete analyzer;
-}
+DetectorSD::~DetectorSD()
+{}
 
 void
 DetectorSD::Initialize(G4HCofThisEvent*)

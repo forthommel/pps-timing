@@ -3,29 +3,29 @@
 
 #include "QuartLRunAction.hh"
 
-QuartLRunAction::QuartLRunAction()
+QuartLRunAction::QuartLRunAction(QuartLAnalyzer* analyzer) :
+  fAnalyzer(analyzer)
 {
-  timer = new G4Timer;
+  fTimer = new G4Timer;
 }
 
 QuartLRunAction::~QuartLRunAction()
 {
-  delete timer;
+  delete fTimer;
 }
 
 void
 QuartLRunAction::BeginOfRunAction(const G4Run* aRun)
 {
-  G4cout << "### Run " << aRun->GetRunID() << " is starting !" << G4endl; 
-  timer->Start();
+  G4cout << "### Run " << aRun->GetRunID() << " is starting !" << G4endl;
+  fTimer->Start();
 }
 
 void
 QuartLRunAction::EndOfRunAction(const G4Run* aRun)
 {   
-  timer->Stop();
+  fTimer->Stop();
   G4cout << " Number of events = "
          << aRun->GetNumberOfEvent() << G4endl
-         << " Timing : " << *timer << G4endl;
+         << " Timing : " << *fTimer << G4endl;
 }
-

@@ -70,6 +70,7 @@ class QuartLDetectorConstruction : public G4VUserDetectorConstruction
     
     G4Material* Air;
     G4Material* Sil;
+    G4Material* Sapphire;
     G4Material* Glass;
     
     G4OpticalSurface* OpSilSurface;

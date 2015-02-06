@@ -3,16 +3,20 @@
 QuartLActionInitialization::QuartLActionInitialization() :
   G4VUserActionInitialization()
 {
+  fAnalyzer = new QuartLAnalyzer;
+  //
   // UserAction classes
   //
   fPrimaryGenerator = new QuartLPrimaryGeneratorAction;
-  fRunAction = new QuartLRunAction;
+  fRunAction = new QuartLRunAction(fAnalyzer);
   fEventAction = new QuartLEventAction;
   fStackingAction = new QuartLStackingAction;
 }
 
 QuartLActionInitialization::~QuartLActionInitialization()
-{}
+{
+  //delete fAnalyzer;
+}
 
 void
 QuartLActionInitialization::BuildForMaster() const

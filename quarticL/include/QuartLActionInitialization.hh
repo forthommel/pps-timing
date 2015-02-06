@@ -22,6 +22,7 @@ class QuartLActionInitialization : public G4VUserActionInitialization
     G4UserRunAction* fRunAction;
     G4UserEventAction* fEventAction;
     G4UserStackingAction* fStackingAction;
+    QuartLAnalyzer *fAnalyzer;
 };
 
 #endif

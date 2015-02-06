@@ -32,11 +32,11 @@ QuartLAnalyzer::~QuartLAnalyzer()
     fFile->Close();
   }
   
-  delete fFile;
-  delete fTree;
   for (G4int i=0; i<MAX_MODULES; i++) {
-    delete fHitMap[i];
+    //delete fHitMap[i];
   }
+  //delete fTree;
+  //delete fFile;
 }
 
 void
@@ -67,7 +67,7 @@ QuartLAnalyzer::AddHitInEvent(G4Step* step)
     G4int colId = (fCellId[fNumHits]-rowId)/4;
     
     //G4cout << "--> " << fCellId[fNumHits] << " <-> (" << rowId << ", " << colId << ")" << G4endl;
-    fHitMap[fStationId[fNumHits]]->Fill(colId-.5, rowId-.5);
+    fHitMap[fStationId[fNumHits]]->Fill(colId, rowId);
   }
   
 }
