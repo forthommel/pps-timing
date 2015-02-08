@@ -28,4 +28,5 @@ QuartLRunAction::EndOfRunAction(const G4Run* aRun)
   G4cout << " Number of events = "
          << aRun->GetNumberOfEvent() << G4endl
          << " Timing : " << *fTimer << G4endl;
+  fAnalyzer->Store();
 }

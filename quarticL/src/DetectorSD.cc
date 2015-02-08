@@ -28,7 +28,6 @@ DetectorSD::ProcessHits(G4Step* step, G4TouchableHistory*)
   G4double edep = step->GetTotalEnergyDeposit();
   detEnergy += edep;
   
-  analyzer->AddHitInEvent(step);
   //
   // Time of the Track
   //
@@ -46,7 +45,9 @@ DetectorSD::ProcessHits(G4Step* step, G4TouchableHistory*)
   //---------------------------------------------------------------  
   
   if (step->GetTrack()->GetDefinition()==G4OpticalPhoton::OpticalPhotonDefinition()) {
-    // particle is optical photon ; was
+    // particle is optical photon ;
+    analyzer->AddHitInEvent(step);
+    // was
     //    G4cout <<" step->Tack is Optical Photon " <<   G4endl;
     //    G4int idpar = step->GetTrack()->GetParentID();	//19.02.2012
     //    G4cout << " Parent ID " << idpar << G4endl;
@@ -63,11 +64,6 @@ DetectorSD::ProcessHits(G4Step* step, G4TouchableHistory*)
     //not work    G4double timepro = step->GetPreStepPoint()->GetProperTime();    
 
     //G4double lentr = step->GetTrack()->GetTrackLength();
-    
-    G4ThreeVector vertr = step->GetTrack()->GetVertexPosition();
-    // G4cout << "Vertex " << vertr.x()/mm<<" " << vertr.y()/mm 
-    //        << " " << vertr.z()/mm  << G4endl;
-    
     //G4double ecer = step->GetPreStepPoint()->GetTotalEnergy(); 
 
     // G4cout << "Bar N " << i <<"  Time " << time/ns << G4endl;
@@ -83,7 +79,7 @@ DetectorSD::ProcessHits(G4Step* step, G4TouchableHistory*)
     // was, 9.06.2014 << " " << lentr/mm << " " << vertr.z()/mm << " " << yw/mm <<' ' << ecer/eV << G4endl;  //27.02 
     // was 21.01.2015 <<" "<< lentr/mm << " " << ecer/eV << G4endl; 	         //17.0
     //--------------------------------------------------------------------------------------	
-    ///////////////////////////////////////////////      
+    ///////////////////////////////////////////////
     G4Track* track = step->GetTrack(); 
     
     track->SetTrackStatus(fStopAndKill); // One kills the particle after its arrival in the sensitive detector
@@ -97,6 +93,6 @@ void
 DetectorSD::EndOfEvent(G4HCofThisEvent*)
 {
   // Filling the tree with kinematic information...
-  analyzer->Store();
+  analyzer->FillTree();
 }
 

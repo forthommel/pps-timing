@@ -7,7 +7,7 @@
 #include "TFile.h"
 #include "TH2.h"
 
-#define MAX_HITS 25000
+#define MAX_HITS 50000
 #define MAX_MODULES 4
 
 /** Analysis class intended to store into a TTree the photons kinematic information for each event. */
@@ -26,6 +26,7 @@ class QuartLAnalyzer
      * \param[in] step The Geant4 iterative step from which the photon kinematics is extracted.
      */
     void AddHitInEvent(G4Step* step);
+    void FillTree();
     /** \brief Store the TTree onto an external ROOT file */
     void Store();
   
@@ -33,7 +34,7 @@ class QuartLAnalyzer
     TFile *fFile;
     TTree *fTree;
     
-    G4String fFilename;
+    TString fFilename;
     
     TH2D *fHitMap[MAX_MODULES];
     
@@ -44,6 +45,7 @@ class QuartLAnalyzer
     G4double fVz[MAX_HITS];
     
     G4double fProductionTime[MAX_HITS];
+    G4double fTrackLength[MAX_HITS];
     
     G4double fPx[MAX_HITS];
     G4double fPy[MAX_HITS];
@@ -52,7 +54,6 @@ class QuartLAnalyzer
     
     G4int fStationId[MAX_HITS];
     G4int fCellId[MAX_HITS];
-    
 };
 
 #endif
