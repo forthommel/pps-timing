@@ -38,11 +38,14 @@ QuartLAnalyzer::QuartLAnalyzer(G4String filename) :
 QuartLAnalyzer::~QuartLAnalyzer()
 {
   Store();
+  /* FIXME
+  // Y U no destructors, ROOT ? ლ(ಠ_ಠლ) 
   for (G4int i=0; i<MAX_MODULES; i++) {
-    //delete fHitMap[i];
+    delete fHitMap[i];
   }
-  //delete fTree;
-  //delete fFile;
+  delete fTree;
+  delete fFile;
+  */
 }
 
 void
@@ -93,7 +96,6 @@ QuartLAnalyzer::AddHitInEvent(G4Step* step)
   }
 
   fNumHits += 1;
-  //G4cout << "Finished writing the " << fNumHits << "th hit" << G4endl;
 }
 
 void
@@ -119,6 +121,7 @@ QuartLAnalyzer::Store()
 {
   if (!fFile) return;
   
+  // We want to normalize all histograms by the number of events generated
   for (G4int i=0; i<MAX_MODULES; i++) {
     fHitMap[i]->Scale(1./fNumEvents);
     fEnergyMap[i]->Scale(1./fNumEvents);

@@ -7,7 +7,7 @@
 #include "TFile.h"
 #include "TH2.h"
 
-#define MAX_HITS 50000
+#define MAX_HITS 25000
 #define MAX_MODULES 4
 
 /** Analysis class intended to store into a TTree the photons kinematic information for each event. */
