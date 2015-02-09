@@ -230,7 +230,7 @@ QuartLDetectorConstruction::Construct()
     expHall_box,
     Air,
     "World",
-    0,0,0);
+    0, 0, 0);
 
   expHall_phys = new G4PVPlacement(0, G4ThreeVector(), expHall_log, "World", 0, false, 0);
 
@@ -248,6 +248,7 @@ QuartLDetectorConstruction::BuildOneStation(G4ThreeVector pos)
   //
   // BAR: The L Bar, 22.01.2012, 14.01.2015
   //
+  fStationPosition[fNumStations] = pos;
 
   G4double RadL[nBar] = {
     18*mm, 23*mm, 18*mm, 23*mm,
@@ -314,9 +315,9 @@ QuartLDetectorConstruction::BuildOneStation(G4ThreeVector pos)
     window_phys[fNumBars] = new G4PVPlacement(
       0,
       G4ThreeVector(
-        fXoffs[i]+pos.x()+wind_x/2.+barh_l+bar_x/2.,
-        fYoffs[i]+pos.y(),
-        fZoffs[i]+pos.z()-wind_z/2.+barv_l/2.
+        fXoffs[i]+fStationPosition[fNumStations].x()+wind_x/2.+barh_l+bar_x/2.,
+        fYoffs[i]+fStationPosition[fNumStations].y(),
+        fZoffs[i]+fStationPosition[fNumStations].z()-wind_z/2.+barv_l/2.
       ),
       window_log[fNumBars],
       "Window",
@@ -335,15 +336,11 @@ QuartLDetectorConstruction::BuildOneStation(G4ThreeVector pos)
 }
 
 G4ThreeVector
-QuartLDetectorConstruction::GetCellCenter(G4int i) const
+QuartLDetectorConstruction::GetCellCenter(G4int station_id, G4int cell_id) const
 {
-  G4double x, y;
-  
-  G4int y_id = i%4;
-  G4int x_id = (i-y_id)/4;
-    
-  x = fXoffs[i-i%4];
-  y = fYoffs[i%4];
-  
-  return G4ThreeVector(x, y, 0.);
+  G4double x, y, z;
+  x = fStationPosition[station_id].x()+fXoffs[cell_id-cell_id%4];
+  y = fStationPosition[station_id].y()+fYoffs[cell_id%4];
+  z = fStationPosition[station_id].z();
+  return G4ThreeVector(x, y, z);
 }

@@ -12,6 +12,7 @@
 #include "globals.hh"
 
 #include "QuartLPrimaryGeneratorMessenger.hh"
+#include "QuartLDetectorConstruction.hh"
 
 #include "TFile.h"
 #include "TTree.h"
@@ -37,6 +38,7 @@ class QuartLPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
      * \return A boolean stating the success or failure of the TTree retrieval
      */
     G4bool SetInputROOTFile(G4String);
+    G4bool ProbeOneCell(G4int,G4int,G4double);
 
   private:
     

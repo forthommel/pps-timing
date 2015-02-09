@@ -2,6 +2,7 @@
 #define QuartLPrimaryGeneratorMessenger_h
 
 #include "G4UImessenger.hh"
+#include "G4UIcmdWith3Vector.hh"
 #include "G4UIcmdWithADoubleAndUnit.hh"
 #include "G4UIcmdWithAString.hh"
 
@@ -25,6 +26,7 @@ class QuartLPrimaryGeneratorMessenger: public G4UImessenger
     QuartLPrimaryGeneratorAction* fAction;
     G4UIcmdWithADoubleAndUnit* fPolarCmd;
     G4UIcmdWithAString* fInputFilename;
+    G4UIcmdWith3Vector* fProbeCell;
 };
 
 #endif

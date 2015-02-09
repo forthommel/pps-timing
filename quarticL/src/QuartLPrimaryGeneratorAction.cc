@@ -192,3 +192,13 @@ QuartLPrimaryGeneratorAction::SetInputROOTFile(G4String filename)
   
   return true;
 }
+
+G4bool
+QuartLPrimaryGeneratorAction::ProbeOneCell(G4int station_id, G4int cell_id, G4double energy)
+{
+  QuartLDetectorConstruction* detector = (QuartLDetectorConstruction*)G4RunManager::GetRunManager()->GetUserDetectorConstruction();
+  fParticleGun->SetParticleEnergy(energy*GeV);
+  fParticleGun->SetParticlePosition(detector->GetCellCenter(station_id, cell_id));
+  //fParticleGun->GeneratePrimaryVertex(event);
+  return true;
+}

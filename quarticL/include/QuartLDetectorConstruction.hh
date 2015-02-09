@@ -39,7 +39,7 @@ class QuartLDetectorConstruction : public G4VUserDetectorConstruction
     
     G4VPhysicalVolume* Construct();
     
-    G4ThreeVector GetCellCenter(G4int i) const;
+    G4ThreeVector GetCellCenter(G4int station_id, G4int cell_id) const;
 
   private:
     /** Generate and add material properties table */
@@ -89,6 +89,8 @@ class QuartLDetectorConstruction : public G4VUserDetectorConstruction
     G4LogicalBorderSurface* PMSilSurf[MAX_BARS];
     G4LogicalVolume* window_log[MAX_BARS]; 
     G4VPhysicalVolume* window_phys[MAX_BARS];
+    
+    G4ThreeVector fStationPosition[10];
 
 };
 

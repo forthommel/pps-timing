@@ -58,11 +58,6 @@ int main(int argc,char** argv)
   runManager-> SetUserInitialization(detector);
   //
   
-  /*for (G4int i=0; i<20; i++) {
-    const G4ThreeVector cell_center = detector->GetCellCenter(i);
-    G4cout << "--> Cell center for id = " << i << " -> (" << cell_center.x() << ", " << cell_center.y() << ")" << G4endl;
-  }*/
-
   G4VModularPhysicsList* physics;
 
   //physics = new QuartLPhysicsList;
@@ -79,6 +74,11 @@ int main(int argc,char** argv)
   // Initialize G4 kernel
   //
   runManager->Initialize();
+
+  /*for (G4int i=0; i<20; i++) {
+    const G4ThreeVector cell_center = detector->GetCellCenter(1, i);
+    G4cout << "--> Cell center for id = " << i << " -> (" << cell_center.x() << ", " << cell_center.y() << ", " << cell_center.z() << ")" << G4endl;
+  }*/
 
   // Get the pointer to the User Interface manager
   //
