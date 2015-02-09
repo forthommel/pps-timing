@@ -2,6 +2,32 @@
 
 using namespace CLHEP;
 
+const G4int nBar = 20;
+
+const G4double fYoffs[nBar] = {
+  -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
+  -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
+  -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
+  -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
+  -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm
+};
+
+const G4double fXoffs[nBar] = {
+   4.7*mm,  4.7*mm,  4.7*mm,  4.7*mm,
+   1.6*mm,  1.6*mm,  1.6*mm,  1.6*mm,
+  -1.5*mm, -1.5*mm, -1.5*mm, -1.5*mm,
+  -4.6*mm, -4.6*mm, -4.6*mm, -4.6*mm,
+  -7.7*mm, -7.7*mm, -7.7*mm, -7.7*mm
+};
+
+const G4double fZoffs[nBar] = {
+  0.*mm,  2.5*mm,  0.*mm,  2.5*mm,
+  5.*mm,  7.5*mm,  5.*mm,  7.5*mm,
+  10.*mm, 12.5*mm, 10.*mm, 12.5*mm,
+  15.*mm, 17.5*mm, 15.*mm, 17.5*mm,
+  20.*mm, 22.5*mm, 20.*mm, 22.5*mm
+};
+
 QuartLDetectorConstruction::QuartLDetectorConstruction() :
   fNumBars(0), fNumStations(0)
 {
@@ -222,7 +248,6 @@ QuartLDetectorConstruction::BuildOneStation(G4ThreeVector pos)
   //
   // BAR: The L Bar, 22.01.2012, 14.01.2015
   //
-  const G4int nBar = 20;
 
   G4double RadL[nBar] = {
     18*mm, 23*mm, 18*mm, 23*mm,
@@ -238,30 +263,6 @@ QuartLDetectorConstruction::BuildOneStation(G4ThreeVector pos)
     65.00*mm, 65.00*mm, 65.00*mm, 65.00*mm,
     68.10*mm, 68.10*mm, 68.10*mm, 68.10*mm,
     71.20*mm, 71.20*mm, 71.20*mm, 71.20*mm
-  };
-
-  G4double Yoffs[nBar] = {
-    -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
-    -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
-    -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
-    -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
-    -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm
-  };
-
-  G4double Xoffs[nBar] = {
-     4.7*mm,  4.7*mm,  4.7*mm,  4.7*mm,
-     1.6*mm,  1.6*mm,  1.6*mm,  1.6*mm,
-    -1.5*mm, -1.5*mm, -1.5*mm, -1.5*mm,
-    -4.6*mm, -4.6*mm, -4.6*mm, -4.6*mm,
-    -7.7*mm, -7.7*mm, -7.7*mm, -7.7*mm
-  };
-
-  G4double Zoffs[nBar] = {
-    0.*mm,  2.5*mm,  0.*mm,  2.5*mm,
-    5.*mm,  7.5*mm,  5.*mm,  7.5*mm,
-    10.*mm, 12.5*mm, 10.*mm, 12.5*mm,
-    15.*mm, 17.5*mm, 15.*mm, 17.5*mm,
-    20.*mm, 22.5*mm, 20.*mm, 22.5*mm
   };
 
   G4ThreeVector Cellsh; // Physical Volumes shifting
@@ -296,7 +297,7 @@ QuartLDetectorConstruction::BuildOneStation(G4ThreeVector pos)
     //Bar_log[fNumBars] = new G4LogicalVolume(Bar[fNumBars], Sapphire, ss.str(), 0, 0, 0);
     Bar_phys[fNumBars] = new G4PVPlacement(
       0,
-      G4ThreeVector(Xoffs[i]+pos.x(), Yoffs[i]+pos.y(), Zoffs[i]+pos.z()),
+      G4ThreeVector(fXoffs[i]+pos.x(), fYoffs[i]+pos.y(), fZoffs[i]+pos.z()),
       Bar_log[fNumBars],
       ss.str(),
       expHall_log,
@@ -313,9 +314,9 @@ QuartLDetectorConstruction::BuildOneStation(G4ThreeVector pos)
     window_phys[fNumBars] = new G4PVPlacement(
       0,
       G4ThreeVector(
-        Xoffs[i]+pos.x()+wind_x/2.+barh_l+bar_x/2.,
-        Yoffs[i]+pos.y(),
-        Zoffs[i]+pos.z()-wind_z/2.+barv_l/2.
+        fXoffs[i]+pos.x()+wind_x/2.+barh_l+bar_x/2.,
+        fYoffs[i]+pos.y(),
+        fZoffs[i]+pos.z()-wind_z/2.+barv_l/2.
       ),
       window_log[fNumBars],
       "Window",
@@ -331,4 +332,18 @@ QuartLDetectorConstruction::BuildOneStation(G4ThreeVector pos)
     fNumBars += 1;
   }
   fNumStations += 1;
+}
+
+G4ThreeVector
+QuartLDetectorConstruction::GetCellCenter(G4int i) const
+{
+  G4double x, y;
+  
+  G4int y_id = i%4;
+  G4int x_id = (i-y_id)/4;
+    
+  x = fXoffs[i-i%4];
+  y = fYoffs[i%4];
+  
+  return G4ThreeVector(x, y, 0.);
 }

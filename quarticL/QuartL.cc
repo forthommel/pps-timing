@@ -54,9 +54,14 @@ int main(int argc,char** argv)
 
   // UserInitialization classes - mandatory
   //
-  G4VUserDetectorConstruction* detector = new QuartLDetectorConstruction;
+  QuartLDetectorConstruction* detector = new QuartLDetectorConstruction;
   runManager-> SetUserInitialization(detector);
   //
+  
+  /*for (G4int i=0; i<20; i++) {
+    const G4ThreeVector cell_center = detector->GetCellCenter(i);
+    G4cout << "--> Cell center for id = " << i << " -> (" << cell_center.x() << ", " << cell_center.y() << ")" << G4endl;
+  }*/
 
   G4VModularPhysicsList* physics;
 

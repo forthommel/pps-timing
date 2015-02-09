@@ -36,13 +36,16 @@ class QuartLDetectorConstruction : public G4VUserDetectorConstruction
   public:
     QuartLDetectorConstruction();
     ~QuartLDetectorConstruction();
+    
     G4VPhysicalVolume* Construct();
+    
+    G4ThreeVector GetCellCenter(G4int i) const;
 
   private:
     /** Generate and add material properties table */
     void BuildOpticalProperties();
     void BuildOneStation(G4ThreeVector);
-  
+    
     G4int fNumBars;
     G4int fNumStations;
     
