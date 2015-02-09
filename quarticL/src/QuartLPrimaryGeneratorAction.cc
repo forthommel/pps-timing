@@ -199,6 +199,6 @@ QuartLPrimaryGeneratorAction::ProbeOneCell(G4int station_id, G4int cell_id, G4do
   QuartLDetectorConstruction* detector = (QuartLDetectorConstruction*)G4RunManager::GetRunManager()->GetUserDetectorConstruction();
   fParticleGun->SetParticleEnergy(energy*GeV);
   fParticleGun->SetParticlePosition(detector->GetCellCenter(station_id, cell_id));
-  //fParticleGun->GeneratePrimaryVertex(event);
+  G4UImanager::GetUIpointer()->ApplyCommand("/run/beamOn 1");
   return true;
 }

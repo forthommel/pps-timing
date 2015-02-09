@@ -7,6 +7,7 @@
 #include "G4ParticleGun.hh"
 #include "G4ParticleTable.hh"
 #include "G4ParticleDefinition.hh"
+#include "G4UImanager.hh"
 
 #include "Randomize.hh"
 #include "globals.hh"
