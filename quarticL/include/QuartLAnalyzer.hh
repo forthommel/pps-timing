@@ -26,9 +26,11 @@ class QuartLAnalyzer
      * \param[in] step The Geant4 iterative step from which the photon kinematics is extracted.
      */
     void AddHitInEvent(G4Step* step);
+    /** \brief Fills all branches in the TTree for one given event */
     void FillTree();
     /** \brief Store the TTree onto an external ROOT file */
     void Store();
+    inline G4int GetNumHitsInEvent() const { return fNumHits; }
   
   private:
     TFile *fFile;
@@ -37,8 +39,12 @@ class QuartLAnalyzer
     TString fFilename;
     
     TH2D *fHitMap[MAX_MODULES];
+    TH2D *fEnergyMap[MAX_MODULES];
     
+    /** \brief Total number of hits collected in one single event */
     G4int fNumHits;
+    /** \brief Total number of events generated in all runs */
+    G4int fNumEvents;
     
     G4double fVx[MAX_HITS];
     G4double fVy[MAX_HITS];

@@ -1,23 +1,16 @@
-# Macro file for example B1
+# Macro file for QuarticL
 # 
-# To be run preferably in batch, without graphics:
-# % exampleB1 run2.mac
+# Can be run in batch, without graphic
+# or interactively: Idle> /control/execute run1.mac
 #
-/control/verbose 2
-/run/verbose 2
+/control/verbose 0
 #
-# gamma 6 MeV to the direction (0.,0.,1.)
-# 10000 events
-#
-/gun/particle gamma
-/gun/energy 6 MeV
-#
-/run/beamOn 1000
+/run/verbose 0
+/event/verbose 0
+#/tracking/verbose 2
+/tracking/verbose 0
 # 
-# proton 210 MeV to the direction (0.,0.,1.)
-# 1000 events
-#
+/gun/inputROOTFile /home/forthomme/work/gastof/Geant4Gastof/analysis/PileupProtonsXY_ForGastof.root
 /gun/particle proton
-/gun/energy 210 MeV
 #
-/run/beamOn 1000
+/run/beamOn 5

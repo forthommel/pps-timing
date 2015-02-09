@@ -27,7 +27,6 @@
 #include "globals.hh"
 #include "G4VUserDetectorConstruction.hh"
 //-------------------------------------------
-
 #include "DetectorSD.hh"
 
 #define MAX_BARS 20*10
@@ -36,9 +35,7 @@ class QuartLDetectorConstruction : public G4VUserDetectorConstruction
 {
   public:
     QuartLDetectorConstruction();
-   ~QuartLDetectorConstruction();
-
-  public:
+    ~QuartLDetectorConstruction();
     G4VPhysicalVolume* Construct();
 
   private:

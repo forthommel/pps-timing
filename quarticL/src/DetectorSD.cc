@@ -23,11 +23,13 @@ DetectorSD::Initialize(G4HCofThisEvent*)
 G4bool
 DetectorSD::ProcessHits(G4Step* step, G4TouchableHistory*)
 {
+  // FIXME ! Need to isolate such events (loopers, ... ?)
+  if (analyzer->GetNumHitsInEvent()>MAX_HITS) return false;
+  
   //  Energy deposited from each step
   //  is summarized in detEnergy
   G4double edep = step->GetTotalEnergyDeposit();
   detEnergy += edep;
-  
   //
   // Time of the Track
   //

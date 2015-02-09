@@ -17,7 +17,7 @@ QuartLRunAction::~QuartLRunAction()
 void
 QuartLRunAction::BeginOfRunAction(const G4Run* aRun)
 {
-  G4cout << "### Run " << aRun->GetRunID() << " is starting !" << G4endl;
+  G4cout << "##### Run " << aRun->GetRunID() << " is starting ! #####" << G4endl;
   fTimer->Start();
 }
 

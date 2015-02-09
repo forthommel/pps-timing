@@ -14,9 +14,9 @@ class QuartLStackingAction : public G4UserStackingAction
 {
   public:
     QuartLStackingAction();
-   ~QuartLStackingAction();
-
-  public:
+    ~QuartLStackingAction();
+    
+    /** \brief Method to be run on every new track in the iterative tracking. */
     G4ClassificationOfNewTrack ClassifyNewTrack(const G4Track* aTrack);
     void NewStage();
     void PrepareNewEvent();
