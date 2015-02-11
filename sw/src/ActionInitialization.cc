@@ -3,33 +3,31 @@
 ActionInitialization::ActionInitialization() :
   G4VUserActionInitialization()
 {
-  //fAnalyzer = new QuartLAnalyzer;
   //
   // UserAction classes
   //
   fPrimaryGenerator = new PrimaryGeneratorAction;
-  //fRunAction = new RunAction(new QuartLAnalyzer);
   fEventAction = new EventAction;
   fStackingAction = new StackingAction;
+  fAnalyzer = new QuartLAnalyzer;
 }
 
 ActionInitialization::~ActionInitialization()
 {
-  //delete fAnalyzer;
+  delete fAnalyzer;
 }
 
 void
 ActionInitialization::BuildForMaster() const
 {
-  SetUserAction(new RunAction(new QuartLAnalyzer));
+  SetUserAction(new RunAction(fAnalyzer));
 }
 
 void
 ActionInitialization::Build() const
 {
   SetUserAction(fPrimaryGenerator);
-  //SetUserAction(new QuartLRunAction(fAnalyzer));
-  SetUserAction(new RunAction(new QuartLAnalyzer));
+  SetUserAction(new RunAction(fAnalyzer));
   SetUserAction(fEventAction);
   SetUserAction(fStackingAction);
 }

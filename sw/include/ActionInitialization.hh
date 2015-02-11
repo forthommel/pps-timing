@@ -21,7 +21,6 @@ class ActionInitialization : public G4VUserActionInitialization
         
   private:
     G4VUserPrimaryGeneratorAction* fPrimaryGenerator;
-    G4UserRunAction* fRunAction;
     G4UserEventAction* fEventAction;
     G4UserStackingAction* fStackingAction;
     QuartLAnalyzer *fAnalyzer;
