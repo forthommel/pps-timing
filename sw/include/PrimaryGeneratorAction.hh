@@ -1,32 +1,31 @@
-#ifndef QuartLPrimaryGeneratorAction_h
-#define QuartLPrimaryGeneratorAction_h
+#ifndef PrimaryGeneratorAction_h
+#define PrimaryGeneratorAction_h
 
 #include "G4VUserPrimaryGeneratorAction.hh"
-
 #include "G4Event.hh"
 #include "G4ParticleGun.hh"
 #include "G4ParticleTable.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4UImanager.hh"
-
 #include "Randomize.hh"
 #include "globals.hh"
 
-#include "QuartLPrimaryGeneratorMessenger.hh"
-#include "QuartLDetectorConstruction.hh"
+#include "PrimaryGeneratorMessenger.hh"
+
+//#include "QuartLDetectorConstruction.hh"
 
 #include "TFile.h"
 #include "TTree.h"
 
 class G4ParticleGun;
 class G4Event;
-class QuartLPrimaryGeneratorMessenger;
+class PrimaryGeneratorMessenger;
 
-class QuartLPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
-    QuartLPrimaryGeneratorAction();
-    ~QuartLPrimaryGeneratorAction();
+    PrimaryGeneratorAction();
+    ~PrimaryGeneratorAction();
 
     void GeneratePrimaries(G4Event*);
 
@@ -44,7 +43,7 @@ class QuartLPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
   private:
     
     G4ParticleGun* fParticleGun;
-    QuartLPrimaryGeneratorMessenger* fGunMessenger;
+    PrimaryGeneratorMessenger* fGunMessenger;
     
     TFile* fFile;
     TTree* fTree;

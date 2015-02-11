@@ -1,13 +1,13 @@
-#include "QuartLSteppingVerbose.hh"
+#include "SteppingVerbose.hh"
 
-QuartLSteppingVerbose::QuartLSteppingVerbose()
+SteppingVerbose::SteppingVerbose()
 {}
 
-QuartLSteppingVerbose::~QuartLSteppingVerbose()
+SteppingVerbose::~SteppingVerbose()
 {}
 
 void
-QuartLSteppingVerbose::StepInfo()
+SteppingVerbose::StepInfo()
 {
   CopyState();
   
@@ -98,7 +98,7 @@ QuartLSteppingVerbose::StepInfo()
 }
 
 void
-QuartLSteppingVerbose::TrackingStarted()
+SteppingVerbose::TrackingStarted()
 {
   CopyState();
   G4int prec = G4cout.precision(3);

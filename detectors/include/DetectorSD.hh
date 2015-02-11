@@ -1,7 +1,7 @@
 #ifndef DetectorSD_h
 #define DetectorSD_h
 
-#include "QuartLRunAction.hh"
+#include "RunAction.hh"
 
 #include "G4ParticleDefinition.hh"
 #include "G4ParticleTypes.hh"
@@ -25,7 +25,7 @@ class DetectorSD: public G4VSensitiveDetector
     void EndOfEvent(G4HCofThisEvent*);
     
   private:
-    QuartLRunAction* runAction;
+    RunAction* runAction;
     
     G4double detEnergy;
     /** Track time */

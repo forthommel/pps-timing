@@ -1,7 +1,5 @@
-#----------------------------------------------------------------------------
-# Setup the project
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
-project(quarticL)
+project(PPSsimulation)
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -22,7 +20,6 @@ endif()
 #
 
 include(${Geant4_USE_FILE})
-include_directories(${PROJECT_SOURCE_DIR}/include)
 
 #----------------------------------------------------------------------------
 # ROOT include
@@ -33,46 +30,18 @@ find_package(ROOT REQUIRED)
 include_directories(${ROOT_INCLUDE_DIR})
 link_directories(${ROOT_LIBRARY_DIR})
 
-#----------------------------------------------------------------------------
-# Locate sources and headers for this project
-# NB: headers are included so they will show up in IDEs
-#
 
-file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
-file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
-
-#----------------------------------------------------------------------------
-# Generate the ROOT dictionary to store TObjects directly
-# in the output TTrees
-#
-
-set(PPS_DICT_MEMBERS "QuartLInformation,QuartLEvent")
-#file(GLOB dict_headers ${PROJECT_SOURCE_DIR}/include/QuartLInformation.hh)
-#file(GLOB dict_sources ${PROJECT_SOURCE_DIR}/src/QuartLInformation.cc)
-#foreach(_member ${PPS_DICT_MEMBERS})
-#  file(GLOB
-#    ${PROJECT_SOURCE_DIR}/${_script}
-#    ${PROJECT_BINARY_DIR}/${_script}
-#    COPYONLY
-#    )
-#endforeach()
-file(GLOB dict_headers ${PROJECT_SOURCE_DIR}/include/*.h)
-file(GLOB dict_sources ${PROJECT_SOURCE_DIR}/src/*.cpp)
-list(REMOVE_ITEM dict_headers ${PROJECT_SOURCE_DIR}/include/LinkDef.h)
-message(STATUS "Headers for dictionary : " ${dict_headers})
-message(STATUS "Sources for dictionary : " ${dict_sources})
-ROOT_GENERATE_DICTIONARY(PPSDict ${dict_headers} LINKDEF "${PROJECT_SOURCE_DIR}/include/LinkDef.h")
-list(APPEND sources PPSDict.cxx)
-add_library(PPS SHARED ${dict_sources} PPSDict.cxx)
-target_link_libraries(PPS ${ROOT_LIBRARIES} ${ROOT_COMPONENT_LIBRARIES})
-install(TARGETS PPS DESTINATION lib)
+include_directories(${PROJECT_SOURCE_DIR}/sw/include)
+include_directories(${PROJECT_SOURCE_DIR}/detectors/include)
+add_subdirectory(sw)
+add_subdirectory(detectors)
 
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
 
-add_executable(QuartL QuartL.cc ${sources} ${dict_sources} ${headers} ${dict_headers})
-target_link_libraries(QuartL ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
+add_executable(PPSsim main.cc $<TARGET_OBJECTS:detectors> $<TARGET_OBJECTS:sw>)
+target_link_libraries(PPSsim ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
@@ -80,7 +49,7 @@ target_link_libraries(QuartL ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
 # relies on these scripts being in the current working directory.
 #
 
-set(QUARTICL_SCRIPTS
+set(PPS_SCRIPTS
   QuartL.in
   QuartL.out
   init.mac
@@ -90,14 +59,14 @@ set(QUARTICL_SCRIPTS
   vis.mac
   viswrl.mac
   rootlogon.C
-  )
+)
 
-foreach(_script ${QUARTICL_SCRIPTS})
+foreach(_script ${PPS_SCRIPTS})
   configure_file(
     ${PROJECT_SOURCE_DIR}/${_script}
     ${PROJECT_BINARY_DIR}/${_script}
     COPYONLY
-    )
+  )
 endforeach()
 
 #----------------------------------------------------------------------------
@@ -105,11 +74,11 @@ endforeach()
 # example standalone
 #
 
-add_custom_target(quarticL DEPENDS QuartL)
+add_custom_target(ppsSim DEPENDS PPSsim)
 
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
 
-install(TARGETS QuartL DESTINATION bin)
+install(TARGETS PPSsim DESTINATION bin)
 

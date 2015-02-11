@@ -17,9 +17,10 @@
 
 #include "globals.hh"
 
+#include "SteppingVerbose.hh"
+#include "ActionInitialization.hh"
+
 #include "QuartLDetectorConstruction.hh"
-#include "QuartLSteppingVerbose.hh"
-#include "QuartLActionInitialization.hh"
 
 #ifdef G4UI_USE
 #include "G4UIExecutive.hh"
@@ -40,7 +41,7 @@ int main(int argc,char** argv)
 
   // User Verbose output class
   //
-  G4VSteppingVerbose* verbosity = new QuartLSteppingVerbose;
+  G4VSteppingVerbose* verbosity = new SteppingVerbose;
   G4VSteppingVerbose::SetInstance(verbosity);
 
   // Run manager
@@ -68,7 +69,7 @@ int main(int argc,char** argv)
 
   runManager-> SetUserInitialization(physics);
 
-  QuartLActionInitialization* action = new QuartLActionInitialization;
+  ActionInitialization* action = new ActionInitialization;
   runManager->SetUserInitialization(action);
 
   // Initialize G4 kernel

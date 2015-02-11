@@ -1,6 +1,6 @@
-#include "QuartLPrimaryGeneratorMessenger.hh"
+#include "PrimaryGeneratorMessenger.hh"
 
-QuartLPrimaryGeneratorMessenger::QuartLPrimaryGeneratorMessenger(QuartLPrimaryGeneratorAction* pga):
+PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(PrimaryGeneratorAction* pga):
   fAction(pga)
 {
   fPolarCmd = new G4UIcmdWithADoubleAndUnit("/gun/optPhotonPolar", this);
@@ -26,7 +26,7 @@ QuartLPrimaryGeneratorMessenger::QuartLPrimaryGeneratorMessenger(QuartLPrimaryGe
   fProbeCell->AvailableForStates(G4State_Idle);
 }
 
-QuartLPrimaryGeneratorMessenger::~QuartLPrimaryGeneratorMessenger()
+PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
 {
   delete fPolarCmd;
   delete fInputFilename;
@@ -34,7 +34,7 @@ QuartLPrimaryGeneratorMessenger::~QuartLPrimaryGeneratorMessenger()
 }
 
 void
-QuartLPrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String value)
+PrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String value)
 { 
   if (command==fPolarCmd) {
     G4double angle = fPolarCmd->GetNewDoubleValue(value);
@@ -45,7 +45,7 @@ QuartLPrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String valu
     if (!fAction->SetInputROOTFile(value)) {
       std::ostringstream ss;
       ss << "Error while loading the TTree \"hits\" in ROOT input file \"" << value << "\"";
-      G4Exception("QuartLPrimaryGeneratorMessenger::SetNewValue", "InvalidFilename", JustWarning, ss);
+      G4Exception("PrimaryGeneratorMessenger::SetNewValue", "InvalidFilename", JustWarning, ss);
     }
   }
   else if (command==fProbeCell) {
@@ -57,7 +57,7 @@ QuartLPrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String valu
       ss << "Error while trying to probe the cell " << cell_id
          << " on station " << station_id
          << " with protons of " << val.z()/CLHEP::GeV << " GeV";
-      G4Exception("QuartLPrimaryGeneratorMessenger::SetNewValue", "InvalidCellProbe", JustWarning, ss);
+      G4Exception("PrimaryGeneratorMessenger::SetNewValue", "InvalidCellProbe", JustWarning, ss);
     }
   }
 }
