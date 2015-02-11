@@ -1,7 +1,7 @@
 #include "QuartLAnalyzer.hh"
 
 QuartLAnalyzer::QuartLAnalyzer(G4String filename) :
-  fFile(0), fTree(0), fFilename(filename), fNumHits(0), fNumEvents(0)
+  fFile(0), fTree(0), fFilename(filename), fNumHits(0), fNumEvents(0), fRunId(0)
 {
   /*G4int threadId = G4Threading::G4GetThreadId();
   fFilename.ReplaceAll(".root", Form("%.4i.root", threadId));*/
@@ -9,6 +9,8 @@ QuartLAnalyzer::QuartLAnalyzer(G4String filename) :
   fFile = new TFile(fFilename, "RECREATE");
   fFile->mkdir("plots");
   fFile->cd();
+  
+  fRunInfo = new PPS::QuartLRunInfo;
 
   fTree = new TTree("events", "Quartic simulation events");
   fTree->Branch("hits", &fNumHits, "hits/I");
@@ -23,6 +25,7 @@ QuartLAnalyzer::QuartLAnalyzer(G4String filename) :
   fTree->Branch("E", fE, "E[hits]/D");
   fTree->Branch("station_id", fStationId, "station_id[hits]/I");
   fTree->Branch("cell_id", fCellId, "cell_id[hits]/I");
+  fTree->Branch("run_info", "QuartLRunInfo", fRunInfo, 64000, 1);
 
   fFile->cd("plots");
   for (G4int i=0; i<MAX_MODULES; i++) {
@@ -46,6 +49,8 @@ QuartLAnalyzer::~QuartLAnalyzer()
   delete fTree;
   delete fFile;
   */
+  
+  delete fRunInfo;
 }
 
 void
@@ -126,8 +131,13 @@ QuartLAnalyzer::Store()
     fHitMap[i]->Scale(1./fNumEvents);
     fEnergyMap[i]->Scale(1./fNumEvents);
   }
-  
+  fRunInfo->SetRunId(fRunId);
+  fRunInfo->Write();
+
   fFile->Write();
   fFile->Close();
+  
   G4cout << "[QuartLAnalyzer::Store] File ' " << fFilename << " ' successfully created and filled with " << fNumEvents << " events !" << G4endl;
+  
+  fRunId += 1;
 }

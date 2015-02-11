@@ -3,6 +3,8 @@
 
 #include "G4Step.hh"
 
+#include "QuartLRunInfo.hh"
+
 #include "TTree.h"
 #include "TFile.h"
 #include "TH2.h"
@@ -45,6 +47,7 @@ class QuartLAnalyzer
     G4int fNumHits;
     /** \brief Total number of events generated in all runs */
     G4int fNumEvents;
+    G4int fRunId;
     
     G4double fVx[MAX_HITS];
     G4double fVy[MAX_HITS];
@@ -60,6 +63,8 @@ class QuartLAnalyzer
     
     G4int fStationId[MAX_HITS];
     G4int fCellId[MAX_HITS];
+    
+    PPS::QuartLRunInfo *fRunInfo;
 };
 
 #endif
