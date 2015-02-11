@@ -14,9 +14,9 @@ namespace PPS
       virtual ~QuartLRunInfo();
    
       inline void SetRunId(int ri) { fRunId=ri; } 
-      inline int GetRunId() const { return fRunId; }
+      virtual inline int GetRunId() const { return fRunId; }
       inline void SetProtonEnergy(double pe) { fProtonEnergy=pe; }
-      inline double GetProtonEnergy() const { return fProtonEnergy; }
+      virtual inline double GetProtonEnergy() const { return fProtonEnergy; }
   
     private:
       int fRunId;

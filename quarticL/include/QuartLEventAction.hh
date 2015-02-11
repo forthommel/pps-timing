@@ -8,6 +8,10 @@
 #include "G4VVisManager.hh"
 #include "G4ios.hh"
 #include "G4UserEventAction.hh"
+#include "G4Run.hh"
+#include "G4RunManager.hh"
+
+#include "QuartLRunAction.hh"
 
 class G4Event;
 

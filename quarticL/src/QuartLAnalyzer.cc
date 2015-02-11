@@ -11,6 +11,7 @@ QuartLAnalyzer::QuartLAnalyzer(G4String filename) :
   fFile->cd();
   
   fRunInfo = new PPS::QuartLRunInfo;
+  fRunInfo->SetRunId(fRunId);
 
   fTree = new TTree("events", "Quartic simulation events");
   fTree->Branch("hits", &fNumHits, "hits/I");
@@ -131,13 +132,12 @@ QuartLAnalyzer::Store()
     fHitMap[i]->Scale(1./fNumEvents);
     fEnergyMap[i]->Scale(1./fNumEvents);
   }
-  fRunInfo->SetRunId(fRunId);
-  fRunInfo->Write();
-
+  
   fFile->Write();
   fFile->Close();
   
   G4cout << "[QuartLAnalyzer::Store] File ' " << fFilename << " ' successfully created and filled with " << fNumEvents << " events !" << G4endl;
   
   fRunId += 1;
+  fRunInfo->SetRunId(fRunId);
 }
