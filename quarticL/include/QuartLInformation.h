@@ -1,5 +1,5 @@
-#ifndef QuartLRunInfo_hh
-#define QuartLRunInfo_hh
+#ifndef QuartLInformation_h
+#define QuartLInformation_h
 
 #include <iostream>
 
@@ -7,23 +7,24 @@
 
 namespace PPS
 {
-  class QuartLRunInfo : public TObject
+  class QuartLInformation : public TObject
   {
     public:
-      QuartLRunInfo();
-      virtual ~QuartLRunInfo();
+      QuartLInformation();
+      virtual ~QuartLInformation();
    
       inline void SetRunId(int ri) { fRunId=ri; } 
-      virtual inline int GetRunId() const { return fRunId; }
+      inline int GetRunId() const { return fRunId; }
       inline void SetProtonEnergy(double pe) { fProtonEnergy=pe; }
-      virtual inline double GetProtonEnergy() const { return fProtonEnergy; }
+      inline double GetProtonEnergy() const { return fProtonEnergy; }
+      
+      ClassDef(QuartLInformation, 1)
   
     private:
       int fRunId;
       double fProtonEnergy;
     
     public:
-      ClassDef(QuartLRunInfo, 1)
       //void Print(Option_t* opt="") const;
   };
 }

@@ -46,12 +46,23 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 # in the output TTrees
 #
 
-file(GLOB dict_headers ${PROJECT_SOURCE_DIR}/include/QuartLRunInfo.hh)
-file(GLOB dict_sources ${PROJECT_SOURCE_DIR}/src/QuartLRunInfo.cc)
+set(PPS_DICT_MEMBERS "QuartLInformation,QuartLEvent")
+#file(GLOB dict_headers ${PROJECT_SOURCE_DIR}/include/QuartLInformation.hh)
+#file(GLOB dict_sources ${PROJECT_SOURCE_DIR}/src/QuartLInformation.cc)
+#foreach(_member ${PPS_DICT_MEMBERS})
+#  file(GLOB
+#    ${PROJECT_SOURCE_DIR}/${_script}
+#    ${PROJECT_BINARY_DIR}/${_script}
+#    COPYONLY
+#    )
+#endforeach()
+file(GLOB dict_headers ${PROJECT_SOURCE_DIR}/include/*.h)
+file(GLOB dict_sources ${PROJECT_SOURCE_DIR}/src/*.cpp)
+list(REMOVE_ITEM dict_headers ${PROJECT_SOURCE_DIR}/include/LinkDef.h)
+message(STATUS "Headers for dictionary : " ${dict_headers})
+message(STATUS "Sources for dictionary : " ${dict_sources})
 ROOT_GENERATE_DICTIONARY(PPSDict ${dict_headers} LINKDEF "${PROJECT_SOURCE_DIR}/include/LinkDef.h")
 list(APPEND sources PPSDict.cxx)
-#message(STATUS "Headers for dictionary : " ${dict_headers})
-#message(STATUS "Sources for dictionary : " ${dict_sources})
 add_library(PPS SHARED ${dict_sources} PPSDict.cxx)
 target_link_libraries(PPS ${ROOT_LIBRARIES} ${ROOT_COMPONENT_LIBRARIES})
 install(TARGETS PPS DESTINATION lib)
@@ -60,7 +71,7 @@ install(TARGETS PPS DESTINATION lib)
 # Add the executable, and link it to the Geant4 libraries
 #
 
-add_executable(QuartL QuartL.cc ${sources} ${headers})
+add_executable(QuartL QuartL.cc ${sources} ${dict_sources} ${headers} ${dict_headers})
 target_link_libraries(QuartL ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
 
 #----------------------------------------------------------------------------

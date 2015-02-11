@@ -3,7 +3,7 @@
 
 #include "G4Step.hh"
 
-#include "QuartLRunInfo.hh"
+#include "QuartLInformation.h"
 
 #include "TTree.h"
 #include "TFile.h"
@@ -64,7 +64,7 @@ class QuartLAnalyzer
     G4int fStationId[MAX_HITS];
     G4int fCellId[MAX_HITS];
     
-    PPS::QuartLRunInfo *fRunInfo;
+    PPS::QuartLInformation *fQuartLInfo;
 };
 
 #endif
