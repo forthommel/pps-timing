@@ -18,8 +18,6 @@ PrimaryGeneratorAction::PrimaryGeneratorAction() :
   //default kinematic
   //
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-  // G4ParticleDefinition* particle = particleTable->FindParticle("e+");
-  //   G4ParticleDefinition* particle = particleTable->FindParticle("e-");  
   G4ParticleDefinition* particle = particleTable->FindParticle("proton");   
   
   fParticleGun->SetParticleDefinition(particle);
@@ -194,11 +192,11 @@ PrimaryGeneratorAction::SetInputROOTFile(G4String filename)
 }
 
 G4bool
-PrimaryGeneratorAction::ProbeOneCell(G4int station_id, G4int cell_id, G4double energy)
+PrimaryGeneratorAction::ProbeOneQUARTICCell(G4int station_id, G4int cell_id, G4double energy)
 {
-  /*QuartLDetectorConstruction* detector = (QuartLDetectorConstruction*)G4RunManager::GetRunManager()->GetUserDetectorConstruction();
+  QuartLDetectorConstruction* detector = (QuartLDetectorConstruction*)G4RunManager::GetRunManager()->GetUserDetectorConstruction(); // FIXME introduce checks to probe the detector name (can be a GasToF...)
   fParticleGun->SetParticleEnergy(energy*GeV);
   fParticleGun->SetParticlePosition(detector->GetCellCenter(station_id, cell_id));
-  G4UImanager::GetUIpointer()->ApplyCommand("/run/beamOn 1");*/
+  G4UImanager::GetUIpointer()->ApplyCommand("/run/beamOn 1");
   return true;
 }

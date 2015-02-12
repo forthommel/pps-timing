@@ -52,7 +52,7 @@ PrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String value)
     G4ThreeVector val = fProbeCell->GetNew3VectorValue(value);
     G4int station_id = static_cast<G4int>(val.x());
     G4int cell_id = static_cast<G4int>(val.y());
-    if (!fAction->ProbeOneCell(station_id, cell_id, val.z())) {
+    if (!fAction->ProbeOneQUARTICCell(station_id, cell_id, val.z())) {
       std::ostringstream ss;
       ss << "Error while trying to probe the cell " << cell_id
          << " on station " << station_id
