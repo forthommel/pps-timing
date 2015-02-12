@@ -95,7 +95,7 @@ int main(int argc,char** argv)
     // G4VisManager* visManager = new G4VisExecutive("Quiet");
     visManager->Initialize();
 #endif
-    UImanager->ApplyCommand("/control/execute vis.mac");
+    UImanager->ApplyCommand("/control/execute test/vis.mac");
     ui->SessionStart();
 #ifdef G4VIS_USE
   delete visManager;
