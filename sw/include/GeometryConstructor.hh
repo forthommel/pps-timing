@@ -11,12 +11,24 @@
 #include "G4Box.hh"
 
 #include "G4VUserDetectorConstruction.hh"
+#include "G4GeometryManager.hh"
+#include "G4PhysicalVolumeStore.hh"
+#include "G4LogicalVolumeStore.hh"
+#include "G4SolidStore.hh"
 #include "globals.hh"
 
 #include "MaterialManager.hh"
 #include "GeometryConstructorMessenger.hh"
 
+#include <vector>
+
+////////////////////////////////////////////////////////////////
+#include "detectors.hh"
+#include "beampockets.hh"
+////////////////////////////////////////////////////////////////
+
 class GeometryConstructorMessenger;
+typedef std::vector<G4VUserDetectorConstruction*> DetectorsRef;
 
 class GeometryConstructor : public G4VUserDetectorConstruction
 {
@@ -25,7 +37,20 @@ class GeometryConstructor : public G4VUserDetectorConstruction
     ~GeometryConstructor();
     
     G4VPhysicalVolume* Construct();
+    void UpdateGeometry();
 
+    /**
+     * Add a new component (detector, beampocket, ...) to the global geometry
+     * \param[in] type String stating the component type
+     */
+    G4int AddNewComponent(G4String type="");
+    /**
+     * Set the location of one given component
+     * \param[in] id Component unique identifier in this geometry
+     * \param[in] pos Location of the component's center
+     */
+    G4bool MoveComponent(G4int id=-1, G4ThreeVector pos=G4ThreeVector(0., 0., 0.));
+  
   private:
     
     G4double expHall_x;
@@ -37,6 +62,11 @@ class GeometryConstructor : public G4VUserDetectorConstruction
 
     MaterialManager *fMaterial;
     GeometryConstructorMessenger *fMessenger;
+
+    G4VPhysicalVolume* ConstructGeometry();
+
+    DetectorsRef fDetectors;
+    std::vector<G4ThreeVector> fDetectorsLocation;
 };
 
 #endif

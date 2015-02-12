@@ -1,6 +1,7 @@
 include_directories(${ROOT_INCLUDE_DIR})
 include_directories(include)
 include_directories(${PROJECT_SOURCE_DIR}/detectors/include)
+include_directories(${PROJECT_SOURCE_DIR}/beampockets/include)
 
 file(GLOB sources src/*.cc)
 file(GLOB headers include/*.hh)

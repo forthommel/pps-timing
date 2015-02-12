@@ -66,7 +66,7 @@ int main(int argc,char** argv)
 
   //physics = new QuartLPhysicsList;
   //physics = new LHEP;    //22.01 from AK
-  physics = new QGSP_BERT;
+  physics = new QGSP_BERT(-1);
   physics->SetVerboseLevel(-1);
   physics->RegisterPhysics(new G4OpticalPhysics);
 
