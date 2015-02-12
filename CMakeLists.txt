@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 project(PPSsimulation)
-set(PPS_MODULES sw detectors)
+set(PPS_MODULES sw detectors beampockets)
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default

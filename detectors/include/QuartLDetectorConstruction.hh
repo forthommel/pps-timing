@@ -29,6 +29,8 @@
 //-------------------------------------------
 #include "DetectorSD.hh"
 
+#include "MaterialManager.hh"
+
 #define MAX_BARS 20*10
 
 class QuartLDetectorConstruction : public G4VUserDetectorConstruction
@@ -68,12 +70,7 @@ class QuartLDetectorConstruction : public G4VUserDetectorConstruction
     G4double wind_y;
     G4double wind_z;
     
-    G4Material* Air;
-    G4Material* Sil;
-    G4Material* Sapphire;
-    G4Material* Glass;
-    
-    G4OpticalSurface* OpSilSurface;
+    MaterialManager* fMaterial;
     
     G4VPhysicalVolume* expHall_phys;
     G4LogicalVolume* expHall_log;

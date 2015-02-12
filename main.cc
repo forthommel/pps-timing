@@ -19,6 +19,7 @@
 
 #include "SteppingVerbose.hh"
 #include "ActionInitialization.hh"
+#include "GeometryConstructor.hh"
 
 #include "QuartLDetectorConstruction.hh"
 
@@ -55,9 +56,11 @@ int main(int argc,char** argv)
 
   // UserInitialization classes - mandatory
   //
-  QuartLDetectorConstruction* detector = new QuartLDetectorConstruction;
-  runManager-> SetUserInitialization(detector);
+  //QuartLDetectorConstruction* detector = new QuartLDetectorConstruction;
+  //runManager->SetUserInitialization(detector);
   //
+  GeometryConstructor *geom_constructor = new GeometryConstructor;
+  runManager->SetUserInitialization(geom_constructor);
   
   G4VModularPhysicsList* physics;
 
