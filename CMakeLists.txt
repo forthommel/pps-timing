@@ -49,25 +49,20 @@ target_link_libraries(PPSsim ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
 # relies on these scripts being in the current working directory.
 #
 
-set(PPS_SCRIPTS
-  QuartL.in
-  QuartL.out
+set(PPS_MACROS
   init.mac
-  init_vis.mac
-  run1.mac
-  run2.mac
-  vis.mac
-  viswrl.mac
-  rootlogon.C
+  init_vis.mac vis.mac viswrl.mac
+  run1.mac run2.mac
 )
 
-foreach(_script ${PPS_SCRIPTS})
+foreach(_script ${PPS_MACROS})
   configure_file(
-    ${PROJECT_SOURCE_DIR}/${_script}
-    ${PROJECT_BINARY_DIR}/${_script}
+    ${PROJECT_SOURCE_DIR}/test/${_script}
+    ${PROJECT_BINARY_DIR}/test/${_script}
     COPYONLY
   )
 endforeach()
+configure_file(${PROJECT_SOURCE_DIR}/test/rootlogon.C ${PROJECT_BINARY_DIR}/rootlogon.C COPYONLY)
 
 #----------------------------------------------------------------------------
 # For internal Geant4 use - but has no effect if you build this
