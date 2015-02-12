@@ -1,5 +1,5 @@
 # Geometry setting
-/control/execute init_geometry.mac
+/control/execute test/init_geometry.mac
 #
 /control/verbose 2
 /control/saveHistory
@@ -7,4 +7,4 @@
 #
 #
 # Visualization setting
-/control/execute vis.mac
+/control/execute test/vis.mac

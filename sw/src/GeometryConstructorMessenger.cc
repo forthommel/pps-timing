@@ -10,7 +10,7 @@ GeometryConstructorMessenger::GeometryConstructorMessenger(GeometryConstructor* 
   fAddComponent->SetParameterName("component_name", true);
   fAddComponent->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-  fComponentPosition = new G4UIcmdWith3Vector("/PPS/componentPosition", this);
+  fComponentPosition = new G4UIcmdWith3VectorAndUnit("/PPS/componentPosition", this);
   fComponentPosition->SetParameterName("component_position_x", "component_position_y", "component_position_z", true);
   fComponentPosition->AvailableForStates(G4State_PreInit, G4State_Idle);
 
@@ -68,6 +68,7 @@ GeometryConstructorMessenger::SetNewValue(G4UIcommand* command, G4String value)
     }
   }
   else if (command==fUpdateGeometry) {
+    G4cout << __PRETTY_FUNCTION__ << " Updating the global geometry" << G4endl;
     fDC->UpdateGeometry();
   }
 }

@@ -4,7 +4,7 @@ using namespace CLHEP;
 
 GeometryConstructor::GeometryConstructor()
 {
-//  expHall_x = expHall_y = expHall_z = 1*m;
+  //expHall_x = expHall_y = expHall_z = 1*m;
   expHall_x = 300*mm; // was 120
   expHall_y = 300*mm; // was 120
   expHall_z = 300*mm; // was 100
@@ -50,9 +50,13 @@ GeometryConstructor::ConstructGeometry()
   G4cout << __PRETTY_FUNCTION__ << G4endl;
 
   G4int i=0;
-  for (DetectorsRef::iterator det=fDetectors.begin(); det!=fDetectors.end(); det++) {
-    G4cout << __PRETTY_FUNCTION__ << " building detector " << i << " at " << fDetectorsLocation[i] << G4endl;
+  for (ComponentsRef::iterator det=fComponents.begin(); det!=fComponents.end(); det++) {
+    G4cout << __PRETTY_FUNCTION__ << " building detector " << i << " at " << fComponentsLocation[i] << G4endl;
+    (*det)->SetComponentCenter(fComponentsLocation[i]);
+    (*det)->SetParentLog(expHall_log);
+    (*det)->SetParentPhys(expHall_phys);
     (*det)->Construct();
+    G4cout << ((QuartLDetectorConstruction*)(*det))->GetCellCenter(2) << G4endl;
     i++;
   }
   
@@ -64,18 +68,18 @@ GeometryConstructor::AddNewComponent(G4String type)
 {
   G4cout << __PRETTY_FUNCTION__ << " --> Let's add a \"" << type << "\", shall we ?" << G4endl;
   if (type=="QUARTIC") {
-    fDetectors.push_back((G4VUserDetectorConstruction*)(new QuartLDetectorConstruction));
-    fDetectorsLocation.push_back(G4ThreeVector());
+    fComponents.push_back((Component*)(new QuartLDetectorConstruction));
+    fComponentsLocation.push_back(G4ThreeVector());
   }
-  return fDetectors.size()-1;
+  return fComponents.size()-1;
 }
 
 G4bool
 GeometryConstructor::MoveComponent(G4int id, G4ThreeVector pos)
 {
   if (id<0) return false;
-  if ((size_t)id>=fDetectorsLocation.size()) return false;
-  fDetectorsLocation[id] = pos;
+  if ((size_t)id>=fComponentsLocation.size()) return false;
+  fComponentsLocation[id] = pos;
   return true;
 }
 

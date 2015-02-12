@@ -4,7 +4,7 @@
 #include "G4UImessenger.hh"
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithAString.hh"
-#include "G4UIcmdWith3Vector.hh"
+#include "G4UIcmdWith3VectorAndUnit.hh"
 #include "G4UIcmdWithoutParameter.hh"
 #include "globals.hh"
 
@@ -25,7 +25,7 @@ class GeometryConstructorMessenger : public G4UImessenger
 
     G4UIdirectory* fPPSDir;
     G4UIcmdWithAString *fAddComponent;
-    G4UIcmdWith3Vector *fComponentPosition;
+    G4UIcmdWith3VectorAndUnit *fComponentPosition;
     G4UIcmdWithAString *fComponentSDname;
     G4UIcmdWithoutParameter* fUpdateGeometry;
 

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 project(PPSsimulation)
-set(PPS_MODULES sw detectors beampockets)
+set(PPS_MODULES detectors beampockets sw)
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -28,6 +28,10 @@ add_definitions(${GCC_COMPILE_FLAGS})
 find_package(ROOT REQUIRED)
 include_directories(${ROOT_INCLUDE_DIR})
 link_directories(${ROOT_LIBRARY_DIR})
+
+#----------------------------------------------------------------------------
+# Modules to be compiled along with the output executable
+#----------------------------------------------------------------------------
 
 foreach(_module ${PPS_MODULES})
   include_directories(${PROJECT_SOURCE_DIR}/${_module}/include)
@@ -72,7 +76,7 @@ install(TARGETS ppsSim DESTINATION bin)
 # Generate the Doxygen documentation
 #----------------------------------------------------------------------------
 
-set(DOC_SOURCE "${PROJECT_SOURCE_DIR}/sw/include ${PROJECT_SOURCE_DIR}/detectors/include")
+set(DOC_SOURCE "${PROJECT_SOURCE_DIR}/sw/include ${PROJECT_SOURCE_DIR}/detectors/include ${PROJECT_SOURCE_DIR}/beampockets/include")
 set(DOC_PROJECT_ROOT ${DOC_SOURCE} CACHE PATH "Root of the project sources")
 set(DOC_DIR ${PROJECT_SOURCE_DIR}/doc)
 execute_process(COMMAND git -C ${PROJECT_SOURCE_DIR} describe --always OUTPUT_VARIABLE DOC_PROJECT_VERSION ERROR_QUIET)

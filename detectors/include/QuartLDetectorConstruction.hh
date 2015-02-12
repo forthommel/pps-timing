@@ -29,31 +29,31 @@
 //-------------------------------------------
 #include "DetectorSD.hh"
 
+#include "Component.hh"
 #include "MaterialManager.hh"
 
-#define MAX_BARS 20*10
+#define MAX_BARS 20
 
-class QuartLDetectorConstruction : public G4VUserDetectorConstruction
+class QuartLDetectorConstruction : public Component
 {
   public:
     QuartLDetectorConstruction();
-    ~QuartLDetectorConstruction();
-    
+    virtual ~QuartLDetectorConstruction();
+
     G4VPhysicalVolume* Construct();
-    
-    G4ThreeVector GetCellCenter(G4int station_id, G4int cell_id) const;
+    G4ThreeVector GetCellCenter(G4int cell_id) const;
 
   private:
     /** Generate and add material properties table */
     void BuildOpticalProperties();
-    void BuildOneStation(G4ThreeVector);
+    G4VPhysicalVolume* BuildOneStation();
     
     G4int fNumBars;
-    G4int fNumStations;
+  //G4int fNumStations;
     
-    G4double expHall_x;
+  /*G4double expHall_x;
     G4double expHall_y;
-    G4double expHall_z;
+    G4double expHall_z;*/
 
     /** x position of the Radiator Bar */
     G4double bar_x;
@@ -70,10 +70,8 @@ class QuartLDetectorConstruction : public G4VUserDetectorConstruction
     G4double wind_y;
     G4double wind_z;
     
-    MaterialManager* fMaterial;
-    
-    G4VPhysicalVolume* expHall_phys;
-    G4LogicalVolume* expHall_log;
+  /*G4VPhysicalVolume* expHall_phys;
+    G4LogicalVolume* expHall_log;*/
     
     DetectorSD* windowSD;
     
@@ -84,11 +82,9 @@ class QuartLDetectorConstruction : public G4VUserDetectorConstruction
     G4VPhysicalVolume* Bar_phys[MAX_BARS];
     G4LogicalBorderSurface* SilAirBord[MAX_BARS];
     G4LogicalBorderSurface* PMSilSurf[MAX_BARS];
-    G4LogicalVolume* window_log[MAX_BARS]; 
+    G4LogicalVolume* window_log[MAX_BARS];
     G4VPhysicalVolume* window_phys[MAX_BARS];
     
-    G4ThreeVector fStationPosition[10];
-
 };
 
 #endif

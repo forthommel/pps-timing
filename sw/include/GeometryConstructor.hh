@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////////
 
 class GeometryConstructorMessenger;
-typedef std::vector<G4VUserDetectorConstruction*> DetectorsRef;
+typedef std::vector<Component*> ComponentsRef;
 
 class GeometryConstructor : public G4VUserDetectorConstruction
 {
@@ -65,8 +65,8 @@ class GeometryConstructor : public G4VUserDetectorConstruction
 
     G4VPhysicalVolume* ConstructGeometry();
 
-    DetectorsRef fDetectors;
-    std::vector<G4ThreeVector> fDetectorsLocation;
+    ComponentsRef fComponents;
+    std::vector<G4ThreeVector> fComponentsLocation;
 };
 
 #endif
