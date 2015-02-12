@@ -42,7 +42,7 @@ endforeach()
 # Add the executable, and link it to the Geant4 libraries
 #----------------------------------------------------------------------------
 
-add_executable(ppsSim main.cc $<TARGET_OBJECTS:detectors> $<TARGET_OBJECTS:sw>)
+add_executable(ppsSim main.cc $<TARGET_OBJECTS:detectors> $<TARGET_OBJECTS:beampockets> $<TARGET_OBJECTS:sw>)
 target_link_libraries(ppsSim ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
 
 #----------------------------------------------------------------------------

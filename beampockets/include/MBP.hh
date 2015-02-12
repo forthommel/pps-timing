@@ -1,31 +1,22 @@
-#ifndef MBPDetectorConstruction_h
-#define MBPDetectorConstruction_h 1
-
-#include "G4VUserDetectorConstruction.hh"
+#ifndef MBP_h
+#define MBP_h
 
 #include "G4Colour.hh"
 #include "G4VisAttributes.hh"
 #include "G4RunManager.hh"
-#include "G4NistManager.hh"
 #include "G4Box.hh"
 #include "G4Tubs.hh"
 #include "G4Trap.hh"
 #include "G4Cons.hh"
-//#include "G4Orb.hh"
-//#include "G4Sphere.hh"
-//#include "G4Trd.hh"
 #include "G4SubtractionSolid.hh"
 #include "G4UnionSolid.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
 
-#include "G4GDMLParser.hh"
-
 #include "globals.hh"
 
-class G4VPhysicalVolume;
-class G4LogicalVolume;
+#include "Component.hh"
 
 typedef enum {
   STAINLESS_STEEL,
@@ -35,11 +26,11 @@ typedef enum {
 
 /// Detector construction class to define materials and geometry.
 
-class MBPDetectorConstruction : public G4VUserDetectorConstruction
+class MBP : public Component
 {
 public:
-  MBPDetectorConstruction(window_type=STAINLESS_STEEL, G4bool only_window_=false);
-  virtual ~MBPDetectorConstruction();
+  MBP(window_type=STAINLESS_STEEL, G4bool only_window_=false);
+  virtual ~MBP();
   
   virtual G4VPhysicalVolume* Construct();
   
@@ -80,7 +71,6 @@ private:
   
   G4bool fOnlyWindow;
   
-  G4Box *solidWorld;
   G4Box *solidEnv;
   G4Tubs *solidTubeNoExtrusion;
   G4Tubs* solidBeamLineCylExtrusion;
@@ -110,19 +100,12 @@ private:
   G4SubtractionSolid *solidMBPTwoLateralExtrusions;
   G4SubtractionSolid *solidMBPNoWindow;
 
-  G4LogicalVolume *logicWorld;
   G4LogicalVolume *logicEnv;
   G4LogicalVolume *logicTube;
   G4LogicalVolume *logicWindow;
   
-  G4VPhysicalVolume *physWorld;
   G4VPhysicalVolume *physTube;
   G4VPhysicalVolume *physWindow;
-
-  G4Material *world_mat;
-  G4Material *env_mat;
-  G4Material *tube_mat;
-  G4Material *window_mat;
 
   G4RotationMatrix *rot_taper;
   G4RotationMatrix *rot_extrusion1;
@@ -130,7 +113,8 @@ private:
   G4RotationMatrix *rot_window_leg1;
   G4RotationMatrix *rot_window_leg2;
   G4RotationMatrix *rot_window;
-  
+
+  G4Material* fWindowMaterial;
 };
 
 #endif

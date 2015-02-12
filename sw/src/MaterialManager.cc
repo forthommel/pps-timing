@@ -3,7 +3,9 @@
 using namespace CLHEP;
 
 MaterialManager::MaterialManager() :
-  Air(0), Sil(0), Sapphire(0), Glass(0), OpSilSurface(0)
+  Air(0), Sil(0), Sapphire(0), Glass(0),
+  StainlessSteel(0), AlBeMet(0), Beryllium(0),
+  OpSilSurface(0)
 {
   G4NistManager* man = G4NistManager::Instance();
 
@@ -11,7 +13,16 @@ MaterialManager::MaterialManager() :
   Sil = man->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
   Sapphire = man->FindOrBuildMaterial("G4_ALUMINUM_OXIDE");
   Glass = man->FindOrBuildMaterial("G4_GLASS_PLATE");
-
+  StainlessSteel = man->FindOrBuildMaterial("G4_STAINLESS-STEEL");
+  Beryllium = man->FindOrBuildMaterial("G4_Be");
+  
+  // Properties inherited from CMS values (Geometry/CMSCommonData/data/materials.xml)
+  AlBeMet = new G4Material("AlBeMet", 2.071*g/cm3, 4);
+  AlBeMet->AddElement(man->FindOrBuildElement("Al"), 0.38);
+  AlBeMet->AddElement(man->FindOrBuildElement("Be"), 0.615);
+  AlBeMet->AddElement(man->FindOrBuildElement("C"), 0.0005);
+  AlBeMet->AddElement(man->FindOrBuildElement("O"), 0.0045);
+  
   BuildOpticalProperties();
 }
 

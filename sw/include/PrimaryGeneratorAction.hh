@@ -12,7 +12,7 @@
 
 #include "PrimaryGeneratorMessenger.hh"
 
-#include "QuartLDetectorConstruction.hh"
+#include "QuartLDetector.hh"
 
 #include "TFile.h"
 #include "TTree.h"

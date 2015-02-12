@@ -15,6 +15,9 @@ class MaterialManager
     G4Material* Sil;
     G4Material* Sapphire;
     G4Material* Glass;
+    G4Material* StainlessSteel;
+    G4Material* AlBeMet;
+    G4Material* Beryllium;
 
     G4OpticalSurface* OpSilSurface;
 

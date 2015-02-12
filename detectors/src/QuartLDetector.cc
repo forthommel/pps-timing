@@ -1,4 +1,4 @@
-#include "QuartLDetectorConstruction.hh"
+#include "QuartLDetector.hh"
 
 using namespace CLHEP;
 
@@ -28,7 +28,7 @@ const G4double fZoffs[nBar] = {
   20.*mm, 22.5*mm, 20.*mm, 22.5*mm
 };
 
-QuartLDetectorConstruction::QuartLDetectorConstruction() :
+QuartLDetector::QuartLDetector() :
   fNumBars(0)
 {
   bar_x    =   3*mm;		// From Mike
@@ -45,19 +45,19 @@ QuartLDetectorConstruction::QuartLDetectorConstruction() :
   fMaterial = new MaterialManager;
 }
 
-QuartLDetectorConstruction::~QuartLDetectorConstruction(){
+QuartLDetector::~QuartLDetector(){
   delete fMaterial;
 }
 
 G4VPhysicalVolume*
-QuartLDetectorConstruction::Construct()
+QuartLDetector::Construct()
 {
   // ------------- Volumes  and Detector --------------
   return BuildOneStation();
 }
 
 G4VPhysicalVolume*
-QuartLDetectorConstruction::BuildOneStation()
+QuartLDetector::BuildOneStation()
 {
   //
   // BAR: The L Bar, 22.01.2012, 14.01.2015
@@ -92,7 +92,7 @@ QuartLDetectorConstruction::BuildOneStation()
       std::ostringstream ss;
       ss << "Too many cells to be constructed !" << G4endl
          << "  Maximal number of stations : " << MAX_BARS;
-      G4Exception("QuartLDetectorConstruction::BuildOneStation", "TooManyCells", FatalException, ss);
+      G4Exception("QuartLDetector::BuildOneStation", "TooManyCells", FatalException, ss);
     }
 
     barv_l = RadL[i];
@@ -153,7 +153,7 @@ QuartLDetectorConstruction::BuildOneStation()
 }
 
 G4ThreeVector
-QuartLDetectorConstruction::GetCellCenter(G4int cell_id) const
+QuartLDetector::GetCellCenter(G4int cell_id) const
 {
   G4double x, y, z;
   x = fPosition.x()+fXoffs[cell_id-cell_id%4];

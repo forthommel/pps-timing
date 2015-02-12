@@ -56,7 +56,7 @@ GeometryConstructor::ConstructGeometry()
     (*det)->SetParentLog(expHall_log);
     (*det)->SetParentPhys(expHall_phys);
     (*det)->Construct();
-    G4cout << ((QuartLDetectorConstruction*)(*det))->GetCellCenter(2) << G4endl;
+    G4cout << ((QuartLDetector*)(*det))->GetCellCenter(2) << G4endl;
     i++;
   }
   
@@ -68,9 +68,16 @@ GeometryConstructor::AddNewComponent(G4String type)
 {
   G4cout << __PRETTY_FUNCTION__ << " --> Let's add a \"" << type << "\", shall we ?" << G4endl;
   if (type=="QUARTIC") {
-    fComponents.push_back((Component*)(new QuartLDetectorConstruction));
-    fComponentsLocation.push_back(G4ThreeVector());
+    fComponents.push_back((Component*)(new QuartLDetector));
   }
+  else if (type=="MBP") {
+    fComponents.push_back((Component*)(new MBP));
+  }
+  else return -1;
+
+  // By default the component is set to the origin
+  fComponentsLocation.push_back(G4ThreeVector());
+  
   return fComponents.size()-1;
 }
 

@@ -6,4 +6,8 @@
 /PPS/componentPosition 0.0 0.0 7.0 cm
 /PPS/componentSDname quartic2
 
+/PPS/addComponent MBP
+/PPS/componentPosition -5.0 0.0 0.0 cm
+/PPS/componentSDname mbp
+
 /PPS/updateGeometry

@@ -36,7 +36,7 @@ GeometryConstructorMessenger::SetNewValue(G4UIcommand* command, G4String value)
 {
   if (command==fAddComponent) {
     G4cout << __PRETTY_FUNCTION__ << " Adding a new component to the geometry : " << value << G4endl;
-    if (value=="QUARTIC") {
+    if (value=="QUARTIC" or value=="MBP") {
       fLastComponentAdded = fDC->AddNewComponent(value);
     }
     else {

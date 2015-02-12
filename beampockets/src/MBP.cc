@@ -1,14 +1,11 @@
-#include "MBPDetectorConstruction.hh"
+#include "MBP.hh"
 
-MBPDetectorConstruction::MBPDetectorConstruction(window_type window_material_, G4bool only_window_) :
-  G4VUserDetectorConstruction(),
+MBP::MBP(window_type window_material_, G4bool only_window_) :
   fScoringVolume(0),
   fOnlyWindow(only_window_)
 {
   env_sizeXY = 1.*m;
   env_sizeZ = 1.*m;
-  world_sizeXY = 1.2*env_sizeXY;
-  world_sizeZ  = 1.2*env_sizeZ;  
 
   mbp_z_size = 600.*mm;
   mbp_outer_radius = 96.4*mm/2.;
@@ -24,7 +21,6 @@ MBPDetectorConstruction::MBPDetectorConstruction(window_type window_material_, G
   mbp_taper_angle = 11.*deg;
   mbp_taper_y_size = 150.*mm; // whatever...
   mbp_traptaper_z_size_small = 250.*mm; //FIXME FIXME FIXME FIXME
-  //mbp_traptaper_z_size_small = 500.*mm;
   mbp_traptaper_z_size_large = 500.*mm;
   
   mbp_lateral_extrusion_x_size = 40.*mm; // whatever...
@@ -34,45 +30,22 @@ MBPDetectorConstruction::MBPDetectorConstruction(window_type window_material_, G
   mbp_window_x_offset = 37.5*mm;
   mbp_window_y_size = 30.*mm;
   mbp_window_extrusion_x_size = 20.67*mm;
-  //mbp_window_leg_length = 118.21*mm;
   
-  G4NistManager *nist = G4NistManager::Instance();
   switch (window_material_) {
-    case ALBEMET:
-      // Properties inherited from CMS values (Geometry/CMSCommonData/data/materials.xml)
-      window_mat = new G4Material("AlBeMet", 2.071*g/cm3, 4);
-      window_mat->AddElement(nist->FindOrBuildElement("Al"), 0.38);
-      window_mat->AddElement(nist->FindOrBuildElement("Be"), 0.615);
-      window_mat->AddElement(nist->FindOrBuildElement("C"), 0.0005);
-      window_mat->AddElement(nist->FindOrBuildElement("O"), 0.0045);
-      break;
-    case BERYLLIUM:
-      window_mat = nist->FindOrBuildMaterial("G4_Be");
-      break;
-    case STAINLESS_STEEL:
-    default:
-      window_mat = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
-      break;
+    case ALBEMET: fWindowMaterial = fMaterial->AlBeMet; break;
+    case BERYLLIUM: fWindowMaterial = fMaterial->Beryllium; break;
+    case STAINLESS_STEEL: default: fWindowMaterial = fMaterial->StainlessSteel; break;
   }
 }
 
-MBPDetectorConstruction::~MBPDetectorConstruction()
+MBP::~MBP()
 { }
 
 G4VPhysicalVolume*
-MBPDetectorConstruction::Construct()
+MBP::Construct()
 {  
-  G4GDMLParser parser;
-  
-  // Get nist material manager
-  G4NistManager *nist = G4NistManager::Instance();
-  
   // Envelope parameters
   //
-  world_mat = nist->FindOrBuildMaterial("G4_AIR");
-  //env_mat = nist->FindOrBuildMaterial("G4_AIR");
-  env_mat = nist->FindOrBuildMaterial("G4_Galactic");
-  tube_mat = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
 
   G4double traptaper_x_size, sqrtaper_x_size;
   G4double leg_x_size, leg_y_size, leg_length;
@@ -106,29 +79,14 @@ MBPDetectorConstruction::Construct()
   //
   G4bool checkOverlaps = true;
 
-  //
-  // World
-  //
-  solidWorld = new G4Box("World", 0.5*world_sizeXY, 0.5*world_sizeXY, 0.5*world_sizeZ);
-      
-  logicWorld = new G4LogicalVolume(solidWorld,
-				   world_mat,
-				   "World");
-                                   
-  physWorld = new G4PVPlacement(0, // rotation
-				G4ThreeVector(), // location
-				logicWorld,      // logical volume
-				"World",         // name
-				0,               // mother  volume
-				false,           // boolean operation
-				0,               // copy number
-				checkOverlaps);
+  G4VPhysicalVolume* physEnv;
+  
   //     
   // Envelope
   //  
   solidEnv = new G4Box("Envelope", env_sizeXY/2., env_sizeXY/2., env_sizeZ/2.);
-  logicEnv = new G4LogicalVolume(solidEnv, env_mat, "Envelope");
-  new G4PVPlacement(0, G4ThreeVector(), logicEnv, "Envelope", logicWorld, false, 0, checkOverlaps);
+  logicEnv = new G4LogicalVolume(solidEnv, fMaterial->Air, "Envelope");
+  physEnv = new G4PVPlacement(0, fPosition, logicEnv, "Envelope", fParentLog, false, 0, checkOverlaps);
   
   solidWindowCentre = new G4Box("Window_Centre", mbp_window_y_size/2., mbp_window_thickness/2., mbp_traptaper_z_size_small/2.);
   solidWindowLeg = new G4Box("Window_Leg", mbp_window_y_size/2., mbp_window_thickness/2., mbp_window_leg_length/2.);
@@ -181,32 +139,31 @@ MBPDetectorConstruction::Construct()
     //solidMBPNoWindow = new G4SubtractionSolid("MBP_NoWindow", solidMBPTwoLateralExtrusions, solidWindow, rot_window,
     //  G4ThreeVector(center_to_beampipe_cut_x_distance-mbp_window_thickness/2., 0., 0.)
     //);
-    //logicTube = new G4LogicalVolume(solidMBPNoWindow, tube_mat, "logic_Tube");
+    //logicTube = new G4LogicalVolume(solidMBPNoWindow, fMaterial->StainlessSteel, "logic_Tube");
     
-    logicTube = new G4LogicalVolume(solidMBPTwoLateralExtrusions, tube_mat, "logic_Tube");
+    logicTube = new G4LogicalVolume(solidMBPTwoLateralExtrusions, fMaterial->StainlessSteel, "logic_Tube");
     physTube = new G4PVPlacement(0, G4ThreeVector(), logicTube, "phys_Tube", logicEnv, false, 0, checkOverlaps);
   }
-  logicWindow = new G4LogicalVolume(solidWindow, window_mat, "logic_Window");
+  logicWindow = new G4LogicalVolume(solidWindow, fWindowMaterial, "logic_Window");
   logicWindow->SetVisAttributes(new G4VisAttributes(G4Colour(1., 0., 0.))); // we paint the glass with red
   
   physWindow = new G4PVPlacement(rot_window, 
     G4ThreeVector(center_to_beampipe_cut_x_distance-mbp_window_thickness/2., 0., 0.),
     logicWindow, "phys_Window", logicEnv, false, 0, checkOverlaps);
 
-  /*G4LogicalVolume *logicTest = new G4LogicalVolume(solidTaper, tube_mat, "test");
+  /*G4LogicalVolume *logicTest = new G4LogicalVolume(solidTaper, fMaterial->StainlessSteel, "test");
   new G4PVPlacement(rot_taper, G4ThreeVector(taper_x_position, 0., 0.), logicTest, "test_phys", logicEnv, false, 0, false);
   logicTest->SetVisAttributes(new G4VisAttributes(G4Colour(0., 1., 0.)));*/
-  /*G4LogicalVolume *logicTest = new G4LogicalVolume(solidBeamLineExtrusion, tube_mat, "test");
+  /*G4LogicalVolume *logicTest = new G4LogicalVolume(solidBeamLineExtrusion, fMaterial->StainlessSteel, "test");
   new G4PVPlacement(0, G4ThreeVector(20.*cm, 0., 0.), logicTest, "test_phys", logicEnv, false, 0, false);
   logicTest->SetVisAttributes(new G4VisAttributes(G4Colour(0., 1., 0.)));*/
   // Set scoring volume
   //
   //fScoringVolume = logicTube;
-  fScoringVolume = logicWorld;
+  fScoringVolume = fParentLog;
 
-  //parser.Write("g4test.gdml", physWorld);
   //
   //always return the physical World
   //
-  return physWorld;
+  return physEnv;
 }

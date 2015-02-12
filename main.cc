@@ -22,8 +22,6 @@
 #include "ActionInitialization.hh"
 #include "GeometryConstructor.hh"
 
-#include "QuartLDetectorConstruction.hh"
-
 #ifdef G4UI_USE
 #include "G4UIExecutive.hh"
 #endif
@@ -56,9 +54,6 @@ int main(int argc,char** argv)
   G4RunManager* runManager = new G4RunManager;
 
   // UserInitialization classes - mandatory
-  //
-  //QuartLDetectorConstruction* detector = new QuartLDetectorConstruction;
-  //runManager->SetUserInitialization(detector);
   //
   GeometryConstructor *geom_constructor = new GeometryConstructor;
   runManager->SetUserInitialization(geom_constructor);

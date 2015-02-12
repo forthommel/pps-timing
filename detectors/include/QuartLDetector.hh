@@ -1,5 +1,5 @@
-#ifndef QuartLDetectorConstruction_h
-#define QuartLDetectorConstruction_h
+#ifndef QuartLDetector_h
+#define QuartLDetector_h
 
 #include "G4NistManager.hh"
 #include "G4VisAttributes.hh"
@@ -34,11 +34,11 @@
 
 #define MAX_BARS 20
 
-class QuartLDetectorConstruction : public Component
+class QuartLDetector : public Component
 {
   public:
-    QuartLDetectorConstruction();
-    virtual ~QuartLDetectorConstruction();
+    QuartLDetector();
+    virtual ~QuartLDetector();
 
     G4VPhysicalVolume* Construct();
     G4ThreeVector GetCellCenter(G4int cell_id) const;
