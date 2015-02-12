@@ -5,7 +5,7 @@ using namespace CLHEP;
 DetectorSD::DetectorSD(G4String name) :
   G4VSensitiveDetector(name), runAction(0), analyzer(0)
 {
-  runAction = (QuartLRunAction*)G4RunManager::GetRunManager()->GetUserRunAction();
+  runAction = (RunAction*)G4RunManager::GetRunManager()->GetUserRunAction();
   analyzer = (QuartLAnalyzer*)runAction->GetAnalyzer();
 }
 

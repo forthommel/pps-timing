@@ -1,4 +1,4 @@
 {
   printf("# Loading the PPS objects\n");
-  gSystem->Load("libPPS.so");
+  gSystem->Load("detectors/libQuartL.so");
 }

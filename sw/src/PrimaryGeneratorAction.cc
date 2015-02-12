@@ -1,8 +1,8 @@
-#include "QuartLPrimaryGeneratorAction.hh"
+#include "PrimaryGeneratorAction.hh"
 
 using namespace CLHEP;
 
-QuartLPrimaryGeneratorAction::QuartLPrimaryGeneratorAction() :
+PrimaryGeneratorAction::PrimaryGeneratorAction() :
   fFile(0), fTree(0)
 {
   G4int n_particle = 1;
@@ -13,7 +13,7 @@ QuartLPrimaryGeneratorAction::QuartLPrimaryGeneratorAction() :
   fParticleGun = new G4ParticleGun(n_particle);
   
   //create a messenger for this class
-  fGunMessenger = new QuartLPrimaryGeneratorMessenger(this);
+  fGunMessenger = new PrimaryGeneratorMessenger(this);
   
   //default kinematic
   //
@@ -59,14 +59,14 @@ QuartLPrimaryGeneratorAction::QuartLPrimaryGeneratorAction() :
   //  fParticleGun->SetParticleEnergy(2500.0*keV); 
 }
 
-QuartLPrimaryGeneratorAction::~QuartLPrimaryGeneratorAction()
+PrimaryGeneratorAction::~PrimaryGeneratorAction()
 {
   delete fParticleGun;
   delete fGunMessenger;
 }
 
 void
-QuartLPrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
+PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
   G4double x, y, z;
   if (fHasEventsCollection) {
@@ -103,14 +103,14 @@ QuartLPrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 }
 
 void
-QuartLPrimaryGeneratorAction::SetOptPhotonPolar()
+PrimaryGeneratorAction::SetOptPhotonPolar()
 {
  G4double angle = G4UniformRand() * 360.0*deg;
  SetOptPhotonPolar(angle);
 }
 
 void
-QuartLPrimaryGeneratorAction::SetOptPhotonPolar(G4double angle)
+PrimaryGeneratorAction::SetOptPhotonPolar(G4double angle)
 {
   if (fParticleGun->GetParticleDefinition()->GetParticleName()!="opticalphoton") {
     G4cout << "--> warning from PrimaryGeneratorAction::SetOptPhotonPolar() :"
@@ -132,7 +132,7 @@ QuartLPrimaryGeneratorAction::SetOptPhotonPolar(G4double angle)
 }
 
 G4bool
-QuartLPrimaryGeneratorAction::SetInputROOTFile(G4String filename)
+PrimaryGeneratorAction::SetInputROOTFile(G4String filename)
 {
   fFile = new TFile(filename, "READ");
   if (!fFile->IsOpen()) {
@@ -183,7 +183,7 @@ QuartLPrimaryGeneratorAction::SetInputROOTFile(G4String filename)
       fIsSignal[i][j] = signal[j];
     }
   }
-  G4cout << "[QuartLPrimaryGeneratorAction::SetEventsCollection] Loaded a " << entries << " events collection" << G4endl;
+  G4cout << "[PrimaryGeneratorAction::SetEventsCollection] Loaded a " << entries << " events collection" << G4endl;
   fHasEventsCollection = true;
   fEventsCollectionSize = entries;
   
@@ -194,11 +194,11 @@ QuartLPrimaryGeneratorAction::SetInputROOTFile(G4String filename)
 }
 
 G4bool
-QuartLPrimaryGeneratorAction::ProbeOneCell(G4int station_id, G4int cell_id, G4double energy)
+PrimaryGeneratorAction::ProbeOneCell(G4int station_id, G4int cell_id, G4double energy)
 {
-  QuartLDetectorConstruction* detector = (QuartLDetectorConstruction*)G4RunManager::GetRunManager()->GetUserDetectorConstruction();
+  /*QuartLDetectorConstruction* detector = (QuartLDetectorConstruction*)G4RunManager::GetRunManager()->GetUserDetectorConstruction();
   fParticleGun->SetParticleEnergy(energy*GeV);
   fParticleGun->SetParticlePosition(detector->GetCellCenter(station_id, cell_id));
-  G4UImanager::GetUIpointer()->ApplyCommand("/run/beamOn 1");
+  G4UImanager::GetUIpointer()->ApplyCommand("/run/beamOn 1");*/
   return true;
 }

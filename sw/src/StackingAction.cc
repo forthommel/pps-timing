@@ -1,16 +1,16 @@
-#include "QuartLStackingAction.hh"
+#include "StackingAction.hh"
 
-QuartLStackingAction::QuartLStackingAction():
+StackingAction::StackingAction():
   gammaCounter(0)
 {
-  G4cout <<" QuartLStackingAction() called..." << G4endl;
+  G4cout <<" StackingAction() called..." << G4endl;
 }
 
-QuartLStackingAction::~QuartLStackingAction()
+StackingAction::~StackingAction()
 {}
 
 G4ClassificationOfNewTrack
-QuartLStackingAction::ClassifyNewTrack(const G4Track * aTrack)
+StackingAction::ClassifyNewTrack(const G4Track * aTrack)
 {
   if(aTrack->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition()) {
     // particle is optical photon
@@ -23,14 +23,14 @@ QuartLStackingAction::ClassifyNewTrack(const G4Track * aTrack)
 }
 
 void
-QuartLStackingAction::NewStage()
+StackingAction::NewStage()
 {
   // was G4cout << "Number of optical photons produced in this event : "
   // was        << gammaCounter << G4endl;
 }
 
 void
-QuartLStackingAction::PrepareNewEvent()
+StackingAction::PrepareNewEvent()
 {
   gammaCounter = 0;
 }

@@ -1,5 +1,5 @@
-#ifndef QuartLEventAction_h
-#define QuartLEventAction_h
+#ifndef EventAction_h
+#define EventAction_h
 
 #include "G4Event.hh"
 #include "G4EventManager.hh"
@@ -11,15 +11,15 @@
 #include "G4Run.hh"
 #include "G4RunManager.hh"
 
-#include "QuartLRunAction.hh"
+#include "RunAction.hh"
 
 class G4Event;
 
-class QuartLEventAction : public G4UserEventAction
+class EventAction : public G4UserEventAction
 {
   public:
-    QuartLEventAction();
-   ~QuartLEventAction();
+    EventAction();
+    ~EventAction();
 
   public:
     void BeginOfEventAction(const G4Event*);

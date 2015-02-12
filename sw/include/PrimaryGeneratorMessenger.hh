@@ -1,29 +1,28 @@
-#ifndef QuartLPrimaryGeneratorMessenger_h
-#define QuartLPrimaryGeneratorMessenger_h
+#ifndef PrimaryGeneratorMessenger_h
+#define PrimaryGeneratorMessenger_h
 
 #include "G4UImessenger.hh"
 #include "G4UIcmdWith3Vector.hh"
 #include "G4UIcmdWithADoubleAndUnit.hh"
 #include "G4UIcmdWithAString.hh"
-
 #include "globals.hh"
 
-#include "QuartLPrimaryGeneratorAction.hh"
+#include "PrimaryGeneratorAction.hh"
 
-class QuartLPrimaryGeneratorAction;
+class PrimaryGeneratorAction;
 class G4UIdirectory;
 class G4UIcmdWithADoubleAndUnit;
 
-class QuartLPrimaryGeneratorMessenger: public G4UImessenger
+class PrimaryGeneratorMessenger: public G4UImessenger
 {
   public:
-    QuartLPrimaryGeneratorMessenger(QuartLPrimaryGeneratorAction*);
-   ~QuartLPrimaryGeneratorMessenger();
+    PrimaryGeneratorMessenger(PrimaryGeneratorAction*);
+    ~PrimaryGeneratorMessenger();
     
     void SetNewValue(G4UIcommand*, G4String);
     
   private:
-    QuartLPrimaryGeneratorAction* fAction;
+    PrimaryGeneratorAction* fAction;
     G4UIcmdWithADoubleAndUnit* fPolarCmd;
     G4UIcmdWithAString* fInputFilename;
     G4UIcmdWith3Vector* fProbeCell;

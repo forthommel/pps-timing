@@ -42,6 +42,10 @@ QuartLAnalyzer::QuartLAnalyzer(G4String filename) :
 QuartLAnalyzer::~QuartLAnalyzer()
 {
   Store();
+  fFile->Write();
+  fFile->Close();
+  
+  G4cout << "[QuartLAnalyzer::Store] File ' " << fFilename << " ' successfully created and filled with " << fNumEvents << " events !" << G4endl;
   /* FIXME
   // Y U no destructors, ROOT ? ლ(ಠ_ಠლ) 
   for (G4int i=0; i<MAX_MODULES; i++) {
@@ -132,12 +136,7 @@ QuartLAnalyzer::Store()
     fHitMap[i]->Scale(1./fNumEvents);
     fEnergyMap[i]->Scale(1./fNumEvents);
   }
-  
-  fFile->Write();
-  fFile->Close();
-  
-  G4cout << "[QuartLAnalyzer::Store] File ' " << fFilename << " ' successfully created and filled with " << fNumEvents << " events !" << G4endl;
-  
+   
   fRunId += 1;
   fQuartLInfo->SetRunId(fRunId);
 }
