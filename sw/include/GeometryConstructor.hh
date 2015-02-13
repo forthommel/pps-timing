@@ -50,6 +50,7 @@ class GeometryConstructor : public G4VUserDetectorConstruction
      * \param[in] pos Location of the component's center
      */
     G4bool MoveComponent(G4int id=-1, G4ThreeVector pos=G4ThreeVector(0., 0., 0.));
+    G4bool SetSDname(G4int id=-1, G4String name="");
   
   private:
     

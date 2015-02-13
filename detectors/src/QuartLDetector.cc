@@ -48,11 +48,11 @@ QuartLDetector::QuartLDetector(G4String name) :
 QuartLDetector::~QuartLDetector()
 {}
 
-G4VPhysicalVolume*
-QuartLDetector::Construct()
+void
+QuartLDetector::BeforeConstruct()
 {
   // ------------- Volumes  and Detector --------------
-  return BuildOneStation();
+  fPhys = BuildOneStation();
 }
 
 G4VPhysicalVolume*
@@ -125,7 +125,7 @@ QuartLDetector::BuildOneStation()
     //
 
     window_log[fNumBars] = new G4LogicalVolume(window_box, fMaterial->Glass, "Window", 0, 0, 0);
-    window_log[fNumBars]->SetSensitiveDetector(windowSD);
+    window_log[fNumBars]->SetSensitiveDetector(fSD);
 
     window_phys[fNumBars] = new G4PVPlacement(
       0,

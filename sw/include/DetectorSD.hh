@@ -9,7 +9,7 @@
 #include "G4Step.hh"
 #include "G4VSensitiveDetector.hh"
 
-#include "QuartLAnalyzer.hh"
+#include "FileWriter.hh"
 
 class G4Step;
 class RunAction;
@@ -19,7 +19,7 @@ class DetectorSD: public G4VSensitiveDetector
   public:
     DetectorSD(G4String);
     ~DetectorSD();
-
+  
     void Initialize(G4HCofThisEvent*);
     G4bool ProcessHits(G4Step*, G4TouchableHistory*);
     void EndOfEvent(G4HCofThisEvent*);
@@ -33,7 +33,7 @@ class DetectorSD: public G4VSensitiveDetector
     /** Time of arrival for the first photon */
     G4double firstPh;
     
-    QuartLAnalyzer *analyzer;
+    FileWriter *fOutput;
 };
 
 #endif

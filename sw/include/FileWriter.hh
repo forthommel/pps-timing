@@ -1,5 +1,5 @@
-#ifndef QuartLAnalyzer_h
-#define QuartLAnalyzer_h
+#ifndef FileWriter_h
+#define FileWriter_h
 
 #include "G4Step.hh"
 
@@ -12,16 +12,21 @@
 #define MAX_HITS 25000
 #define MAX_MODULES 4
 
-/** Analysis class intended to store into a TTree the photons kinematic information for each event. */
-class QuartLAnalyzer
+/**
+ * Analysis class intended to store into a TTree the information for each event.
+ *
+ * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+ * \date Feb 2015
+ */
+class FileWriter
 {
   public:
     /**
      * \brief Default class constructor to book the TTree and its different leaves to store the information.
      * \param[in] filename The file name to store the output tree.
      */
-    QuartLAnalyzer(G4String filename="events.root");
-    ~QuartLAnalyzer();
+    FileWriter(G4String filename="events.root");
+    ~FileWriter();
     
     /**
      * \brief Add a new photon hit on the PMT in the events' collection.

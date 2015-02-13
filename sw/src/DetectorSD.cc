@@ -3,10 +3,11 @@
 using namespace CLHEP;
 
 DetectorSD::DetectorSD(G4String name) :
-  G4VSensitiveDetector(name), runAction(0), analyzer(0)
+  G4VSensitiveDetector(name), runAction(0), fOutput(0)
 {
+  G4cout << __PRETTY_FUNCTION__ << " new sensitive detector with name \"" << GetName() << "\" initialized" << G4endl;
   runAction = (RunAction*)G4RunManager::GetRunManager()->GetUserRunAction();
-  analyzer = (QuartLAnalyzer*)runAction->GetAnalyzer();
+  fOutput = (FileWriter*)runAction->GetAnalyzer();
 }
 
 DetectorSD::~DetectorSD()
@@ -24,7 +25,7 @@ G4bool
 DetectorSD::ProcessHits(G4Step* step, G4TouchableHistory*)
 {
   // FIXME ! Need to isolate such events (loopers, ... ?)
-  if (analyzer->GetNumHitsInEvent()>MAX_HITS) return false;
+  if (fOutput->GetNumHitsInEvent()>MAX_HITS) return false;
   
   //  Energy deposited from each step
   //  is summarized in detEnergy
@@ -48,7 +49,7 @@ DetectorSD::ProcessHits(G4Step* step, G4TouchableHistory*)
   
   if (step->GetTrack()->GetDefinition()==G4OpticalPhoton::OpticalPhotonDefinition()) {
     // particle is optical photon ;
-    analyzer->AddHitInEvent(step);
+    fOutput->AddHitInEvent(step);
     // was
     //    G4cout <<" step->Tack is Optical Photon " <<   G4endl;
     //    G4int idpar = step->GetTrack()->GetParentID();	//19.02.2012
@@ -95,6 +96,6 @@ void
 DetectorSD::EndOfEvent(G4HCofThisEvent*)
 {
   // Filling the tree with kinematic information...
-  analyzer->FillTree();
+  fOutput->FillTree();
 }
 

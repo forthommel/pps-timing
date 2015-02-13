@@ -7,8 +7,7 @@
 #include "RunAction.hh"
 #include "EventAction.hh"
 #include "StackingAction.hh"
-
-#include "QuartLAnalyzer.hh"
+#include "FileWriter.hh"
 
 class ActionInitialization : public G4VUserActionInitialization
 {
@@ -23,7 +22,7 @@ class ActionInitialization : public G4VUserActionInitialization
     G4VUserPrimaryGeneratorAction* fPrimaryGenerator;
     G4UserEventAction* fEventAction;
     G4UserStackingAction* fStackingAction;
-    QuartLAnalyzer *fAnalyzer;
+    FileWriter *fOutput;
 };
 
 #endif

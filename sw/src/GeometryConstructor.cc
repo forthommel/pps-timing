@@ -56,6 +56,7 @@ GeometryConstructor::ConstructGeometry()
     (*det)->SetComponentCenter(fComponentsLocation.at(i));
     (*det)->SetParentLog(expHall_log);
     (*det)->SetParentPhys(expHall_phys);
+    (*det)->BeforeConstruct();
     (*det)->Construct();
     //G4cout << ((QuartLDetector*)(*det))->GetCellCenter(2) << G4endl;
     fComponentsBuilt.at(i) = true;
@@ -92,6 +93,16 @@ GeometryConstructor::MoveComponent(G4int id, G4ThreeVector pos)
   if ((id<0) or ((size_t)id>=fComponentsLocation.size())) return false;
   
   fComponentsLocation.at(id) = pos;
+  
+  return true;
+}
+
+G4bool
+GeometryConstructor::SetSDname(G4int id, G4String name)
+{
+  if ((id<0) or ((size_t)id>=fComponentsLocation.size())) return false;
+  
+  fComponents.at(id)->SetSDname(name);
   
   return true;
 }

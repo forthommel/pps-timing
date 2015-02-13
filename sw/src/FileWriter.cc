@@ -1,6 +1,6 @@
-#include "QuartLAnalyzer.hh"
+#include "FileWriter.hh"
 
-QuartLAnalyzer::QuartLAnalyzer(G4String filename) :
+FileWriter::FileWriter(G4String filename) :
   fFile(0), fTree(0), fFilename(filename), fNumHits(0), fNumEvents(0), fRunId(0)
 {
   /*G4int threadId = G4Threading::G4GetThreadId();
@@ -36,16 +36,16 @@ QuartLAnalyzer::QuartLAnalyzer(G4String filename) :
     fEnergyMap[i] = new TH2D(Form("energymap_%i", i), Form("Energy collection per event (Quartic #%i)", i), 5, 0., 5., 4, 0., 4.);
   }
 
-  G4cout << "[QuartLAnalyzer::QuartLAnalyzer] New file with name ' " << fFilename << " ' created and ready to be populated !" << G4endl;
+  G4cout << "[FileWriter::FileWriter] New file with name ' " << fFilename << " ' created and ready to be populated !" << G4endl;
 }
 
-QuartLAnalyzer::~QuartLAnalyzer()
+FileWriter::~FileWriter()
 {
   Store();
   fFile->Write();
   fFile->Close();
   
-  G4cout << "[QuartLAnalyzer::Store] File ' " << fFilename << " ' successfully created and filled with " << fNumEvents << " events !" << G4endl;
+  G4cout << "[FileWriter::Store] File ' " << fFilename << " ' successfully created and filled with " << fNumEvents << " events !" << G4endl;
   /* FIXME
   // Y U no destructors, ROOT ? ლ(ಠ_ಠლ) 
   for (G4int i=0; i<MAX_MODULES; i++) {
@@ -59,7 +59,7 @@ QuartLAnalyzer::~QuartLAnalyzer()
 }
 
 void
-QuartLAnalyzer::AddHitInEvent(G4Step* step)
+FileWriter::AddHitInEvent(G4Step* step)
 {
   if (fNumHits>MAX_HITS) return;
   
@@ -109,7 +109,7 @@ QuartLAnalyzer::AddHitInEvent(G4Step* step)
 }
 
 void
-QuartLAnalyzer::FillTree()
+FileWriter::FillTree()
 {
   fTree->Fill();
 
@@ -127,7 +127,7 @@ QuartLAnalyzer::FillTree()
 }
 
 void
-QuartLAnalyzer::Store()
+FileWriter::Store()
 {
   if (!fFile) return;
   

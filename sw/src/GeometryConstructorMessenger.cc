@@ -66,6 +66,11 @@ GeometryConstructorMessenger::SetNewValue(G4UIcommand* command, G4String value)
          << "Invalid component id (" << fLastComponentAdded << "). Check the addition procedure !";
       G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
     }
+    if (!fDC->SetSDname(fLastComponentAdded, value)) {
+      std::ostringstream ss;
+      ss << "Error while trying to set a previously added component's sensitive detector name.";
+      G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
+    }
   }
   else if (command==fUpdateGeometry) {
     G4cout << __PRETTY_FUNCTION__ << " Updating the global geometry" << G4endl;
