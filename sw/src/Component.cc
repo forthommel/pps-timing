@@ -7,9 +7,3 @@ Component::Component() :
 
 Component::~Component()
 {}
-
-G4VPhysicalVolume*
-Component::Construct()
-{
-  return fPhys;
-}

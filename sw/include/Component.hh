@@ -11,7 +11,7 @@ public:
   Component();
   ~Component();
   
-  virtual G4VPhysicalVolume* Construct();
+  inline virtual G4VPhysicalVolume* Construct() { return fPhys; }
   inline void SetParentLog(G4LogicalVolume* parent) { fParentLog=parent; }
   inline void SetParentPhys(G4VPhysicalVolume* parent) { fParentPhys=parent; }
   inline void SetComponentCenter(G4ThreeVector center) { fPosition=center; }
