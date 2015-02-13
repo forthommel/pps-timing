@@ -28,7 +28,8 @@ const G4double fZoffs[nBar] = {
   20.*mm, 22.5*mm, 20.*mm, 22.5*mm
 };
 
-QuartLDetector::QuartLDetector() :
+QuartLDetector::QuartLDetector(G4String name) :
+  Component(name),
   fNumBars(0)
 {
   bar_x    =   3*mm;		// From Mike
@@ -41,13 +42,10 @@ QuartLDetector::QuartLDetector() :
   wind_x    = 2*mm;
   wind_y    = 3*mm;
   wind_z    = 3*mm;
-
-  fMaterial = new MaterialManager;
 }
 
-QuartLDetector::~QuartLDetector(){
-  delete fMaterial;
-}
+QuartLDetector::~QuartLDetector()
+{}
 
 G4VPhysicalVolume*
 QuartLDetector::Construct()
@@ -91,7 +89,7 @@ QuartLDetector::BuildOneStation()
     if (fNumBars>MAX_BARS) {
       std::ostringstream ss;
       ss << "Too many cells to be constructed !" << G4endl
-         << "  Maximal number of stations : " << MAX_BARS;
+         << "  Maximal number of cells : " << MAX_BARS;
       G4Exception("QuartLDetector::BuildOneStation", "TooManyCells", FatalException, ss);
     }
 

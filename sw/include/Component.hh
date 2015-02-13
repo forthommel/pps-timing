@@ -8,15 +8,16 @@
 class Component
 {
 public:
-  Component();
+  Component(G4String name);
   ~Component();
   
-  inline virtual G4VPhysicalVolume* Construct() { return fPhys; }
+  virtual G4VPhysicalVolume* Construct();
   inline void SetParentLog(G4LogicalVolume* parent) { fParentLog=parent; }
   inline void SetParentPhys(G4VPhysicalVolume* parent) { fParentPhys=parent; }
   inline void SetComponentCenter(G4ThreeVector center) { fPosition=center; }
 
 protected:
+  G4String fName;
   MaterialManager* fMaterial;
 
   G4ThreeVector fPosition;

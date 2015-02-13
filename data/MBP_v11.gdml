@@ -2671,7 +2671,7 @@
    <D value="1.43" unit="mg/cm3" />
    <atom value="15.999" unit="g/mole" />
   </material>
-  <material name="AlBeMet" state="solid">
+  <material name="GDML_AlBeMet" state="solid">
    <D value="2.071" unit="g/cm3" />
    <fraction n="0.38" ref="Aluminium" />
    <fraction n="0.615" ref="Beryllium" />
@@ -7952,7 +7952,7 @@
    <solidref ref="body" />
   </volume>
   <volume name="window_vol" >
-   <materialref ref="AlBeMet" />
+   <materialref ref="GDML_AlBeMet" />
    <solidref ref="window" />
   </volume>
   <volume name="World" >

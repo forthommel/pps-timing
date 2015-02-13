@@ -37,7 +37,7 @@
 class QuartLDetector : public Component
 {
   public:
-    QuartLDetector();
+    QuartLDetector(G4String name);
     virtual ~QuartLDetector();
 
     G4VPhysicalVolume* Construct();

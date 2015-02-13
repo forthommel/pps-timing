@@ -5,9 +5,9 @@ using namespace CLHEP;
 GeometryConstructor::GeometryConstructor()
 {
   //expHall_x = expHall_y = expHall_z = 1*m;
-  expHall_x = 300*mm; // was 120
-  expHall_y = 300*mm; // was 120
-  expHall_z = 300*mm; // was 100
+  expHall_x = 50*cm; // was 10
+  expHall_y = 50*cm; // was 10
+  expHall_z = 50*cm; // was 10
 
   fMessenger = new GeometryConstructorMessenger(this);
   fMaterial = new MaterialManager;
@@ -68,10 +68,12 @@ GeometryConstructor::AddNewComponent(G4String type)
 {
   G4cout << __PRETTY_FUNCTION__ << " --> Let's add a \"" << type << "\", shall we ?" << G4endl;
   if (type=="QUARTIC") {
-    fComponents.push_back((Component*)(new QuartLDetector));
+    std::ostringstream ss; ss << "quartic_" << fComponents.size();
+    fComponents.push_back((Component*)(new QuartLDetector(ss.str())));
   }
   else if (type=="MBP") {
-    fComponents.push_back((Component*)(new MBP));
+    std::ostringstream ss; ss << "mbp_" << fComponents.size();
+    fComponents.push_back((Component*)(new MBP(ss.str())));
   }
   else return -1;
 

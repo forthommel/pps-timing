@@ -18,7 +18,7 @@ typedef enum {
 class MBP : public Component
 {
 public:
-  MBP(window_type=STAINLESS_STEEL, G4bool only_window_=false);
+  MBP(G4String name, window_type=STAINLESS_STEEL, G4bool only_window=false);
   virtual ~MBP();
   
 private:

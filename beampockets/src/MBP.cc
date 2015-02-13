@@ -1,6 +1,7 @@
 #include "MBP.hh"
 
-MBP::MBP(window_type window_material_, G4bool only_window_) :
+MBP::MBP(G4String name, window_type window_material, G4bool only_window) :
+  Component(name),
   fParser(0)
 {
   fParser = new G4GDMLParser;
