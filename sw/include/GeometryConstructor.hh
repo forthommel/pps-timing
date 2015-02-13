@@ -67,6 +67,8 @@ class GeometryConstructor : public G4VUserDetectorConstruction
 
     ComponentsRef fComponents;
     std::vector<G4ThreeVector> fComponentsLocation;
+    /** \brief Workaround to avoid building multiple times the same detector in the geometry update process */
+    std::vector<bool> fComponentsBuilt;
 };
 
 #endif

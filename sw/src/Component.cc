@@ -3,13 +3,11 @@
 Component::Component(G4String name) :
   fName(name), fParentLog(0), fParentPhys(0), fPhys(0)
 {
-  fMaterial = new MaterialManager;
+  fMaterial = ((RunAction*)G4RunManager::GetRunManager()->GetUserRunAction())->GetMaterialManager();
 }
 
 Component::~Component()
-{
-  delete fMaterial;
-}
+{}
 
 G4VPhysicalVolume*
 Component::Construct()

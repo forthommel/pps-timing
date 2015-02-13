@@ -6,6 +6,8 @@
 
 #include "QuartLAnalyzer.hh"
 
+#include "MaterialManager.hh"
+
 #include "TFile.h"
 #include "TTree.h"
 
@@ -22,10 +24,12 @@ class RunAction : public G4UserRunAction
     void EndOfRunAction(const G4Run* aRun);
     /** \brief Returns a pointer to the QuartLAnalyzer object used to collect all tracks' information in an external ROOT tree */
     inline QuartLAnalyzer* GetAnalyzer() { return fAnalyzer; }
+    inline MaterialManager* GetMaterialManager() { return fMaterialManager; }
 
   private:
     G4Timer* fTimer;
-    QuartLAnalyzer *fAnalyzer;
+    QuartLAnalyzer* fAnalyzer;
+    MaterialManager* fMaterialManager;
 };
 
 #endif

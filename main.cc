@@ -36,8 +36,8 @@ int main(int argc,char** argv)
 {
   // Seed the random number generator manually
   //
-  G4long myseed = 345354;
-  CLHEP::HepRandom::setTheSeed(myseed);
+  //G4long myseed = 345354;
+  //CLHEP::HepRandom::setTheSeed(myseed);
 
   // User Verbose output class
   //
@@ -62,8 +62,8 @@ int main(int argc,char** argv)
 
   //physics = new QuartLPhysicsList;
   //physics = new LHEP;    //22.01 from AK
-  //physics = new QGSP_BERT(-1);
-  physics = new LBE;
+  physics = new QGSP_BERT(-1);
+  //physics = new LBE;
   physics->SetVerboseLevel(-1);
   physics->RegisterPhysics(new G4OpticalPhysics);
 

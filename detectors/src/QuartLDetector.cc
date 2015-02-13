@@ -32,6 +32,7 @@ QuartLDetector::QuartLDetector(G4String name) :
   Component(name),
   fNumBars(0)
 {
+  G4cout << __PRETTY_FUNCTION__ << " New detector with name \"" << fName << "\" created" << G4endl;
   bar_x    =   3*mm;		// From Mike
   bar_y    =   3*mm;
 
@@ -86,12 +87,12 @@ QuartLDetector::BuildOneStation()
   G4Box* window_box = new G4Box("Window", wind_x/2., wind_z/2., wind_z/2.);
 
   for (G4int i=0; i<nBar; i++) {
-    if (fNumBars>MAX_BARS) {
+    /*if (fNumBars>MAX_BARS) {
       std::ostringstream ss;
-      ss << "Too many cells to be constructed !" << G4endl
+      ss << "Too many cells to be constructed for QUARTIC \"" << fName << "\" !" << G4endl
          << "  Maximal number of cells : " << MAX_BARS;
       G4Exception("QuartLDetector::BuildOneStation", "TooManyCells", FatalException, ss);
-    }
+      }*/
 
     barv_l = RadL[i];
     barh_l = LigL[i];

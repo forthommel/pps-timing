@@ -2,8 +2,9 @@
 #define Component_h
 
 #include "G4VPhysicalVolume.hh"
+#include "G4RunManager.hh"
 
-#include "MaterialManager.hh"
+#include "RunAction.hh"
 
 class Component
 {

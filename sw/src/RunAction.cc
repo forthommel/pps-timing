@@ -7,11 +7,13 @@ RunAction::RunAction(QuartLAnalyzer* analyzer) :
   fAnalyzer(analyzer)
 {
   fTimer = new G4Timer;
+  fMaterialManager = new MaterialManager;
 }
 
 RunAction::~RunAction()
 {
   delete fTimer;
+  delete fMaterialManager;
 }
 
 void

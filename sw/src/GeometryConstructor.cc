@@ -5,8 +5,8 @@ using namespace CLHEP;
 GeometryConstructor::GeometryConstructor()
 {
   //expHall_x = expHall_y = expHall_z = 1*m;
-  expHall_x = 50*cm; // was 10
-  expHall_y = 50*cm; // was 10
+  expHall_x = 30*cm; // was 10
+  expHall_y = 30*cm; // was 10
   expHall_z = 50*cm; // was 10
 
   fMessenger = new GeometryConstructorMessenger(this);
@@ -51,12 +51,14 @@ GeometryConstructor::ConstructGeometry()
 
   G4int i=0;
   for (ComponentsRef::iterator det=fComponents.begin(); det!=fComponents.end(); det++) {
+    //if (fComponentsBuilt.at(i)) continue;
     G4cout << __PRETTY_FUNCTION__ << " building detector " << i << " at " << fComponentsLocation[i] << G4endl;
-    (*det)->SetComponentCenter(fComponentsLocation[i]);
+    (*det)->SetComponentCenter(fComponentsLocation.at(i));
     (*det)->SetParentLog(expHall_log);
     (*det)->SetParentPhys(expHall_phys);
     (*det)->Construct();
-    G4cout << ((QuartLDetector*)(*det))->GetCellCenter(2) << G4endl;
+    //G4cout << ((QuartLDetector*)(*det))->GetCellCenter(2) << G4endl;
+    fComponentsBuilt.at(i) = true;
     i++;
   }
   
@@ -79,6 +81,7 @@ GeometryConstructor::AddNewComponent(G4String type)
 
   // By default the component is set to the origin
   fComponentsLocation.push_back(G4ThreeVector());
+  fComponentsBuilt.push_back(false);
   
   return fComponents.size()-1;
 }
@@ -86,9 +89,10 @@ GeometryConstructor::AddNewComponent(G4String type)
 G4bool
 GeometryConstructor::MoveComponent(G4int id, G4ThreeVector pos)
 {
-  if (id<0) return false;
-  if ((size_t)id>=fComponentsLocation.size()) return false;
-  fComponentsLocation[id] = pos;
+  if ((id<0) or ((size_t)id>=fComponentsLocation.size())) return false;
+  
+  fComponentsLocation.at(id) = pos;
+  
   return true;
 }
 
