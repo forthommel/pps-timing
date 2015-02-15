@@ -3,20 +3,33 @@
 
 #include <vector>
 
+#include "QuartLPhotonHit.h"
+
 #include "TObject.h"
+#include "TLorentzVector.h"
 
 namespace PPS
 {
   class QuartLEvent : public TObject
   {
     public:
-      QuartLEvent();
+      QuartLEvent(); // Default constructor for ROOT not to complain in TTree readout...
+      QuartLEvent(TString);
       virtual ~QuartLEvent();
+      
+      inline TString GetSDName() const { return fName; }
+      inline size_t GetNumberOfPhotons() const { return fHitsCollection.size(); }
+      inline QuartLPhotonHit GetHit(size_t i) const { return fHitsCollection.at(i);  }
 
-      ClassDef(QuartLEvent, 1)
-
+      void AddPhoton(TLorentzVector pos, TLorentzVector mom);
+            
     private:
-      std::vector<int> fTest;
+      TString fName;
+      
+      std::vector<QuartLPhotonHit> fHitsCollection;
+
+    public:
+      ClassDef(QuartLEvent, 1)
   };
 }
 

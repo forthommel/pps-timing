@@ -194,9 +194,9 @@ PrimaryGeneratorAction::SetInputROOTFile(G4String filename)
 G4bool
 PrimaryGeneratorAction::ProbeOneQUARTICCell(G4int station_id, G4int cell_id, G4double energy)
 {
-  QuartLDetectorConstruction* detector = (QuartLDetectorConstruction*)G4RunManager::GetRunManager()->GetUserDetectorConstruction(); // FIXME introduce checks to probe the detector name (can be a GasToF...)
+  QuartLDetector* detector = (QuartLDetector*)G4RunManager::GetRunManager()->GetUserDetectorConstruction(); // FIXME introduce checks to probe the detector name (can be a GasToF...)
   fParticleGun->SetParticleEnergy(energy*GeV);
-  fParticleGun->SetParticlePosition(detector->GetCellCenter(station_id, cell_id));
+  fParticleGun->SetParticlePosition(detector->GetCellCenter(cell_id)); //FIXME FIXME FIXME
   G4UImanager::GetUIpointer()->ApplyCommand("/run/beamOn 1");
   return true;
 }

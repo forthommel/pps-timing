@@ -1,7 +1,8 @@
-#include "QuartLAnalyzer.hh"
+#include "FileWriter.hh"
 
-QuartLAnalyzer::QuartLAnalyzer(G4String filename) :
-  fFile(0), fTree(0), fFilename(filename), fNumHits(0), fNumEvents(0), fRunId(0)
+FileWriter::FileWriter(G4String filename) :
+  fFile(0), fTree(0), fFilename(filename),
+  fNumHits(0), fNumEvents(0), fRunId(0)
 {
   /*G4int threadId = G4Threading::G4GetThreadId();
   fFilename.ReplaceAll(".root", Form("%.4i.root", threadId));*/
@@ -10,12 +11,12 @@ QuartLAnalyzer::QuartLAnalyzer(G4String filename) :
   fFile->mkdir("plots");
   fFile->cd();
   
-  fQuartLInfo = new PPS::QuartLInformation;
-  fQuartLInfo->SetRunId(fRunId);
+  /*fQuartLInfo = new PPS::QuartLInformation;
+  fQuartLInfo->SetRunId(fRunId);*/
 
-  fTree = new TTree("events", "Quartic simulation events");
-  fTree->Branch("run_info", "QuartLInformation", fQuartLInfo, 64000, 1);
-  fTree->Branch("hits", &fNumHits, "hits/I");
+  fTree = new TTree("events", "PPS simulation events");
+  //fTree->Branch("run_info", "QuartLInformation", fQuartLInfo, 64000, 1);
+  /*fTree->Branch("hits", &fNumHits, "hits/I");
   fTree->Branch("vx", fVx, "vx[hits]/D");
   fTree->Branch("vy", fVy, "vy[hits]/D");
   fTree->Branch("vz", fVz, "vz[hits]/D");
@@ -26,7 +27,7 @@ QuartLAnalyzer::QuartLAnalyzer(G4String filename) :
   fTree->Branch("pz", fPz, "pz[hits]/D");
   fTree->Branch("E", fE, "E[hits]/D");
   fTree->Branch("station_id", fStationId, "station_id[hits]/I");
-  fTree->Branch("cell_id", fCellId, "cell_id[hits]/I");
+  fTree->Branch("cell_id", fCellId, "cell_id[hits]/I");*/
 
   fFile->cd("plots");
   for (G4int i=0; i<MAX_MODULES; i++) {
@@ -36,16 +37,16 @@ QuartLAnalyzer::QuartLAnalyzer(G4String filename) :
     fEnergyMap[i] = new TH2D(Form("energymap_%i", i), Form("Energy collection per event (Quartic #%i)", i), 5, 0., 5., 4, 0., 4.);
   }
 
-  G4cout << "[QuartLAnalyzer::QuartLAnalyzer] New file with name ' " << fFilename << " ' created and ready to be populated !" << G4endl;
+  G4cout << __PRETTY_FUNCTION__ << " New file with name ' " << fFilename << " ' created and ready to be populated !" << G4endl;
 }
 
-QuartLAnalyzer::~QuartLAnalyzer()
+FileWriter::~FileWriter()
 {
-  Store();
+  //Store();
   fFile->Write();
   fFile->Close();
   
-  G4cout << "[QuartLAnalyzer::Store] File ' " << fFilename << " ' successfully created and filled with " << fNumEvents << " events !" << G4endl;
+  G4cout << __PRETTY_FUNCTION__ << " File ' " << fFilename << " ' successfully created and filled with " << fNumEvents << " events !" << G4endl;
   /* FIXME
   // Y U no destructors, ROOT ? ლ(ಠ_ಠლ) 
   for (G4int i=0; i<MAX_MODULES; i++) {
@@ -55,13 +56,13 @@ QuartLAnalyzer::~QuartLAnalyzer()
   delete fFile;
   */
   
-  delete fQuartLInfo;
+  //delete fQuartLInfo;
 }
 
 void
-QuartLAnalyzer::AddHitInEvent(G4Step* step)
+FileWriter::AddHitInEvent(G4Step* step)
 {
-  if (fNumHits>MAX_HITS) return;
+  /*if (fNumHits>MAX_HITS) return;
   
   G4Track *track = step->GetTrack();
   G4ThreeVector momentum = track->GetMomentum();
@@ -86,57 +87,41 @@ QuartLAnalyzer::AddHitInEvent(G4Step* step)
   fStationId[fNumHits] = (globalId-fCellId[fNumHits])/20;
 
   if (fStationId[fNumHits]<MAX_MODULES) {
-    /*
-     * Cells mapping (downstream from the beam) :
-     *  -------------------------
-     *  |  3  |  7  | 11  | 15  | 
-     *  -------------------------
-     *  |  2  |  6  | 10  | 14  | 
-     *  -------------------------
-     *  |  1  |  5  |  9  | 13  | 
-     *  -------------------------
-     *  |  0  |  4  |  8  | 12  | 
-     *  -------------------------
-     */
+    //
+    // Cells mapping (downstream from the beam) :
+    // -------------------------
+    // |  3  |  7  | 11  | 15  | 
+    // -------------------------
+    // |  2  |  6  | 10  | 14  | 
+    // -------------------------
+    // |  1  |  5  |  9  | 13  | 
+    // -------------------------
+    // |  0  |  4  |  8  | 12  | 
+    // -------------------------
+    //
     G4int rowId = fCellId[fNumHits]%4;
     G4int colId = (fCellId[fNumHits]-rowId)/4;
     //
     fHitMap[fStationId[fNumHits]]->Fill(colId, rowId);
     fEnergyMap[fStationId[fNumHits]]->Fill(colId, rowId, fE[fNumHits]);
   }
-
+  */
   fNumHits += 1;
 }
 
 void
-QuartLAnalyzer::FillTree()
+FileWriter::Store()
 {
-  fTree->Fill();
-
-  // Reset the hits number counter after each event
-  fNumHits = 0;
-  for (G4int i=0; i<MAX_HITS; i++) {
-    fVx[i] = fVy[i] = fVz[i] = -999.;
-    fProductionTime[i] = fTrackLength[i] = -999.;
-    fPx[i] = fPy[i] = fPz[i] = fE[i] = -999.;
-    fCellId[i] = fStationId[i] = -1;
-  }
-  
-  // We increment the events number at each tree filling
+  if (!fFile or !fTree) return;
   fNumEvents += 1;
-}
-
-void
-QuartLAnalyzer::Store()
-{
-  if (!fFile) return;
-  
+  fTree->Fill();
   // We want to normalize all histograms by the number of events generated
-  for (G4int i=0; i<MAX_MODULES; i++) {
+  /*for (G4int i=0; i<MAX_MODULES; i++) {
     fHitMap[i]->Scale(1./fNumEvents);
     fEnergyMap[i]->Scale(1./fNumEvents);
-  }
+  }*/
    
-  fRunId += 1;
-  fQuartLInfo->SetRunId(fRunId);
+  //fRunId += 1;
+  //fQuartLInfo->SetRunId(fRunId);
 }
+

@@ -7,3 +7,5 @@
 /control/saveHistory
 #/run/verbose 2
 /run/verbose 1
+
+/control/execute init_geometry.mac

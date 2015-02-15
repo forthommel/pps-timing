@@ -4,7 +4,8 @@
 #include "globals.hh"
 #include "G4UserRunAction.hh"
 
-#include "QuartLAnalyzer.hh"
+#include "FileWriter.hh"
+#include "MaterialManager.hh"
 
 #include "TFile.h"
 #include "TTree.h"
@@ -15,17 +16,19 @@ class G4Run;
 class RunAction : public G4UserRunAction
 {
   public:
-    RunAction(QuartLAnalyzer* analyzer=0);
+    RunAction(FileWriter* analyzer=0);
     ~RunAction();
 
     void BeginOfRunAction(const G4Run* aRun);
     void EndOfRunAction(const G4Run* aRun);
-    /** \brief Returns a pointer to the QuartLAnalyzer object used to collect all tracks' information in an external ROOT tree */
-    inline QuartLAnalyzer* GetAnalyzer() { return fAnalyzer; }
+    /** \brief Returns a pointer to the FileWriter object used to collect all tracks' information in an external ROOT tree */
+    inline FileWriter* GetFileWriter() { return fOutput; }
+    inline MaterialManager* GetMaterialManager() { return fMaterialManager; }
 
   private:
     G4Timer* fTimer;
-    QuartLAnalyzer *fAnalyzer;
+    FileWriter* fOutput;
+    MaterialManager* fMaterialManager;
 };
 
 #endif

@@ -7,27 +7,27 @@ ActionInitialization::ActionInitialization() :
   // UserAction classes
   //
   fPrimaryGenerator = new PrimaryGeneratorAction;
+  fOutput = new FileWriter;
   fEventAction = new EventAction;
   fStackingAction = new StackingAction;
-  fAnalyzer = new QuartLAnalyzer;
 }
 
 ActionInitialization::~ActionInitialization()
 {
-  delete fAnalyzer;
+  delete fOutput;
 }
 
 void
 ActionInitialization::BuildForMaster() const
 {
-  SetUserAction(new RunAction(fAnalyzer));
+  SetUserAction(new RunAction(fOutput));
 }
 
 void
 ActionInitialization::Build() const
 {
   SetUserAction(fPrimaryGenerator);
-  SetUserAction(new RunAction(fAnalyzer));
+  SetUserAction(new RunAction(fOutput));
   SetUserAction(fEventAction);
   SetUserAction(fStackingAction);
 }

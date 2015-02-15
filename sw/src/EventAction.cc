@@ -15,5 +15,8 @@ EventAction::BeginOfEventAction(const G4Event* event)
  
 void
 EventAction::EndOfEventAction(const G4Event*)
-{}
+{
+  //G4cout << __PRETTY_FUNCTION__ << G4endl;
+  ((RunAction*)G4RunManager::GetRunManager()->GetUserRunAction())->GetFileWriter()->Store();
+}
 

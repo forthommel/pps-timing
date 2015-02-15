@@ -1,5 +1,5 @@
-#ifndef DetectorSD_h
-#define DetectorSD_h
+#ifndef QuartLDetectorSD_h
+#define QuartLDetectorSD_h
 
 #include "RunAction.hh"
 
@@ -8,32 +8,32 @@
 #include "G4RunManager.hh"
 #include "G4Step.hh"
 #include "G4VSensitiveDetector.hh"
+#include "globals.hh"
 
-#include "QuartLAnalyzer.hh"
+#include "FileWriter.hh"
+
+#include "QuartLEvent.h"
 
 class G4Step;
 class RunAction;
 
-class DetectorSD: public G4VSensitiveDetector 
+class QuartLDetectorSD: public G4VSensitiveDetector 
 {
   public:
-    DetectorSD(G4String);
-    ~DetectorSD();
-
+    QuartLDetectorSD(G4String);
+    ~QuartLDetectorSD();
+  
     void Initialize(G4HCofThisEvent*);
     G4bool ProcessHits(G4Step*, G4TouchableHistory*);
     void EndOfEvent(G4HCofThisEvent*);
     
   private:
-    RunAction* runAction;
-    
-    G4double detEnergy;
-    /** Track time */
-    G4double detTime;
-    /** Time of arrival for the first photon */
-    G4double firstPh;
-    
-    QuartLAnalyzer *analyzer;
+    RunAction* fRunAction;
+    FileWriter *fOutput;
+
+    PPS::QuartLEvent *fEvent;
+
+    time_t fEventTime;
 };
 
 #endif

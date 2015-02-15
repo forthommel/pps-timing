@@ -1,7 +1,4 @@
-# Macro file for QuarticL
-# 
-# Can be run in batch, without graphic
-# or interactively: Idle> /control/execute run1.mac
+/control/execute init_geometry.mac
 #
 /control/verbose 0
 #

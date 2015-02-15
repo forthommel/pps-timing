@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 project(PPSsimulation)
-set(PPS_MODULES sw detectors)
+set(PPS_MODULES detectors beampockets sw)
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -29,6 +29,10 @@ find_package(ROOT REQUIRED)
 include_directories(${ROOT_INCLUDE_DIR})
 link_directories(${ROOT_LIBRARY_DIR})
 
+#----------------------------------------------------------------------------
+# Modules to be compiled along with the output executable
+#----------------------------------------------------------------------------
+
 foreach(_module ${PPS_MODULES})
   include_directories(${PROJECT_SOURCE_DIR}/${_module}/include)
   add_subdirectory(${_module})
@@ -38,14 +42,15 @@ endforeach()
 # Add the executable, and link it to the Geant4 libraries
 #----------------------------------------------------------------------------
 
-add_executable(PPSsim main.cc $<TARGET_OBJECTS:detectors> $<TARGET_OBJECTS:sw>)
-target_link_libraries(PPSsim ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
+add_executable(ppsSim main.cc $<TARGET_OBJECTS:detectors> $<TARGET_OBJECTS:beampockets> $<TARGET_OBJECTS:sw>)
+target_link_libraries(ppsSim ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory
 #----------------------------------------------------------------------------
 
 set(PPS_MACROS
+  init_geometry.mac
   init.mac
   init_vis.mac vis.mac viswrl.mac
   run1.mac run2.mac
@@ -59,19 +64,19 @@ foreach(_script ${PPS_MACROS})
 )
 endforeach()
 configure_file(${PROJECT_SOURCE_DIR}/test/rootlogon.C ${PROJECT_BINARY_DIR}/rootlogon.C COPYONLY)
-add_custom_target(ppsSim DEPENDS PPSsim)
+add_custom_target(PPSSimul DEPENDS ppsSim)
 
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #----------------------------------------------------------------------------
 
-install(TARGETS PPSsim DESTINATION bin)
+install(TARGETS ppsSim DESTINATION bin)
 
 #----------------------------------------------------------------------------
 # Generate the Doxygen documentation
 #----------------------------------------------------------------------------
 
-set(DOC_SOURCE "${PROJECT_SOURCE_DIR}/sw/include ${PROJECT_SOURCE_DIR}/detectors/include")
+set(DOC_SOURCE "${PROJECT_SOURCE_DIR}/sw/include ${PROJECT_SOURCE_DIR}/detectors/include ${PROJECT_SOURCE_DIR}/beampockets/include")
 set(DOC_PROJECT_ROOT ${DOC_SOURCE} CACHE PATH "Root of the project sources")
 set(DOC_DIR ${PROJECT_SOURCE_DIR}/doc)
 execute_process(COMMAND git -C ${PROJECT_SOURCE_DIR} describe --always OUTPUT_VARIABLE DOC_PROJECT_VERSION ERROR_QUIET)

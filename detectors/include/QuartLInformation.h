@@ -18,7 +18,6 @@ namespace PPS
       inline void SetProtonEnergy(double pe) { fProtonEnergy=pe; }
       inline double GetProtonEnergy() const { return fProtonEnergy; }
       
-      ClassDef(QuartLInformation, 1)
   
     private:
       int fRunId;
@@ -26,6 +25,7 @@ namespace PPS
     
     public:
       //void Print(Option_t* opt="") const;
+      ClassDef(QuartLInformation, 1)
   };
 }
 
