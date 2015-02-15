@@ -16,6 +16,7 @@ namespace PPS
       QuartLEvent(); // Default constructor for ROOT not to complain in TTree readout...
       QuartLEvent(TString);
       virtual ~QuartLEvent();
+      virtual void Clear(Option_t* opt="");
       
       inline TString GetSDName() const { return fName; }
       inline size_t GetNumberOfPhotons() const { return fHitsCollection.size(); }

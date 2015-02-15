@@ -21,3 +21,10 @@ PPS::QuartLEvent::AddPhoton(TLorentzVector pos, TLorentzVector mom)
   hit.SetMomentum(mom);
   fHitsCollection.push_back(hit);
 }
+
+void
+PPS::QuartLEvent::Clear(Option_t*)
+{
+  fHitsCollection.clear();
+}
+

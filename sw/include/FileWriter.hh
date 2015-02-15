@@ -39,7 +39,7 @@ class FileWriter
     /**
      * Add a new sensitive detector to the output file (and TTree) for
      * the storage of data accumulated at each event for it.
-     * \param[in] object Class (derived from a TObject) to be stored in
+     * \param[inout] object Class (derived from a TObject) to be stored in
      *  the TTree
      * \return A boolean stating the success (or error) of the operation
      */
@@ -49,6 +49,7 @@ class FileWriter
       fObjects.push_back(object);
       fTree->Branch(object->GetSDName()+"__"+object->GetName(), object->ClassName(), object, 64000, 1);
       fObjectsName.push_back(object->GetSDName());
+      object->Clear();
       return true;
     }
     
@@ -56,7 +57,7 @@ class FileWriter
      *  Add all the information about a sensitive detector to the output
      *  file.
      * \param[in] sd Sensitive detector name the data is related to
-     * \param[in] object Data container (derived from a TObject class)
+     * \param[ino] object Data container (derived from a TObject class)
      *  to be stored in the output TTree
      * \return A boolean stating the success (or error) of the operation
      */

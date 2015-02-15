@@ -51,9 +51,9 @@ QuartLDetectorSD::ProcessHits(G4Step* step, G4TouchableHistory*)
 void
 QuartLDetectorSD::EndOfEvent(G4HCofThisEvent*)
 {
+  //G4cout << __PRETTY_FUNCTION__ << " " << fEvent->GetNumberOfPhotons() << " photon hits in this event" << G4endl;
+
   // Filling the tree with kinematic information...
-  //fOutput->FillTree();
-  //fEvent->Store();
   fOutput->AddSDData<PPS::QuartLEvent>(GetName(), fEvent);
 }
 
