@@ -5,7 +5,7 @@
 
 #include "globals.hh"
 
-#include "Component.hh"
+#include "GeometryComponent.hh"
 
 typedef enum {
   STAINLESS_STEEL,
@@ -15,7 +15,7 @@ typedef enum {
 
 /// Detector construction class to define materials and geometry.
 
-class MBP : public Component
+class MBP : public GeometryComponent
 {
 public:
   MBP(G4String name, window_type=STAINLESS_STEEL, G4bool only_window=false);

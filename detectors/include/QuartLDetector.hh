@@ -6,12 +6,15 @@
 #include "G4PVPlacement.hh"
 #include "G4LogicalBorderSurface.hh"
 
-#include "Component.hh"
-#include "DetectorSD.hh"
+#include "GeometryComponent.hh"
+
+#include "QuartLDetectorSD.hh"
 
 #define MAX_BARS 20
 
-class QuartLDetector : public Component
+class QuartLEvent;
+
+class QuartLDetector : public GeometryComponent
 {
   public:
     QuartLDetector(G4String name);
@@ -24,6 +27,8 @@ class QuartLDetector : public Component
   private:
     /** Generate and add material properties table */
     void BuildOpticalProperties();
+
+    QuartLDetectorSD* fSD;
 
     G4VPhysicalVolume* BuildOneStation();
     

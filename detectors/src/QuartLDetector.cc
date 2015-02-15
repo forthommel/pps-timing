@@ -29,8 +29,8 @@ const G4double fZoffs[nBar] = {
 };
 
 QuartLDetector::QuartLDetector(G4String name) :
-  Component(name),
-  fNumBars(0)
+  GeometryComponent(name),
+  fSD(0), fNumBars(0)
 {
   G4cout << __PRETTY_FUNCTION__ << " New detector with name \"" << fName << "\" created" << G4endl;
   bar_x    =   3*mm;		// From Mike
@@ -52,6 +52,9 @@ void
 QuartLDetector::BeforeConstruct()
 {
   // ------------- Volumes  and Detector --------------
+  fSD = new QuartLDetectorSD(fSDname);
+  G4SDManager* sd_manager = G4SDManager::GetSDMpointer();
+  sd_manager->AddNewDetector(fSD);
   fPhys = BuildOneStation();
 }
 

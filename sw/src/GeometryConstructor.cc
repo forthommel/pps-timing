@@ -50,17 +50,16 @@ GeometryConstructor::ConstructGeometry()
   G4cout << __PRETTY_FUNCTION__ << G4endl;
 
   G4int i=0;
-  for (ComponentsRef::iterator det=fComponents.begin(); det!=fComponents.end(); det++) {
+  for (ComponentsRef::iterator det=fComponents.begin(); det!=fComponents.end(); det++, i++) {
     //if (fComponentsBuilt.at(i)) continue;
     G4cout << __PRETTY_FUNCTION__ << " building detector " << i << " at " << fComponentsLocation[i] << G4endl;
-    (*det)->SetComponentCenter(fComponentsLocation.at(i));
+    (*det)->SetCenter(fComponentsLocation.at(i));
     (*det)->SetParentLog(expHall_log);
     (*det)->SetParentPhys(expHall_phys);
     (*det)->BeforeConstruct();
     (*det)->Construct();
     //G4cout << ((QuartLDetector*)(*det))->GetCellCenter(2) << G4endl;
     fComponentsBuilt.at(i) = true;
-    i++;
   }
   
   return expHall_phys;
@@ -72,11 +71,11 @@ GeometryConstructor::AddNewComponent(G4String type)
   G4cout << __PRETTY_FUNCTION__ << " --> Let's add a \"" << type << "\", shall we ?" << G4endl;
   if (type=="QUARTIC") {
     std::ostringstream ss; ss << "quartic_" << fComponents.size();
-    fComponents.push_back((Component*)(new QuartLDetector(ss.str())));
+    fComponents.push_back((GeometryComponent*)(new QuartLDetector(ss.str())));
   }
   else if (type=="MBP") {
     std::ostringstream ss; ss << "mbp_" << fComponents.size();
-    fComponents.push_back((Component*)(new MBP(ss.str())));
+    fComponents.push_back((GeometryComponent*)(new MBP(ss.str())));
   }
   else return -1;
 

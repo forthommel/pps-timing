@@ -7,9 +7,9 @@ ActionInitialization::ActionInitialization() :
   // UserAction classes
   //
   fPrimaryGenerator = new PrimaryGeneratorAction;
+  fOutput = new FileWriter;
   fEventAction = new EventAction;
   fStackingAction = new StackingAction;
-  fOutput = new FileWriter;
 }
 
 ActionInitialization::~ActionInitialization()

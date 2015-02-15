@@ -1,5 +1,6 @@
 #include "QuartLInformation.h"
 #include "QuartLEvent.h"
+#include "QuartLPhotonHit.h"
 
 #ifdef __CINT__
 
@@ -9,5 +10,6 @@
 
 #pragma link C++ class PPS::QuartLInformation+;
 #pragma link C++ class PPS::QuartLEvent+;
+#pragma link C++ class PPS::QuartLPhotonHit+;
 
 #endif

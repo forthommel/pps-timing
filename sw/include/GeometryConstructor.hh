@@ -28,8 +28,14 @@
 ////////////////////////////////////////////////////////////////
 
 class GeometryConstructorMessenger;
-typedef std::vector<Component*> ComponentsRef;
+typedef std::vector<GeometryComponent*> ComponentsRef;
 
+/**
+ * Detectors (and geometry) manager.
+ *
+ * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+ * \date Feb 2015
+ */
 class GeometryConstructor : public G4VUserDetectorConstruction
 {
   public:
@@ -46,10 +52,15 @@ class GeometryConstructor : public G4VUserDetectorConstruction
     G4int AddNewComponent(G4String type="");
     /**
      * Set the location of one given component
-     * \param[in] id Component unique identifier in this geometry
+     * \param[in] id GeometryComponent unique identifier in this geometry
      * \param[in] pos Location of the component's center
      */
     G4bool MoveComponent(G4int id=-1, G4ThreeVector pos=G4ThreeVector(0., 0., 0.));
+    /**
+     * Set the name of the sensitive detector attached to one geometry component
+     * \param[in] id GeometryComponent unique identifier in this geometry
+     * \param[in] name Sensitive detector's name for the GeometryComponent object
+     */
     G4bool SetSDname(G4int id=-1, G4String name="");
   
   private:

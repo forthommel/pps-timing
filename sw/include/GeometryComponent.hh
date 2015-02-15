@@ -1,30 +1,28 @@
-#ifndef Component_h
-#define Component_h
+#ifndef GeometryComponent_h
+#define GeometryComponent_h
 
 #include "G4VPhysicalVolume.hh"
 #include "G4RunManager.hh"
 #include "G4SDManager.hh"
 
 #include "RunAction.hh"
-#include "DetectorSD.hh"
 
-class Component
+class GeometryComponent
 {
   public:
-    Component(G4String name);
-    ~Component();
+    GeometryComponent(G4String name);
+    ~GeometryComponent();
 
     virtual G4VPhysicalVolume* Construct();
     inline void SetParentLog(G4LogicalVolume* parent) { fParentLog=parent; }
     inline void SetParentPhys(G4VPhysicalVolume* parent) { fParentPhys=parent; }
-    inline void SetComponentCenter(G4ThreeVector center) { fPosition=center; }
+    inline void SetCenter(G4ThreeVector center) { fPosition=center; }
     inline void SetSDname(G4String name) { fSDname=name; if(name!="") fIsSensitive=true; }
     inline virtual void BeforeConstruct() {;}
   
   protected:
     G4String fName;
     MaterialManager* fMaterial;
-    DetectorSD* fSD;
 
     G4ThreeVector fPosition;
     G4LogicalVolume* fParentLog;
@@ -33,6 +31,8 @@ class Component
 
     G4bool fIsSensitive;
     G4String fSDname;
+
+    void* fEvent;
 };
 
 #endif
