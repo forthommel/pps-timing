@@ -13,6 +13,7 @@
 #include "FileWriter.hh"
 
 #include "QuartLEvent.h"
+#include "QuartLPhotonHit.h"
 
 class G4Step;
 class RunAction;

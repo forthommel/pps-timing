@@ -14,11 +14,8 @@ PPS::QuartLEvent::~QuartLEvent()
 {}
 
 void
-PPS::QuartLEvent::AddPhoton(TLorentzVector pos, TLorentzVector mom)
+PPS::QuartLEvent::AddPhoton(QuartLPhotonHit hit)
 {
-  QuartLPhotonHit hit;
-  hit.SetPosition(pos);
-  hit.SetMomentum(mom);
   fHitsCollection.push_back(hit);
 }
 

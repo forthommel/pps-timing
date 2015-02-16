@@ -22,7 +22,7 @@ namespace PPS
       inline size_t GetNumberOfPhotons() const { return fHitsCollection.size(); }
       inline QuartLPhotonHit GetHit(size_t i) const { return fHitsCollection.at(i);  }
 
-      void AddPhoton(TLorentzVector pos, TLorentzVector mom);
+      void AddPhoton(QuartLPhotonHit);
             
     private:
       TString fName;
