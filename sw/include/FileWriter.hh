@@ -57,7 +57,7 @@ class FileWriter
      *  Add all the information about a sensitive detector to the output
      *  file.
      * \param[in] sd Sensitive detector name the data is related to
-     * \param[ino] object Data container (derived from a TObject class)
+     * \param[in] object Data container (derived from a TObject class)
      *  to be stored in the output TTree
      * \return A boolean stating the success (or error) of the operation
      */
@@ -104,10 +104,6 @@ class FileWriter
     
     G4int fStationId[MAX_HITS];
     G4int fCellId[MAX_HITS];*/
-    
-    
-    
-    //PPS::QuartLInformation *fQuartLInfo;
 };
 
 #endif

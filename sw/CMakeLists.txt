@@ -11,16 +11,20 @@ file(GLOB headers include/*.hh)
 # in the output TTrees
 #
 
-#file(GLOB dict_headers include/*.h)
-#file(GLOB dict_sources src/*.cpp)
-#list(REMOVE_ITEM dict_headers include/LinkDef.h)
-#message(STATUS "Headers for dictionary : " ${dict_headers})
-#message(STATUS "Sources for dictionary : " ${dict_sources})
-#ROOT_GENERATE_DICTIONARY(PPSDict ${dict_headers} LINKDEF include/LinkDef.h)
-#list(APPEND sources PPSDict.cxx)
-#add_library(PPS SHARED ${dict_sources} PPSDict.cxx)
-#target_link_libraries(PPS ${ROOT_LIBRARIES} ${ROOT_COMPONENT_LIBRARIES})
+file(GLOB dict_headers include/*.h)
+list(REMOVE_ITEM dict_headers include/LinkDef.h)
+
+file(GLOB dict_sources src/*.cpp)
+
+# message(STATUS "Headers for dictionary : " ${dict_headers})
+# message(STATUS "Sources for dictionary : " ${dict_sources})
+ROOT_GENERATE_DICTIONARY(PPSDict ${dict_headers} LINKDEF include/LinkDef.h)
+list(APPEND sources PPSDict.cxx)
+add_library(PPS SHARED ${dict_sources} PPSDict.cxx)
+target_link_libraries(PPS ${ROOT_LIBRARIES} ${ROOT_COMPONENT_LIBRARIES})
 ##install(TARGETS PPS DESTINATION lib)
 
-add_library(sw OBJECT ${sources})
+list(APPEND headers ${dict_headers})
+
+add_library(sw OBJECT ${sources} ${dict_sources})
 
