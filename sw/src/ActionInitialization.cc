@@ -10,6 +10,7 @@ ActionInitialization::ActionInitialization() :
   fOutput = new FileWriter;
   fEventAction = new EventAction;
   fStackingAction = new StackingAction;
+  fTrackingAction = new TrackingAction;
 }
 
 ActionInitialization::~ActionInitialization()
@@ -30,5 +31,6 @@ ActionInitialization::Build() const
   SetUserAction(new RunAction(fOutput));
   SetUserAction(fEventAction);
   SetUserAction(fStackingAction);
+  SetUserAction(fTrackingAction);
 }
   
