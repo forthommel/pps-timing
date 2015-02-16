@@ -33,8 +33,11 @@ QuartLDetectorSD::ProcessHits(G4Step* step, G4TouchableHistory*)
     fEventTime = step->GetPreStepPoint()->GetGlobalTime();
     G4Track* track = step->GetTrack();
     G4ThreeVector mom3 = track->GetMomentum(), pos3 = track->GetPosition();
+    TrackInformation* ti = static_cast<TrackInformation*>(track->GetUserInformation());
+
+    //G4cout << __PRETTY_FUNCTION__ << " --> track " << track->GetTrackID() << " has parent " << ti->GetOriginalTrackID() << G4endl;
     
-    PPS::QuartLPhotonHit hit;
+    PPS::QuartLPhotonHit hit(ti->GetOriginalTrackID());
     hit.SetMomentum(TLorentzVector(
       mom3.x()/GeV,
       mom3.y()/GeV,

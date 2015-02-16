@@ -10,6 +10,7 @@ namespace PPS
   {
     public:
       QuartLPhotonHit();
+      QuartLPhotonHit(int);
       virtual ~QuartLPhotonHit();
       
       inline void SetPosition(TLorentzVector pos) { fPosition=pos; }
@@ -17,10 +18,14 @@ namespace PPS
       
       inline void SetMomentum(TLorentzVector mom) { fMomentum=mom; }
       inline TLorentzVector Momentum() const { return fMomentum; }
+
+      inline void SetParentID(int par_id) { fParentID=par_id; }
+      inline int GetParentID() const { return fParentID; }
     
     private:
       TLorentzVector fPosition;
       TLorentzVector fMomentum;
+      int fParentID;
       
     public:
       ClassDef(QuartLPhotonHit, 1)

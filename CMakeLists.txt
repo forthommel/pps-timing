@@ -54,6 +54,7 @@ set(PPS_MACROS
   init.mac
   init_vis.mac vis.mac viswrl.mac
   run1.mac run2.mac
+  example.C
 )
 
 foreach(_script ${PPS_MACROS})

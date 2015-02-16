@@ -1,8 +1,6 @@
 #ifndef QuartLDetectorSD_h
 #define QuartLDetectorSD_h
 
-#include "RunAction.hh"
-
 #include "G4ParticleDefinition.hh"
 #include "G4ParticleTypes.hh"
 #include "G4RunManager.hh"
@@ -11,6 +9,8 @@
 #include "globals.hh"
 
 #include "FileWriter.hh"
+#include "RunAction.hh"
+#include "TrackInformation.hh"
 
 #include "QuartLEvent.h"
 #include "QuartLPhotonHit.h"

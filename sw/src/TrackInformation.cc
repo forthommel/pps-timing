@@ -12,14 +12,7 @@ TrackInformation::TrackInformation(const G4Track* aTrack) :
   fOriginalTrackID(aTrack->GetTrackID()), fParticleDefinition(aTrack->GetDefinition()),
   fOriginalPosition(aTrack->GetPosition()), fOriginalTime(aTrack->GetGlobalTime()),
   fOriginalMomentum(aTrack->GetMomentum()), fOriginalEnergy(aTrack->GetTotalEnergy())
-{
-  /*fOriginalTrackID = aTrack->GetTrackID();
-  fParticleDefinition = aTrack->GetDefinition();
-  fOriginalPosition = aTrack->GetPosition();
-  fOriginalTime = aTrack->GetGlobalTime();
-  fOriginalMomentum = aTrack->GetMomentum();
-  fOriginalEnergy = aTrack->GetTotalEnergy();*/
-}
+{}
 
 TrackInformation::TrackInformation(const TrackInformation* aTrackInfo) :
   fOriginalTrackID(aTrackInfo->fOriginalTrackID), fParticleDefinition(aTrackInfo->fParticleDefinition),

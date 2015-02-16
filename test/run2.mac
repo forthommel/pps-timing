@@ -1,4 +1,4 @@
-/control/execute init_geometry.mac
+/control/execute test/init_geometry.mac
 #
 /control/verbose 0
 #
@@ -10,4 +10,4 @@
 /gun/inputROOTFile /home/forthomme/work/gastof/Geant4Gastof/analysis/PileupProtonsXY_ForGastof.root
 /gun/particle proton
 #
-/run/beamOn 5
+/run/beamOn 50
