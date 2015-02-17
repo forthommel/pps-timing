@@ -21,14 +21,18 @@ ActionInitialization::~ActionInitialization()
 void
 ActionInitialization::BuildForMaster() const
 {
-  SetUserAction(new RunAction(fOutput));
+  RunAction* fRunAction = new RunAction(fOutput);
+  fOutput->SetRunInformation(fRunAction->GetRunInformation());
+  SetUserAction(fRunAction);
 }
 
 void
 ActionInitialization::Build() const
 {
+  RunAction* fRunAction = new RunAction(fOutput);
+  fOutput->SetRunInformation(fRunAction->GetRunInformation());
   SetUserAction(fPrimaryGenerator);
-  SetUserAction(new RunAction(fOutput));
+  SetUserAction(fRunAction);
   SetUserAction(fEventAction);
   SetUserAction(fStackingAction);
   SetUserAction(fTrackingAction);

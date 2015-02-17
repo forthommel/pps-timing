@@ -1,20 +1,21 @@
 #include "FileWriter.hh"
 
 FileWriter::FileWriter(G4String filename) :
-  fFile(0), fTree(0), fFilename(filename),
+  fFilename(filename), fFile(0), fRunTree(0), fEventTree(0),
   fNumHits(0), fNumEvents(0), fRunId(0)
 {
   /*G4int threadId = G4Threading::G4GetThreadId();
   fFilename.ReplaceAll(".root", Form("%.4i.root", threadId));*/
 
   fFile = new TFile(fFilename, "RECREATE");
-  fFile->mkdir("plots");
+  //fFile->mkdir("plots");
   fFile->cd();
   
   /*fQuartLInfo = new PPS::QuartLInformation;
   fQuartLInfo->SetRunId(fRunId);*/
 
-  fTree = new TTree("events", "PPS simulation events");
+  fRunTree = new TTree("runs", "PPS simulation runs");
+  fEventTree = new TTree("events", "PPS simulation events");
   //fTree->Branch("run_info", "QuartLInformation", fQuartLInfo, 64000, 1);
   /*fTree->Branch("hits", &fNumHits, "hits/I");
   fTree->Branch("vx", fVx, "vx[hits]/D");
@@ -29,13 +30,13 @@ FileWriter::FileWriter(G4String filename) :
   fTree->Branch("station_id", fStationId, "station_id[hits]/I");
   fTree->Branch("cell_id", fCellId, "cell_id[hits]/I");*/
 
-  fFile->cd("plots");
+  /*fFile->cd("plots");
   for (G4int i=0; i<MAX_MODULES; i++) {
     fHitMap[i] = new TH2D(Form("hitmap_%i", i), Form("Photon hits per event (Quartic #%i)", i ), 5, 0., 5., 4, 0., 4.);
   }
   for (G4int i=0; i<MAX_MODULES; i++) {
     fEnergyMap[i] = new TH2D(Form("energymap_%i", i), Form("Energy collection per event (Quartic #%i)", i), 5, 0., 5., 4, 0., 4.);
-  }
+  }*/
 
   G4cout << __PRETTY_FUNCTION__ << " New file with name ' " << fFilename << " ' created and ready to be populated !" << G4endl;
 }
@@ -110,11 +111,18 @@ FileWriter::AddHitInEvent(G4Step* step)
 }
 
 void
-FileWriter::Store()
+FileWriter::StoreRun()
 {
-  if (!fFile or !fTree) return;
+  if (!fFile or !fRunTree) return;
+  fRunTree->Fill();
+}
+
+void
+FileWriter::StoreEvent()
+{
+  if (!fFile or !fEventTree) return;
   fNumEvents += 1;
-  fTree->Fill();
+  fEventTree->Fill();
   // We want to normalize all histograms by the number of events generated
   /*for (G4int i=0; i<MAX_MODULES; i++) {
     fHitMap[i]->Scale(1./fNumEvents);

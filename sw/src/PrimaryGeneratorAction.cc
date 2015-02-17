@@ -67,6 +67,7 @@ void
 PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
   G4double x, y, z;
+  RunAction* run = (RunAction*)(G4RunManager::GetRunManager()->GetUserRunAction());
   if (fHasEventsCollection) {
     G4int event_id = (G4int)(G4UniformRand()*fEventsCollectionSize); // We pickup a random event in the collection
     G4double proton_speed;
@@ -81,9 +82,12 @@ PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
       z = -5.*cm;
       //G4cout << hit << ": " << fArrivalTime[event_id][hit]*ns*proton_speed << G4endl;
       //G4cout << "speed, z0 for proton " << hit << " = " << proton_speed/CLHEP::c_light << ", " << z/m << G4endl;
+      //fParticleGun->SetParticleEnergy(fE[event_id][hit]*GeV-fParticleGun->GetParticleDefinition()->GetPDGMass());
       fParticleGun->SetParticleEnergy(fE[event_id][hit]*GeV);
-      fParticleGun->SetParticlePosition(G4ThreeVector(x,y,z));
+      //fParticleGun->SetParticleMomentum(std::sqrt(std::pow(fParticleGun->GetParticleEnergy(), 2)-std::pow(fParticleGun->GetParticleDefinition()->GetPDGMass(), 2)));
+      fParticleGun->SetParticlePosition(G4ThreeVector(x, y, z));
       fParticleGun->GeneratePrimaryVertex(event);
+      
       //G4cout << " -> now " << anEvent->GetNumberOfPrimaryVertex() << " vertices in the event # " << anEvent->GetEventID() << G4endl;
       /*G4PrimaryVertex *vtx = anEvent->GetPrimaryVertex(anEvent->GetNumberOfPrimaryVertex()-1); // get the last vertex generated for this event
       // Update the vertex info (and make sure it exists).
@@ -96,8 +100,16 @@ PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
     }
   }
   else {
+    //fParticleGun->SetParticleMomentum(std::sqrt(std::pow(fParticleGun->GetParticleEnergy(), 2)-std::pow(fParticleGun->GetParticleDefinition()->GetPDGMass(), 2)));
     fParticleGun->GeneratePrimaryVertex(event);
   }
+  // Now we fill the run tree with primary particles' information
+  PPS::IncomingParticle ip;
+  G4ThreeVector pos = fParticleGun->GetParticlePosition();
+  G4ParticleMomentum mom = fParticleGun->GetParticleMomentumDirection()*fParticleGun->GetParticleMomentum();
+  ip.SetPosition(TLorentzVector(pos.x()/m, pos.y()/m, pos.z()/m, fParticleGun->GetParticleTime()/second));
+  ip.SetMomentum(TLorentzVector(mom.x()/GeV, mom.y()/GeV, mom.z()/GeV, fParticleGun->GetParticleEnergy()/GeV));
+  run->GetRunInformation()->AddIncomingParticle(ip);
 }
 
 void

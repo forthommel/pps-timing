@@ -20,11 +20,11 @@ class ActionInitialization : public G4VUserActionInitialization
     virtual void Build() const;
         
   private:
-    G4VUserPrimaryGeneratorAction* fPrimaryGenerator;
     G4UserEventAction* fEventAction;
+    G4VUserPrimaryGeneratorAction* fPrimaryGenerator;
     G4UserStackingAction* fStackingAction;
     G4UserTrackingAction* fTrackingAction;
-    FileWriter *fOutput;
+    FileWriter* fOutput;
 };
 
 #endif

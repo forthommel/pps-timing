@@ -16,8 +16,7 @@ example(TString filename)
   tree->SetBranchAddress("quartic1__PPS::QuartLEvent", &ev1);
   tree->SetBranchAddress("quartic2__PPS::QuartLEvent", &ev2);
 
-  //hitmap = new TH2D("hitmap", "Photon hits", 200, 6.41, 6.79, 200, -1., 10.);
-  hitmap = new TH2D("hitmap", "Photon hits", 200, 0., 12., 200, -1.5, 1.5);
+  hitmap = new TH2D("hitmap", "", 260, 0., 13., 200, -2.5, 2.5);
 
   for (int i=0; i<tree->GetEntries(); i++) {
     tree->GetEntry(i);
@@ -39,8 +38,9 @@ example(TString filename)
   }
   hitmap->Scale(1./tree->GetEntries());
 
-  c = new PPS::Canvas("hits", "", 450, 450);
+  c = new PPS::Canvas("hits", "Photon hits (yields per proton)");
   hitmap->Draw("colz");
   hitmap->GetXaxis()->SetTitle("Z [cm]");
   hitmap->GetYaxis()->SetTitle("Y [cm]");
+  c->Save("hits");
 }

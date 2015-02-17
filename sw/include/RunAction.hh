@@ -1,17 +1,17 @@
 #ifndef RunAction_h
 #define RunAction_h
 
-#include "globals.hh"
 #include "G4UserRunAction.hh"
+#include "G4Run.hh"
+#include "G4Timer.hh"
+#include "globals.hh"
 
 #include "FileWriter.hh"
 #include "MaterialManager.hh"
+#include "RunInformation.h"
 
 #include "TFile.h"
 #include "TTree.h"
-
-class G4Timer;
-class G4Run;
 
 class RunAction : public G4UserRunAction
 {
@@ -24,11 +24,13 @@ class RunAction : public G4UserRunAction
     /** \brief Returns a pointer to the FileWriter object used to collect all tracks' information in an external ROOT tree */
     inline FileWriter* GetFileWriter() { return fOutput; }
     inline MaterialManager* GetMaterialManager() { return fMaterialManager; }
+    inline PPS::RunInformation* GetRunInformation() { return fRunInfo; }
 
   private:
     G4Timer* fTimer;
     FileWriter* fOutput;
     MaterialManager* fMaterialManager;
+    PPS::RunInformation* fRunInfo;
 };
 
 #endif

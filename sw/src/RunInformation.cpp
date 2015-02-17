@@ -1,7 +1,11 @@
 #include "RunInformation.h"
 
-RunInformation::RunInformation()
-{}
+namespace PPS
+{
+  RunInformation::RunInformation()
+  {}
 
-RunInformation::~RunInformation()
-{}
+  RunInformation::~RunInformation()
+  {}
+}
+

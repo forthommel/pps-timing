@@ -1,6 +1,3 @@
-#include "G4Timer.hh"
-#include "G4Run.hh"
-
 #include "RunAction.hh"
 
 RunAction::RunAction(FileWriter* analyzer) :
@@ -8,12 +5,14 @@ RunAction::RunAction(FileWriter* analyzer) :
 {
   fTimer = new G4Timer;
   fMaterialManager = new MaterialManager;
+  fRunInfo = new PPS::RunInformation;
 }
 
 RunAction::~RunAction()
 {
   delete fTimer;
   delete fMaterialManager;
+  delete fRunInfo;
 }
 
 void
@@ -30,4 +29,5 @@ RunAction::EndOfRunAction(const G4Run* aRun)
   G4cout << " Number of events = "
          << aRun->GetNumberOfEvent() << G4endl
          << " Timing : " << *fTimer << G4endl;
+  fOutput->StoreRun();
 }

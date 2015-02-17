@@ -1,23 +1,29 @@
 #ifndef RunInformation_h
 #define RunInformation_h
 
-#include <vector>
+#include "IncomingParticle.h"
 
 #include "TObject.h"
 #include "TLorentzVector.h"
 
-class RunInformation : public TObject
+#include <vector>
+
+namespace PPS
 {
-  public:
-    RunInformation();
-    virtual ~RunInformation();
+  class RunInformation : public TObject
+  {
+    public:
+      RunInformation();
+      virtual ~RunInformation();
 
-  private:
-    std::vector<float> fProtonEnergies;
-    std::vector<TLorentzVector> fProtonStarts;
+      inline void AddIncomingParticle(IncomingParticle ip) { fIPCollection.push_back(ip); }
 
-  public:
-    ClassDef(RunInformation, 1)
-};
+    private:
+      std::vector<IncomingParticle> fIPCollection;
+
+    public:
+      ClassDef(RunInformation, 1)
+  };
+}
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef FileWriter_h
 #define FileWriter_h
 
+#include "RunInformation.h"
+
 #include "G4Step.hh"
 
 #include "TTree.h"
@@ -32,8 +34,10 @@ class FileWriter
      *  kinematics is extracted.
      */
     void AddHitInEvent(G4Step* step);
-    /** \brief Store the TTree onto an external ROOT file */
-    void Store();
+    /** \brief Store the runs tree onto the external ROOT file */
+    void StoreRun();
+    /** \brief Store the events tree onto the external ROOT file */
+    void StoreEvent();
     inline G4int GetNumHitsInEvent() const { return fNumHits; }
     
     /**
@@ -44,12 +48,17 @@ class FileWriter
      * \return A boolean stating the success (or error) of the operation
      */
     template<class T> G4bool RegisterSD(T* object) {
-      if (!fFile or !fTree) return false;
-      //G4cout << __PRETTY_FUNCTION__ << " registering new object (" << object->ClassName() << "::" << object->GetSDName()+"__"+object->GetName() << ") to the output events TTree" << G4endl;
-      fObjects.push_back(object);
-      fTree->Branch(object->GetSDName()+"__"+object->GetName(), object->ClassName(), object, 64000, 1);
-      fObjectsName.push_back(object->GetSDName());
-      object->Clear();
+      if (!fFile or !fEventTree) return false;
+      fEventObjects.push_back(object);
+      fEventTree->Branch(Form("%s__%s", object->GetSDName().Data(), object->GetName()), object->ClassName(), object, 64000, 1);
+      fEventObjectsName.push_back(object->GetSDName());
+      object->Clear(); // Object is cleared before any run
+      return true;
+    }
+
+    G4bool SetRunInformation(PPS::RunInformation* ri) {
+      if (!fFile or !fRunTree) return false;
+      fRunTree->Branch("run", ri->ClassName(), ri, 64000, 1);
       return true;
     }
     
@@ -63,9 +72,9 @@ class FileWriter
      */
     template<class T> G4bool AddSDData(TString sd, T* object) {
       G4int i = 0;
-      for (std::vector<TString>::iterator nm=fObjectsName.begin(); nm!=fObjectsName.end(); nm++, i++) {
+      for (std::vector<TString>::iterator nm=fEventObjectsName.begin(); nm!=fEventObjectsName.end(); nm++, i++) {
         if ((*nm)==sd) {
-          fObjects.at(i) = object;
+          fEventObjects.at(i) = object;
           //G4cout << __PRETTY_FUNCTION__ << " object \"" << fObjectsName.at(i) << "\" set and filled !" << G4endl;
           return true;
         }
@@ -74,12 +83,14 @@ class FileWriter
     }
   
   private:
-    TFile *fFile;
-    TTree *fTree;
     TString fFilename;
+    TFile *fFile;
+
+    TTree *fEventTree;
+    std::vector<TString> fEventObjectsName;
+    std::vector<TObject*> fEventObjects;
     
-    std::vector<TString> fObjectsName;
-    std::vector<TObject*> fObjects;
+    TTree *fRunTree;
     
     TH2D *fHitMap[MAX_MODULES];
     TH2D *fEnergyMap[MAX_MODULES];

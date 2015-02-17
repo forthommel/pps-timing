@@ -21,7 +21,6 @@ class QuartLDetector : public GeometryComponent
     virtual ~QuartLDetector();
 
     void BeforeConstruct();
-  //G4VPhysicalVolume* Construct();
     G4ThreeVector GetCellCenter(G4int cell_id) const;
 
   private:
@@ -33,12 +32,7 @@ class QuartLDetector : public GeometryComponent
     G4VPhysicalVolume* BuildOneStation();
     
     G4int fNumBars;
-  //G4int fNumStations;
     
-  /*G4double expHall_x;
-    G4double expHall_y;
-    G4double expHall_z;*/
-
     /** x position of the Radiator Bar */
     G4double bar_x;
     /** y position of the Radiator Bar */
@@ -53,9 +47,6 @@ class QuartLDetector : public GeometryComponent
     G4double wind_x;
     G4double wind_y;
     G4double wind_z;
-    
-  /*G4VPhysicalVolume* expHall_phys;
-    G4LogicalVolume* expHall_log;*/
     
     G4Box* BarV[MAX_BARS];
     G4Box* BarH[MAX_BARS];

@@ -2,26 +2,29 @@
 
 ClassImp(PPS::QuartLEvent)
 
-PPS::QuartLEvent::QuartLEvent() :
-  fName("")
-{}
-
-PPS::QuartLEvent::QuartLEvent(TString name) :
-  fName(name)
-{}
-
-PPS::QuartLEvent::~QuartLEvent()
-{}
-
-void
-PPS::QuartLEvent::AddPhoton(QuartLPhotonHit hit)
+namespace PPS
 {
-  fHitsCollection.push_back(hit);
-}
+  QuartLEvent::QuartLEvent() :
+    fName("")
+  {}
 
-void
-PPS::QuartLEvent::Clear(Option_t*)
-{
-  fHitsCollection.clear();
+  QuartLEvent::QuartLEvent(TString name) :
+    fName(name)
+  {}
+
+  QuartLEvent::~QuartLEvent()
+  {}
+
+  void
+  QuartLEvent::AddPhoton(QuartLPhotonHit hit)
+  {
+    fHitsCollection.push_back(hit);
+  }
+
+  void
+  QuartLEvent::Clear(Option_t*)
+  {
+    fHitsCollection.clear();
+  }  
 }
 
