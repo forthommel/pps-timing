@@ -112,3 +112,10 @@ GeometryConstructor::UpdateGeometry()
   G4cout << __PRETTY_FUNCTION__ << " ====> Geometry update !" << G4endl;
   G4RunManager::GetRunManager()->DefineWorldVolume(ConstructGeometry());
 }
+
+void
+GeometryConstructor::WriteGDML(G4String filename)
+{
+  G4GDMLParser parser;
+  parser.Write(filename, expHall_phys, true, "gdml/gdml.xsd");
+}

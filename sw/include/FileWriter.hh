@@ -86,11 +86,11 @@ class FileWriter
     TString fFilename;
     TFile *fFile;
 
+    TTree *fRunTree;
+    
     TTree *fEventTree;
     std::vector<TString> fEventObjectsName;
     std::vector<TObject*> fEventObjects;
-    
-    TTree *fRunTree;
     
     TH2D *fHitMap[MAX_MODULES];
     TH2D *fEnergyMap[MAX_MODULES];

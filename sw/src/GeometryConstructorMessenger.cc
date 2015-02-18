@@ -20,6 +20,10 @@ GeometryConstructorMessenger::GeometryConstructorMessenger(GeometryConstructor* 
 
   fUpdateGeometry = new G4UIcmdWithoutParameter("/PPS/updateGeometry", this);
   fUpdateGeometry->AvailableForStates(G4State_PreInit, G4State_Idle);
+
+  fGDMLOutput = new G4UIcmdWithAString("/PPS/writeGeometry", this);
+  fGDMLOutput->SetParameterName("output_gdml_file", true);
+  fGDMLOutput->AvailableForStates(G4State_Idle);
 }
 
 GeometryConstructorMessenger::~GeometryConstructorMessenger()
@@ -29,6 +33,7 @@ GeometryConstructorMessenger::~GeometryConstructorMessenger()
   delete fComponentPosition;
   delete fComponentSDname;
   delete fUpdateGeometry;
+  delete fGDMLOutput;
 }
 
 void
@@ -75,5 +80,9 @@ GeometryConstructorMessenger::SetNewValue(G4UIcommand* command, G4String value)
   else if (command==fUpdateGeometry) {
     G4cout << __PRETTY_FUNCTION__ << " Updating the global geometry" << G4endl;
     fDC->UpdateGeometry();
+  }
+  else if (command==fGDMLOutput) {
+    G4cout << __PRETTY_FUNCTION__ << " Writing the GDML dump to the file \"" << value << "\"" << G4endl;
+    fDC->WriteGDML(value);
   }
 }

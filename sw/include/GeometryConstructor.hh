@@ -15,6 +15,7 @@
 #include "G4PhysicalVolumeStore.hh"
 #include "G4LogicalVolumeStore.hh"
 #include "G4SolidStore.hh"
+#include "G4GDMLParser.hh"
 #include "globals.hh"
 
 #include "MaterialManager.hh"
@@ -62,9 +63,11 @@ class GeometryConstructor : public G4VUserDetectorConstruction
      * \param[in] name Sensitive detector's name for the GeometryComponent object
      */
     G4bool SetSDname(G4int id=-1, G4String name="");
+
+    void WriteGDML(G4String filename="geometry.gdml");
   
-  private:
-    
+  private:   
+ 
     G4double expHall_x;
     G4double expHall_y;
     G4double expHall_z;

@@ -24,10 +24,11 @@ class GeometryConstructorMessenger : public G4UImessenger
     GeometryConstructor *fDC;
 
     G4UIdirectory* fPPSDir;
-    G4UIcmdWithAString *fAddComponent;
-    G4UIcmdWith3VectorAndUnit *fComponentPosition;
-    G4UIcmdWithAString *fComponentSDname;
+    G4UIcmdWithAString* fAddComponent;
+    G4UIcmdWith3VectorAndUnit* fComponentPosition;
+    G4UIcmdWithAString* fComponentSDname;
     G4UIcmdWithoutParameter* fUpdateGeometry;
+    G4UIcmdWithAString* fGDMLOutput;
 
     G4int fLastComponentAdded;
     
