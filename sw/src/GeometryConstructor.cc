@@ -47,8 +47,6 @@ GeometryConstructor::ConstructGeometry()
 
   expHall_phys = new G4PVPlacement(0, G4ThreeVector(), expHall_log, "World", 0, false, 0);
 
-  G4cout << __PRETTY_FUNCTION__ << G4endl;
-
   G4int i=0;
   for (ComponentsRef::iterator det=fComponents.begin(); det!=fComponents.end(); det++, i++) {
     //if (fComponentsBuilt.at(i)) continue;
@@ -107,7 +105,6 @@ GeometryConstructor::RotateComponentPhi(G4int id, G4double phi)
 {
   if ((id<0) or ((size_t)id>=fComponentsLocation.size())) return false;
   fComponents.at(id)->RotatePhi(phi);
-  G4cout << __PRETTY_FUNCTION__ << " -> " << phi << G4endl;
   return true;
 }
 

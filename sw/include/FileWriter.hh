@@ -51,8 +51,8 @@ class FileWriter
     }
 
     G4bool SetRunInformation(PPS::RunInformation* ri) {
-      if (!fFile or !fRunsTree) return false;
-      fRunsTree->Branch("run", ri->ClassName(), ri, 64000, 1);
+      if (!fFile) return false;
+      fRun = *ri;
       return true;
     }
     
@@ -80,7 +80,7 @@ class FileWriter
     TString fFilename;
     TFile *fFile;
 
-    TTree *fRunsTree;
+    PPS::RunInformation fRun;
     
     TTree *fEventsTree;
     std::vector<TString> fEventObjectsName;

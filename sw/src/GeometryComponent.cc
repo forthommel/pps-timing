@@ -16,6 +16,5 @@ G4VPhysicalVolume*
 GeometryComponent::Construct()
 {
   G4cout << __PRETTY_FUNCTION__ << " Building a new component with name \"" << fName << "\"" << G4endl;
-  G4cout << fRotation << G4endl;
   return fPhys;
 }

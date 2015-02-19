@@ -94,7 +94,6 @@ GeometryConstructorMessenger::SetNewValue(G4UIcommand* command, G4String value)
          << "Invalid component id (" << fLastComponentAdded << "). Check the addition procedure !";
       G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
     }
-    G4cout << __PRETTY_FUNCTION__ << " " << fComponentRotationPhi->GetNewDoubleValue(value) << G4endl;
     if (!fDC->RotateComponentPhi(fLastComponentAdded, -fComponentRotationPhi->GetNewDoubleValue(value))) {
       std::ostringstream ss;
       ss << "Error while trying to set a previously added component's phi rotation.";

@@ -20,11 +20,13 @@ namespace PPS
 
       void SetUpperLabel(TString text_="");
       void AddLegendEntry(const TObject*, TString label_="", Option_t* option_="lpf");
-      void Save(TString);
+      inline TPad* Pad() { return fC1; }
+      void Save(TString path="");
 
     private:
       void Build();
-      
+
+      TPad* fC1;
       Double_t fWidth, fHeight;
       TLegend *fLegend;
       Double_t fLegendX, fLegendY;
