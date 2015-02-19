@@ -90,9 +90,24 @@ G4bool
 GeometryConstructor::MoveComponent(G4int id, G4ThreeVector pos)
 {
   if ((id<0) or ((size_t)id>=fComponentsLocation.size())) return false;
-  
   fComponentsLocation.at(id) = pos;
-  
+  return true;
+}
+
+G4bool
+GeometryConstructor::RotateComponentTheta(G4int id, G4double theta)
+{
+  if ((id<0) or ((size_t)id>=fComponentsLocation.size())) return false;
+  fComponents.at(id)->RotateTheta(theta);
+  return true;
+}
+
+G4bool
+GeometryConstructor::RotateComponentPhi(G4int id, G4double phi)
+{
+  if ((id<0) or ((size_t)id>=fComponentsLocation.size())) return false;
+  fComponents.at(id)->RotatePhi(phi);
+  G4cout << __PRETTY_FUNCTION__ << " -> " << phi << G4endl;
   return true;
 }
 
@@ -100,9 +115,7 @@ G4bool
 GeometryConstructor::SetSDname(G4int id, G4String name)
 {
   if ((id<0) or ((size_t)id>=fComponentsLocation.size())) return false;
-  
   fComponents.at(id)->SetSDname(name);
-  
   return true;
 }
 

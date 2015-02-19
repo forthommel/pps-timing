@@ -57,6 +57,8 @@ class QuartLDetector : public GeometryComponent
     G4LogicalBorderSurface* PMSilSurf[MAX_BARS];
     G4LogicalVolume* window_log[MAX_BARS];
     G4VPhysicalVolume* window_phys[MAX_BARS];
+    
+    G4Material* fContainerMaterial;
 };
 
 #endif

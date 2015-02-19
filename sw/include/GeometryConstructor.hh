@@ -57,6 +57,8 @@ class GeometryConstructor : public G4VUserDetectorConstruction
      * \param[in] pos Location of the component's center
      */
     G4bool MoveComponent(G4int id=-1, G4ThreeVector pos=G4ThreeVector(0., 0., 0.));
+    G4bool RotateComponentTheta(G4int id=-1, G4double theta=0.);
+    G4bool RotateComponentPhi(G4int id=-1, G4double phi=0.);
     /**
      * Set the name of the sensitive detector attached to one geometry component
      * \param[in] id GeometryComponent unique identifier in this geometry

@@ -29,7 +29,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction() :
   //------------------------was ^ now --------------------
   //
   //    was    fParticleGun->SetParticlePosition(G4ThreeVector(0*cm, 0*cm ,    -5.0*cm)); 
-  fParticleGun->SetParticlePosition(G4ThreeVector(1*mm, 1*mm, -5.0*cm));
+  fParticleGun->SetParticlePosition(G4ThreeVector(1.5*mm, 1.5*mm, -5.0*cm)); // we shoot at the center of one cell
   //
   //	Beam under Angle, 26.04
   //

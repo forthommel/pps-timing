@@ -6,6 +6,7 @@ GeometryComponent::GeometryComponent(G4String name) :
   fIsSensitive(false), fSDname(""), fEvent(0)
 {
   fMaterial = ((RunAction*)G4RunManager::GetRunManager()->GetUserRunAction())->GetMaterialManager();
+  fContainerMaterial = fMaterial->Air;
 }
 
 GeometryComponent::~GeometryComponent()
@@ -15,5 +16,6 @@ G4VPhysicalVolume*
 GeometryComponent::Construct()
 {
   G4cout << __PRETTY_FUNCTION__ << " Building a new component with name \"" << fName << "\"" << G4endl;
+  G4cout << fRotation << G4endl;
   return fPhys;
 }

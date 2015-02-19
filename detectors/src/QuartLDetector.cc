@@ -4,20 +4,20 @@ using namespace CLHEP;
 
 const G4int nBar = 20;
 
-const G4double fYoffs[nBar] = {
-  -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
-  -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
-  -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
-  -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
-  -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm
-};
-
 const G4double fXoffs[nBar] = {
    4.7*mm,  4.7*mm,  4.7*mm,  4.7*mm,
    1.6*mm,  1.6*mm,  1.6*mm,  1.6*mm,
   -1.5*mm, -1.5*mm, -1.5*mm, -1.5*mm,
   -4.6*mm, -4.6*mm, -4.6*mm, -4.6*mm,
   -7.7*mm, -7.7*mm, -7.7*mm, -7.7*mm
+};
+
+const G4double fYoffs[nBar] = {
+  -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
+  -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
+  -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
+  -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm,
+  -4.7*mm, -1.6*mm, 1.5*mm, 4.6*mm
 };
 
 const G4double fZoffs[nBar] = {
@@ -30,7 +30,8 @@ const G4double fZoffs[nBar] = {
 
 QuartLDetector::QuartLDetector(G4String name) :
   GeometryComponent(name),
-  fSD(0), fNumBars(0)
+  fSD(0), fNumBars(0),
+  fContainerMaterial(fMaterial->Air)
 {
   G4cout << __PRETTY_FUNCTION__ << " New detector with name \"" << fName << "\" created" << G4endl;
   bar_x    =   3*mm;		// From Mike
@@ -61,6 +62,7 @@ QuartLDetector::BeforeConstruct()
 G4VPhysicalVolume*
 QuartLDetector::BuildOneStation()
 {
+  G4double Xoffs[nBar], Yoffs[nBar], Zoffs[nBar];
   //
   // BAR: The L Bar, 22.01.2012, 14.01.2015
   //
@@ -82,10 +84,32 @@ QuartLDetector::BuildOneStation()
 
   G4ThreeVector Cellsh; // Physical Volumes shifting
   G4ThreeVector Windsh; // For Window shifting
+  
+  G4double xlength = 5.*bar_x+LigL[0]+wind_x;
+  G4double ylength = 4.*bar_y; //FIXME
+  G4double zlength = RadL[nBar-1];
 
-  G4Box* container_box = new G4Box("Container", bar_x/2., bar_y/2., barv_l/2.);
-  G4LogicalVolume* container_log = new G4LogicalVolume(container_box, fMaterial->Air, "Container_log", 0, 0, 0);
-  G4PVPlacement* container_phys = new G4PVPlacement(0, G4ThreeVector(fPosition.x(), fPosition.y(), fPosition.z()), container_log, "Container_phys", fParentLog, false, 0);
+  for (size_t i=0; i<nBar; i++) {
+    Xoffs[i] = -xlength/2.+fXoffs[i]+7.7*mm;
+    Yoffs[i] = -ylength/2.+fYoffs[i]+4.7*mm;
+    Zoffs[i] = -zlength/2.+fZoffs[i]+RadL[0]/2.;
+  }
+  
+  G4Box* container_box = new G4Box("Container", xlength/2., ylength/2., zlength/2.);
+  G4LogicalVolume* container_log = new G4LogicalVolume(container_box, fContainerMaterial, "Container_log", 0, 0, 0);
+  G4PVPlacement* container_phys = new G4PVPlacement(
+    &fRotation,
+    G4ThreeVector(
+      fPosition.x()+xlength/2.,
+      fPosition.y(),
+      fPosition.z()+zlength/2.
+    ),
+    container_log,
+    "Container_phys",
+    fParentLog,
+    false,
+    0
+  );
   
   G4Box* window_box = new G4Box("Window", wind_x/2., wind_z/2., wind_z/2.);
 
@@ -116,10 +140,14 @@ QuartLDetector::BuildOneStation()
     //Bar_log[fNumBars] = new G4LogicalVolume(Bar[fNumBars], fMaterial->Sapphire, ss.str(), 0, 0, 0);
     Bar_phys[fNumBars] = new G4PVPlacement(
       0,
-      G4ThreeVector(fXoffs[i]+fPosition.x(), fYoffs[i]+fPosition.y(), fZoffs[i]+fPosition.z()),
+      G4ThreeVector(
+        Xoffs[i],
+        Yoffs[i],
+        Zoffs[i]
+      ),
       Bar_log[fNumBars],
       ss.str(),
-      fParentLog,
+      container_log,
       false,
       fNumBars);
     //
@@ -133,13 +161,13 @@ QuartLDetector::BuildOneStation()
     window_phys[fNumBars] = new G4PVPlacement(
       0,
       G4ThreeVector(
-        fXoffs[i]+fPosition.x()+wind_x/2.+barh_l+bar_x/2.,
-        fYoffs[i]+fPosition.y(),
-        fZoffs[i]+fPosition.z()-wind_z/2.+barv_l/2.
+        wind_x/2.+barh_l+bar_x/2.,
+        0.,
+       -wind_z/2.+barv_l/2.
       ),
       window_log[fNumBars],
       "Window",
-      fParentLog,
+      Bar_log[fNumBars],
       false,
       fNumBars);
 
