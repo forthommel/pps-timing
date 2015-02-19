@@ -13,8 +13,12 @@
 
 #include "RunAction.hh"
 
-class G4Event;
-
+/**
+ * Class containing all information on each event to be processed inside a run
+ *
+ * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+ * \date Feb 2015
+ */
 class EventAction : public G4UserEventAction
 {
   public:

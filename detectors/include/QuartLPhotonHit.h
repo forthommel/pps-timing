@@ -21,11 +21,15 @@ namespace PPS
 
       inline void SetParentID(int par_id) { fParentID=par_id; }
       inline int GetParentID() const { return fParentID; }
+
+      inline void SetCellID(int cell_id) { fCellID=cell_id; }
+      inline int GetCellID() const { return fCellID; }
     
     private:
       TLorentzVector fPosition;
       TLorentzVector fMomentum;
       int fParentID;
+      int fCellID;
       
     public:
       ClassDef(QuartLPhotonHit, 1)

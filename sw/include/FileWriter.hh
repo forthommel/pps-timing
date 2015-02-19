@@ -12,7 +12,8 @@
 #define MAX_MODULES 4
 
 /**
- * Analysis class intended to store into a TTree the information for each event.
+ * Analysis class intended to store into a TTree the information collected
+ * for each event in each run.
  *
  * \author Laurent Forthomme <laurent.forthomme@cern.ch>
  * \date Feb 2015
@@ -28,17 +29,10 @@ class FileWriter
     FileWriter(G4String filename="events.root");
     ~FileWriter();
     
-    /**
-     * \brief Add a new photon hit on the PMT in the events' collection.
-     * \param[in] step The Geant4 iterative step from which the photon
-     *  kinematics is extracted.
-     */
-    void AddHitInEvent(G4Step* step);
     /** \brief Store the runs tree onto the external ROOT file */
     void StoreRun();
     /** \brief Store the events tree onto the external ROOT file */
     void StoreEvent();
-    inline G4int GetNumHitsInEvent() const { return fNumHits; }
     
     /**
      * Add a new sensitive detector to the output file (and TTree) for
@@ -48,17 +42,17 @@ class FileWriter
      * \return A boolean stating the success (or error) of the operation
      */
     template<class T> G4bool RegisterSD(T* object) {
-      if (!fFile or !fEventTree) return false;
+      if (!fFile or !fEventsTree) return false;
       fEventObjects.push_back(object);
-      fEventTree->Branch(Form("%s__%s", object->GetSDName().Data(), object->GetName()), object->ClassName(), object, 64000, 1);
+      fEventsTree->Branch(Form("%s__%s", object->GetSDName().Data(), object->GetName()), object->ClassName(), object, 64000, 1);
       fEventObjectsName.push_back(object->GetSDName());
       object->Clear(); // Object is cleared before any run
       return true;
     }
 
     G4bool SetRunInformation(PPS::RunInformation* ri) {
-      if (!fFile or !fRunTree) return false;
-      fRunTree->Branch("run", ri->ClassName(), ri, 64000, 1);
+      if (!fFile or !fRunsTree) return false;
+      fRunsTree->Branch("run", ri->ClassName(), ri, 64000, 1);
       return true;
     }
     
@@ -86,35 +80,11 @@ class FileWriter
     TString fFilename;
     TFile *fFile;
 
-    TTree *fRunTree;
+    TTree *fRunsTree;
     
-    TTree *fEventTree;
+    TTree *fEventsTree;
     std::vector<TString> fEventObjectsName;
     std::vector<TObject*> fEventObjects;
-    
-    TH2D *fHitMap[MAX_MODULES];
-    TH2D *fEnergyMap[MAX_MODULES];
-    
-    /** \brief Total number of hits collected in one single event */
-    G4int fNumHits;
-    /** \brief Total number of events generated in all runs */
-    G4int fNumEvents;
-    G4int fRunId;
-    
-    /*G4double fVx[MAX_HITS];
-    G4double fVy[MAX_HITS];
-    G4double fVz[MAX_HITS];
-    
-    G4double fProductionTime[MAX_HITS];
-    G4double fTrackLength[MAX_HITS];
-    
-    G4double fPx[MAX_HITS];
-    G4double fPy[MAX_HITS];
-    G4double fPz[MAX_HITS];
-    G4double fE[MAX_HITS];
-    
-    G4int fStationId[MAX_HITS];
-    G4int fCellId[MAX_HITS];*/
 };
 
 #endif
