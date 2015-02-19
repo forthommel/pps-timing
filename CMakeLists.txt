@@ -23,11 +23,23 @@ include(${Geant4_USE_FILE})
 # ROOT include
 #----------------------------------------------------------------------------
 
-set(GCC_COMPILE_FLAGS "-Wno-shadow -fPIC")
-add_definitions(${GCC_COMPILE_FLAGS})
 find_package(ROOT REQUIRED)
 include_directories(${ROOT_INCLUDE_DIR})
 link_directories(${ROOT_LIBRARY_DIR})
+if(${ROOT_VERSION} LESS 6.0)
+  set(GCC_COMPILE_FLAGS "-Wno-shadow -fPIC")
+else()
+  set(GCC_COMPILE_FLAGS "-Wno-shadow -fPIC -std=c++11")
+endif()
+add_definitions(${GCC_COMPILE_FLAGS})
+
+function(GENERATE_DICTIONARY dictionary)
+  if(${ROOT_VERSION} LESS 6.0)
+    ROOT_GENERATE_DICTIONARY(${dictionary} ${ARGN})
+  else()
+    ROOT_GENERATE_DICTIONARY(${dictionary} MODULE ${dictionary} ${ARGN})
+  endif()
+endfunction()
 
 #----------------------------------------------------------------------------
 # Modules to be compiled along with the output executable

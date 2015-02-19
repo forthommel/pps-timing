@@ -12,19 +12,13 @@ file(GLOB headers include/*.hh)
 #
 
 file(GLOB dict_headers include/*.h)
-list(REMOVE_ITEM dict_headers include/LinkDef.h)
-
 file(GLOB dict_sources src/*.cpp)
 
 # message(STATUS "Headers for dictionary : " ${dict_headers})
 # message(STATUS "Sources for dictionary : " ${dict_sources})
 message(STATUS "ROOT version: " ${ROOT_VERSION})
-#if(${ROOT_VERSION} LESS 6.0)
-  ROOT_GENERATE_DICTIONARY(PPSDict ${dict_headers} LINKDEF include/LinkDef.h)
-#else()
-#  ROOT_GENERATE_DICTIONARY(PPSDict MODULE PPSDict ${dict_headers} LINKDEF include/LinkDef.h)
-#  #ROOT_GENERATE_DICTIONARY(PPSDict ${dict_headers} LINKDEF include/LinkDef.h MODULE PPSDict)
-#endif()
+#ROOT_GENERATE_DICTIONARY(PPSDict ${dict_headers} LINKDEF include/LinkDef.h)
+GENERATE_DICTIONARY(PPSDict ${dict_headers} LINKDEF include/LinkDef.h)
 list(APPEND sources PPSDict.cxx)
 add_library(PPS SHARED ${dict_sources} PPSDict.cxx)
 target_link_libraries(PPS ${ROOT_LIBRARIES} ${ROOT_COMPONENT_LIBRARIES})

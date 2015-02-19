@@ -1,5 +1,10 @@
-gSystem->Load("sw/libPPS.so");
-gSystem->Load("detectors/libDetectors.so");
+#include "TSystem.h"
+#include "TH2.h"
+
+#include <iostream>
+
+//gSystem->Load("sw/libPPS.so");
+//gSystem->Load("detectors/libDetectors.so");
 
 void
 example()
@@ -15,8 +20,9 @@ example()
   if (!reader->IsOpen()) return;
   cout << "=> " << reader->NumEvents() << " events to be processed" << endl;
 
-  //cout << reader->SetDetectorEventsAddress("quartic1", &ev1) << endl;
-  cout << reader->SetDetectorEventsAddress<PPS::QuartLEvent>("quartic1", &ev1) << endl;
+  reader->SetDetectorEventsAddress("quartic1", &ev1);
+  reader->SetDetectorEventsAddress("quartic2", &ev2);
+  //cout << reader->SetDetectorEventsAddress<PPS::QuartLEvent>("quartic1", &ev1) << endl;
 
   hitmap = new TH2D("hitmap", "", 260, 0., 13., 200, -2.5, 2.5);
   
@@ -33,10 +39,10 @@ example()
       hitmap->Fill(hit.Position().Z()*100., hit.Position().Y()*100.); // we want it in cm...
     }
     // Loop over all hits observed in second QUARTIC
-    for (int j=0; j<ev2.GetNumberOfPhotons(); j++) {
+    /*for (int j=0; j<ev2.GetNumberOfPhotons(); j++) {
       PPS::QuartLPhotonHit hit = ev2.GetHit(j);
       hitmap->Fill(hit.Position().Z()*100., hit.Position().Y()*100.); // we want it in cm...
-    }
+    }*/
   }
   hitmap->Scale(1./reader->NumEvents());
 

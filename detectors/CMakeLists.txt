@@ -10,18 +10,18 @@ file(GLOB headers include/*.hh)
 # in the output TTrees
 #
 
+#file(GLOB dict_headers include/*.h ${PROJECT_SOURCE_DIR}/sw/include/*.h)
+#file(GLOB dict_headers include/*.h ${PROJECT_SOURCE_DIR}/sw/include/PPSReader.h)
 file(GLOB dict_headers include/*.h)
 list(REMOVE_ITEM dict_headers include/LinkDef.h)
 
+#file(GLOB dict_sources src/*.cpp ${PROJECT_SOURCE_DIR}/sw/src/*.cpp)
+#file(GLOB dict_sources src/*.cpp ${PROJECT_SOURCE_DIR}/sw/src/PPSReader.cpp)
 file(GLOB dict_sources src/*.cpp)
 
 # message(STATUS "Headers for dictionary : " ${dict_headers})
 # message(STATUS "Sources for dictionary : " ${dict_sources})
-#if(${ROOT_VERSION} LESS 6.0)
-  ROOT_GENERATE_DICTIONARY(DetectorsDict ${dict_headers} LINKDEF include/LinkDef.h)
-#else()
-#  ROOT_GENERATE_DICTIONARY(DetectorsDict MODULE DetectorsDict ${dict_headers} LINKDEF include/LinkDef.h)
-#endif()
+GENERATE_DICTIONARY(DetectorsDict ${dict_headers} LINKDEF include/LinkDef.h)
 list(APPEND sources DetectorsDict.cxx)
 add_library(Detectors SHARED ${dict_sources} DetectorsDict.cxx)
 target_link_libraries(Detectors ${ROOT_LIBRARIES} ${ROOT_COMPONENT_LIBRARIES})

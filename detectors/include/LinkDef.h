@@ -13,6 +13,7 @@
 #pragma link C++ class PPS::QuartLInformation+;
 #pragma link C++ class PPS::QuartLEvent+;
 #pragma link C++ class PPS::QuartLPhotonHit+;
-#pragma link C++ function PPSReader::SetDetectorEventsAddress(const char*,PPS::QuartLEvent*)+;
+#pragma link C++ class PPS::PPSReader+;
+#pragma link C++ function PPS::PPSReader::SetDetectorEventsAddress(TString,PPS::QuartLEvent*)+;
 
 #endif
