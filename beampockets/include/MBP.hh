@@ -2,28 +2,28 @@
 #define MBP_h
 
 #include "G4GDMLParser.hh"
-
 #include "globals.hh"
 
 #include "GeometryComponent.hh"
 
-typedef enum {
-  STAINLESS_STEEL,
-  ALBEMET,
-  BERYLLIUM
-} window_type;
-
-/// Detector construction class to define materials and geometry.
-
-class MBP : public GeometryComponent
+namespace MBP
 {
-public:
-  MBP(G4String name, window_type=STAINLESS_STEEL, G4bool only_window=false);
-  virtual ~MBP();
+  typedef enum {
+    STAINLESS_STEEL,
+    ALBEMET,
+    BERYLLIUM
+  } window_type;
   
-private:
-  G4GDMLParser* fParser;
-};
+  class MBP : public PPS::GeometryComponent
+  {
+  public:
+    MBP(G4String name, window_type=STAINLESS_STEEL, G4bool only_window=false);
+    virtual ~MBP();
+    
+  private:
+    G4GDMLParser* fParser;
+  };
+}
 
 #endif
 

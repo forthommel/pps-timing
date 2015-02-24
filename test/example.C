@@ -11,7 +11,7 @@ example(TString filename)
 {
   TFile *file;
   TTree *tree;
-  PPS::QuartLEvent *ev1, *ev2;
+  Quartic::QuartLEvent *ev1, *ev2;
   TH2D *hitmap;
   TH1D *lambda;
   PPS::Canvas *c_hm, *c_lambda;
@@ -19,8 +19,8 @@ example(TString filename)
   file = new TFile(filename, "READ");
   if (!file->IsOpen()) return;
   tree = (TTree*)(file->Get("events"));
-  tree->SetBranchAddress("quartic1__PPS::QuartLEvent", &ev1);
-  tree->SetBranchAddress("quartic2__PPS::QuartLEvent", &ev2);
+  tree->SetBranchAddress("quartic1__Quartic::QuartLEvent", &ev1);
+  tree->SetBranchAddress("quartic2__Quartic::QuartLEvent", &ev2);
 
   hitmap = new TH2D("hitmap", "", 280, 0., 14., 200, -2.5, 2.5);
   lambda = new TH1D("lambda", "", 100, 20., 120.);
@@ -34,14 +34,13 @@ example(TString filename)
     }
     // Loop over all hits observed in first QUARTIC
     for (int j=0; j<ev1->GetNumberOfPhotons(); j++) {
-      PPS::QuartLPhotonHit hit = ev1->GetHit(j);
+      Quartic::QuartLPhotonHit hit = ev1->GetHit(j);
       hitmap->Fill(hit.Position().Z()*100., hit.Position().Y()*100.); // we want it in cm...
-      cout << TMath::H()*TMath::C()/hit.Momentum().E() << endl;
       lambda->Fill(TMath::H()*TMath::C()/(hit.Momentum().E()*1.e-9)*1.e9); // we want it in nm... (and energy is in GeV)
     }
     // Loop over all hits observed in second QUARTIC
     for (int j=0; j<ev2->GetNumberOfPhotons(); j++) {
-      PPS::QuartLPhotonHit hit = ev2->GetHit(j);
+      Quartic::QuartLPhotonHit hit = ev2->GetHit(j);
       hitmap->Fill(hit.Position().Z()*100., hit.Position().Y()*100.); // we want it in cm...
     }
   }

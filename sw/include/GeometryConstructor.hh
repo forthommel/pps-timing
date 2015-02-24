@@ -28,64 +28,69 @@
 #include "beampockets.hh"
 ////////////////////////////////////////////////////////////////
 
-class GeometryConstructorMessenger;
-typedef std::vector<GeometryComponent*> ComponentsRef;
-
-/**
- * Detectors (and geometry) manager.
- *
- * \author Laurent Forthomme <laurent.forthomme@cern.ch>
- * \date Feb 2015
- */
-class GeometryConstructor : public G4VUserDetectorConstruction
+namespace PPS
 {
-  public:
-    GeometryConstructor();
-    ~GeometryConstructor();
+  typedef std::vector<GeometryComponent*> ComponentsRef;
+  class GeometryConstructorMessenger;
+  /**
+   * Detectors (and geometry) manager.
+   *
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+   * \date Feb 2015
+   */
+  class GeometryConstructor : public G4VUserDetectorConstruction
+  {
+    public:
+      GeometryConstructor();
+      ~GeometryConstructor();
     
-    G4VPhysicalVolume* Construct();
-    void UpdateGeometry();
+      G4VPhysicalVolume* Construct();
+      void UpdateGeometry();
 
-    /**
-     * Add a new component (detector, beampocket, ...) to the global geometry
-     * \param[in] type String stating the component type
-     */
-    G4int AddNewComponent(G4String type="");
-    /**
-     * Set the location of one given component
-     * \param[in] id GeometryComponent unique identifier in this geometry
-     * \param[in] pos Location of the component's center
-     */
-    G4bool MoveComponent(G4int id=-1, G4ThreeVector pos=G4ThreeVector(0., 0., 0.));
-    G4bool RotateComponentTheta(G4int id=-1, G4double theta=0.);
-    G4bool RotateComponentPhi(G4int id=-1, G4double phi=0.);
-    /**
-     * Set the name of the sensitive detector attached to one geometry component
-     * \param[in] id GeometryComponent unique identifier in this geometry
-     * \param[in] name Sensitive detector's name for the GeometryComponent object
-     */
-    G4bool SetSDname(G4int id=-1, G4String name="");
+      /**
+       * Add a new component (detector, beampocket, ...) to the global geometry
+       * \param[in] type String stating the component type
+       */
+      G4int AddNewComponent(G4String type="");
+      /**
+       * Set the location of one given component
+       * \param[in] id GeometryComponent unique identifier in this geometry
+       * \param[in] pos Location of the component's center
+       */
+      G4bool MoveComponent(G4int id=-1, G4ThreeVector pos=G4ThreeVector(0., 0., 0.));
+      G4bool RotateComponentTheta(G4int id=-1, G4double theta=0.);
+      G4bool RotateComponentPhi(G4int id=-1, G4double phi=0.);
+      /**
+       * Set the name of the sensitive detector attached to one geometry component
+       * \param[in] id GeometryComponent unique identifier in this geometry
+       * \param[in] name Sensitive detector's name for the GeometryComponent object
+       */
+      G4bool SetSDname(G4int id=-1, G4String name="");
 
-    void WriteGDML(G4String filename="geometry.gdml");
+      void WriteGDML(G4String filename="geometry.gdml");
   
-  private:   
- 
-    G4double expHall_x;
-    G4double expHall_y;
-    G4double expHall_z;
+    private:
+      /**
+       * Build the physical volume given the geometry information provided by the messenger
+       * \return A pointer to the physical volume setting the geometry
+       */
+      G4VPhysicalVolume* ConstructGeometry();
+    
+      G4double expHall_x;
+      G4double expHall_y;
+      G4double expHall_z;
 
-    G4VPhysicalVolume* expHall_phys;
-    G4LogicalVolume* expHall_log;
+      G4VPhysicalVolume* expHall_phys;
+      G4LogicalVolume* expHall_log;
 
-    MaterialManager *fMaterial;
-    GeometryConstructorMessenger *fMessenger;
+      MaterialManager *fMaterial;
+      GeometryConstructorMessenger *fMessenger;
 
-    G4VPhysicalVolume* ConstructGeometry();
-
-    ComponentsRef fComponents;
-    std::vector<G4ThreeVector> fComponentsLocation;
-    /** \brief Workaround to avoid building multiple times the same detector in the geometry update process */
-    std::vector<bool> fComponentsBuilt;
-};
+      ComponentsRef fComponents;
+      std::vector<G4ThreeVector> fComponentsLocation;
+      /** \brief Workaround to avoid building multiple times the same detector in the geometry update process */
+      std::vector<bool> fComponentsBuilt;
+  };
+}
 
 #endif

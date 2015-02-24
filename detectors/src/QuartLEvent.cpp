@@ -1,8 +1,8 @@
 #include "QuartLEvent.h"
 
-ClassImp(PPS::QuartLEvent)
+ClassImp(Quartic::QuartLEvent)
 
-namespace PPS
+namespace Quartic
 {
   QuartLEvent::QuartLEvent() :
     fName(""), fHitMap(0)

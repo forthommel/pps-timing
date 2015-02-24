@@ -11,6 +11,12 @@
 
 namespace PPS
 {
+  /**
+   * Extension of the TCanvas object to beautify and uniformize the plots of interest
+   *
+   * \date Nov 2013 (GasToF version)
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+   */
   class Canvas : public TCanvas
   {
     public:

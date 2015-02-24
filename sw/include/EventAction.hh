@@ -13,21 +13,23 @@
 
 #include "RunAction.hh"
 
-/**
- * Class containing all information on each event to be processed inside a run
- *
- * \author Laurent Forthomme <laurent.forthomme@cern.ch>
- * \date Feb 2015
- */
-class EventAction : public G4UserEventAction
+namespace PPS
 {
-  public:
-    EventAction();
-    ~EventAction();
+  /**
+   * Class containing all information on each event to be processed inside a run
+   *
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+   * \date Feb 2015
+   */
+  class EventAction : public G4UserEventAction
+  {
+    public:
+      EventAction();
+      ~EventAction();
 
-  public:
-    void BeginOfEventAction(const G4Event*);
-    void EndOfEventAction(const G4Event*);
-};
+      void BeginOfEventAction(const G4Event*);
+      void EndOfEventAction(const G4Event*);
+  };
+}
 
 #endif

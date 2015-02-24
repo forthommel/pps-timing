@@ -6,6 +6,12 @@
 
 namespace PPS
 {
+  /**
+   * Class holding all the kinematic information on the incoming particles to appear in a run
+   *
+   * \date Feb 2015
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+   */
   class IncomingParticle : public TObject
   {
     public:

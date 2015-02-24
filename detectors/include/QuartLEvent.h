@@ -9,14 +9,14 @@
 #include "TLorentzVector.h"
 #include "TH2.h"
 
-namespace PPS
+namespace Quartic
 {
   typedef std::vector<QuartLPhotonHit> HitsCollection;  
   /**
    * Class containing all kinematic information on the photon tracks in each QUARTIC event
    *
-   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
    * \date Feb 2015
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
    */
   class QuartLEvent : public TObject
   {

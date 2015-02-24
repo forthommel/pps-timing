@@ -5,7 +5,7 @@
 
 #include "TObject.h"
 
-namespace PPS
+namespace Quartic
 {
   class QuartLInformation : public TObject
   {

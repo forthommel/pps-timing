@@ -41,7 +41,7 @@ int main(int argc,char** argv)
 
   // User Verbose output class
   //
-  G4VSteppingVerbose* verbosity = new SteppingVerbose;
+  G4VSteppingVerbose* verbosity = new PPS::SteppingVerbose;
   G4VSteppingVerbose::SetInstance(verbosity);
 
   // Run manager
@@ -55,7 +55,7 @@ int main(int argc,char** argv)
 
   // UserInitialization classes - mandatory
   //
-  GeometryConstructor *geom_constructor = new GeometryConstructor;
+  PPS::GeometryConstructor *geom_constructor = new PPS::GeometryConstructor;
   runManager->SetUserInitialization(geom_constructor);
   
   G4VModularPhysicsList* physics;
@@ -69,7 +69,7 @@ int main(int argc,char** argv)
 
   runManager-> SetUserInitialization(physics);
 
-  ActionInitialization* action = new ActionInitialization;
+  PPS::ActionInitialization* action = new PPS::ActionInitialization;
   runManager->SetUserInitialization(action);
 
   // Initialize G4 kernel

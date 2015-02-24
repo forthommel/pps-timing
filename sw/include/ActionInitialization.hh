@@ -10,21 +10,24 @@
 #include "TrackingAction.hh"
 #include "FileWriter.hh"
 
-class ActionInitialization : public G4VUserActionInitialization
+namespace PPS
 {
-  public:
-    ActionInitialization();
-    virtual ~ActionInitialization();
+  class ActionInitialization : public G4VUserActionInitialization
+  {
+    public:
+      ActionInitialization();
+      virtual ~ActionInitialization();
 
-    virtual void BuildForMaster() const;
-    virtual void Build() const;
-        
-  private:
-    G4UserEventAction* fEventAction;
-    G4VUserPrimaryGeneratorAction* fPrimaryGenerator;
-    G4UserStackingAction* fStackingAction;
-    G4UserTrackingAction* fTrackingAction;
-    FileWriter* fOutput;
-};
+      virtual void BuildForMaster() const;
+      virtual void Build() const;
+
+    private:
+      G4UserEventAction* fEventAction;
+      G4VUserPrimaryGeneratorAction* fPrimaryGenerator;
+      G4UserStackingAction* fStackingAction;
+      G4UserTrackingAction* fTrackingAction;
+      FileWriter* fOutput;
+  };
+}
 
 #endif

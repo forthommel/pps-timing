@@ -13,24 +13,31 @@
 #include "TFile.h"
 #include "TTree.h"
 
-class RunAction : public G4UserRunAction
+namespace PPS
 {
-  public:
-    RunAction(FileWriter* analyzer=0);
-    ~RunAction();
+  /**
+   * \date Feb 2015
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+   */
+  class RunAction : public G4UserRunAction
+  {
+    public:
+      RunAction(FileWriter* analyzer=0);
+      ~RunAction();
 
-    void BeginOfRunAction(const G4Run* aRun);
-    void EndOfRunAction(const G4Run* aRun);
-    /** \brief Returns a pointer to the FileWriter object used to collect all tracks' information in an external ROOT tree */
-    inline FileWriter* GetFileWriter() { return fOutput; }
-    inline MaterialManager* GetMaterialManager() { return fMaterialManager; }
-    inline PPS::RunInformation* GetRunInformation() { return fRunInfo; }
+      void BeginOfRunAction(const G4Run* aRun);
+      void EndOfRunAction(const G4Run* aRun);
+      /** \brief Returns a pointer to the FileWriter object used to collect all tracks' information in an external ROOT tree */
+      inline FileWriter* GetFileWriter() { return fOutput; }
+      inline MaterialManager* GetMaterialManager() { return fMaterialManager; }
+      inline RunInformation* GetRunInformation() { return fRunInfo; }
 
-  private:
-    G4Timer* fTimer;
-    FileWriter* fOutput;
-    MaterialManager* fMaterialManager;
-    PPS::RunInformation* fRunInfo;
-};
+    private:
+      G4Timer* fTimer;
+      FileWriter* fOutput;
+      MaterialManager* fMaterialManager;
+      RunInformation* fRunInfo;
+  };
+}
 
 #endif

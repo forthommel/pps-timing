@@ -43,7 +43,7 @@ namespace PPS
     gStyle->SetTitle("");
     gStyle->SetTitleFont(43, "XYZ");
     gStyle->SetTitleSize(22, "XYZ");
-    gStyle->SetTitleOffset(2., "Y");
+    //gStyle->SetTitleOffset(2., "Y");
     gStyle->SetLabelFont(43, "XYZ");
     gStyle->SetLabelSize(22, "XYZ");
     

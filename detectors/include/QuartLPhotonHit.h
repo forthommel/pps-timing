@@ -4,7 +4,7 @@
 #include "TObject.h"
 #include "TLorentzVector.h"
 
-namespace PPS
+namespace Quartic
 {
   class QuartLPhotonHit : public TObject
   {

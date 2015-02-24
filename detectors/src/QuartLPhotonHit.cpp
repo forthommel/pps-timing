@@ -1,14 +1,17 @@
 #include "QuartLPhotonHit.h"
 
-ClassImp(PPS::QuartLPhotonHit)
+ClassImp(Quartic::QuartLPhotonHit)
 
-PPS::QuartLPhotonHit::QuartLPhotonHit() :
-  fParentID(-1)
-{}
-
-PPS::QuartLPhotonHit::QuartLPhotonHit(int par_id) :
-  fParentID(par_id)
-{}
-
-PPS::QuartLPhotonHit::~QuartLPhotonHit()
-{}
+namespace Quartic
+{
+  QuartLPhotonHit::QuartLPhotonHit() :
+    fParentID(-1)
+  {}
+  
+  QuartLPhotonHit::QuartLPhotonHit(int par_id) :
+    fParentID(par_id)
+  {}
+  
+  QuartLPhotonHit::~QuartLPhotonHit()
+  {}
+}
