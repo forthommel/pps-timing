@@ -89,17 +89,20 @@ install(TARGETS ppsSim DESTINATION bin)
 # Generate the Doxygen documentation
 #----------------------------------------------------------------------------
 
-set(DOC_SOURCE "${PROJECT_SOURCE_DIR}/sw/include ${PROJECT_SOURCE_DIR}/detectors/include ${PROJECT_SOURCE_DIR}/beampockets/include")
-set(DOC_PROJECT_ROOT ${DOC_SOURCE} CACHE PATH "Root of the project sources")
-set(DOC_DIR ${PROJECT_SOURCE_DIR}/doc)
-execute_process(COMMAND git -C ${PROJECT_SOURCE_DIR} describe --always OUTPUT_VARIABLE DOC_PROJECT_VERSION ERROR_QUIET)
-find_package(Doxygen REQUIRED) # Doxygen
-set(DOC_GENERATE_PDF "YES")
-## Generate the Doxyfile from template
-configure_file(${DOC_DIR}/Doxyfile.in ${DOC_DIR}/Doxyfile @ONLY)
-add_custom_target(doc COMMAND ${DOXYGEN_EXECUTABLE} ${DOC_DIR}/Doxyfile
-  DEPENDS ${DOC_DIR}/Doxyfile.in ${DOC_DIR}/Doxyfile
-  COMMENT "Generating documentation"
-  SOURCES ${DOC_DIR}/Doxyfile
-)
-set_source_files_properties(${DOC_DIR}/Doxyfile PROPERTIES GENERATED 1)
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+  set(DOC_SOURCE "${PROJECT_SOURCE_DIR}/sw/include ${PROJECT_SOURCE_DIR}/detectors/include ${PROJECT_SOURCE_DIR}/beampockets/include")
+  set(DOC_PROJECT_ROOT ${DOC_SOURCE} CACHE PATH "Root of the project sources")
+  set(DOC_DIR ${PROJECT_SOURCE_DIR}/doc)
+  execute_process(COMMAND git -C ${PROJECT_SOURCE_DIR} describe --always OUTPUT_VARIABLE DOC_PROJECT_VERSION ERROR_QUIET)
+  set(HAVE_DOT "YES")
+  set(DOC_GENERATE_PDF "YES")
+  ## Generate the Doxyfile from template
+  configure_file(${DOC_DIR}/Doxyfile.in ${DOC_DIR}/Doxyfile @ONLY)
+  add_custom_target(doc COMMAND ${DOXYGEN_EXECUTABLE} ${DOC_DIR}/Doxyfile
+    DEPENDS ${DOC_DIR}/Doxyfile.in ${DOC_DIR}/Doxyfile
+    COMMENT "Generating documentation"
+    SOURCES ${DOC_DIR}/Doxyfile
+  )
+  set_source_files_properties(${DOC_DIR}/Doxyfile PROPERTIES GENERATED 1)
+endif()

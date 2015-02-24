@@ -12,6 +12,11 @@
 
 namespace PPS
 {
+  /**
+   * Object holding all user information to be filled and propagated by Geant4 along the simulation stage
+   * \date Feb 2015
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+   */
   class ActionInitialization : public G4VUserActionInitialization
   {
     public:
