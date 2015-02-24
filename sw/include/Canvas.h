@@ -2,6 +2,7 @@
 #define Canvas_h
 
 #include "TCanvas.h"
+#include "TPad.h"
 #include "TPaveText.h"
 #include "TLegend.h"
 #include "TStyle.h"
@@ -20,11 +21,13 @@ namespace PPS
 
       void SetUpperLabel(TString text_="");
       void AddLegendEntry(const TObject*, TString label_="", Option_t* option_="lpf");
-      void Save(TString);
+      void Save(TString filename="");
+      inline TPad* Pad() { return c1; }
 
     private:
       void Build();
       
+      TPad *c1, *c2;
       Double_t fWidth, fHeight;
       TLegend *fLegend;
       Double_t fLegendX, fLegendY;

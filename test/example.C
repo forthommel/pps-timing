@@ -1,6 +1,11 @@
 gSystem->Load("sw/libPPS.so");
 gSystem->Load("detectors/libDetectors.so");
 
+/**
+ * Example CINT macro to read QUARTIC events
+ * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+ * \date 17 Feb 2015
+ */
 void
 example(TString filename)
 {
@@ -8,7 +13,8 @@ example(TString filename)
   TTree *tree;
   PPS::QuartLEvent *ev1, *ev2;
   TH2D *hitmap;
-  PPS::Canvas *c;
+  TH1D *lambda;
+  PPS::Canvas *c_hm, *c_lambda;
 
   file = new TFile(filename, "READ");
   if (!file->IsOpen()) return;
@@ -16,7 +22,8 @@ example(TString filename)
   tree->SetBranchAddress("quartic1__PPS::QuartLEvent", &ev1);
   tree->SetBranchAddress("quartic2__PPS::QuartLEvent", &ev2);
 
-  hitmap = new TH2D("hitmap", "", 260, 0., 13., 200, -2.5, 2.5);
+  hitmap = new TH2D("hitmap", "", 280, 0., 14., 200, -2.5, 2.5);
+  lambda = new TH1D("lambda", "", 100, 20., 120.);
 
   for (int i=0; i<tree->GetEntries(); i++) {
     tree->GetEntry(i);
@@ -29,6 +36,8 @@ example(TString filename)
     for (int j=0; j<ev1->GetNumberOfPhotons(); j++) {
       PPS::QuartLPhotonHit hit = ev1->GetHit(j);
       hitmap->Fill(hit.Position().Z()*100., hit.Position().Y()*100.); // we want it in cm...
+      cout << TMath::H()*TMath::C()/hit.Momentum().E() << endl;
+      lambda->Fill(TMath::H()*TMath::C()/(hit.Momentum().E()*1.e-9)*1.e9); // we want it in nm... (and energy is in GeV)
     }
     // Loop over all hits observed in second QUARTIC
     for (int j=0; j<ev2->GetNumberOfPhotons(); j++) {
@@ -38,9 +47,15 @@ example(TString filename)
   }
   hitmap->Scale(1./tree->GetEntries());
 
-  c = new PPS::Canvas("hits", "Photon hits (yields per proton)");
+  c_hm = new PPS::Canvas("hits", "Photon hits (yields per proton)");
   hitmap->Draw("colz");
   hitmap->GetXaxis()->SetTitle("Z [cm]");
   hitmap->GetYaxis()->SetTitle("Y [cm]");
-  c->Save("hits");
+  c_hm->Save();
+
+  c_lambda = new PPS::Canvas("photon_lambda", "First QUARTIC station, per proton");
+  lambda->Draw();
+  lambda->GetXaxis()->SetTitle("#lambda(#gamma) (nm)");
+  lambda->GetYaxis()->SetTitle("dN/d#lambda(#gamma) (/nm)");
+  c_lambda->Save();
 }

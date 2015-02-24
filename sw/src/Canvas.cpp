@@ -43,8 +43,20 @@ namespace PPS
     gStyle->SetTitle("");
     gStyle->SetTitleFont(43, "XYZ");
     gStyle->SetTitleSize(22, "XYZ");
+    gStyle->SetTitleOffset(2., "Y");
     gStyle->SetLabelFont(43, "XYZ");
     gStyle->SetLabelSize(22, "XYZ");
+    
+    Divide(1,2);
+    c1 = (TPad*)GetPad(1);
+    c2 = (TPad*)GetPad(2);
+    c1->SetPad(0.,0.,1.,1.);
+    c2->SetPad(0.,0.,1.,0.);
+    c1->SetBottomMargin(0.1);
+    c1->SetLeftMargin(0.1);
+    c1->SetRightMargin(0.1);
+    c1->SetTopMargin(0.1);
+    cd(1);
     
     fLegend = new TLegend(fLegendX, fLegendY, fLegendX+.35, fLegendY+.12);
     fLegend->SetFillColor(kWhite);
@@ -52,8 +64,8 @@ namespace PPS
     fLegend->SetLineWidth(0);
     fLegend->SetTextFont(43);
     fLegend->SetTextSize(14);
-
-    SetTicks(1, 1);
+    
+    c1->SetTicks(1, 1);
   }
 
   void
@@ -84,9 +96,12 @@ namespace PPS
   }
 
   void
-  Canvas::Save(TString path_)
+  Canvas::Save(TString filename)
   {
     std::stringstream output;
+    if (filename=="") {
+      filename = GetName();
+    }
     
     if (!fLabelsDrawn) {
       fLabel1 = new TPaveText(.115, .925, .2, .955, "NDC");
@@ -115,11 +130,11 @@ namespace PPS
       SetUpperLabel(fUpperLabelText);
       fLabelsDrawn = true;
     }
-    output.str(""); output << path_ << ".png";
+    output.str(""); output << filename << ".png";
     SaveAs(output.str().c_str());
-    output.str(""); output << path_ << ".pdf";
+    output.str(""); output << filename << ".pdf";
     SaveAs(output.str().c_str());
-    //output.str(""); output << path_ << ".root";
+    //output.str(""); output << filename << ".root";
     ////SaveAs(output.str().c_str());
     //}
   }
