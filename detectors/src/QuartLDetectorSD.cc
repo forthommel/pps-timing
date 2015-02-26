@@ -42,17 +42,17 @@ namespace Quartic
       QuartLPhotonHit hit(ti->GetOriginalTrackID());
       hit.SetCellID(step->GetPreStepPoint()->GetPhysicalVolume()->GetCopyNo());
       hit.SetMomentum(TLorentzVector(
-				     mom3.x()/GeV,
-				     mom3.y()/GeV,
-				     mom3.z()/GeV,
-				     track->GetTotalEnergy()/GeV
-				     ));
+        mom3.x()/GeV,
+        mom3.y()/GeV,
+        mom3.z()/GeV,
+        track->GetTotalEnergy()/GeV
+      ));
       hit.SetPosition(TLorentzVector(
-				     pos3.x()/m,
-				     pos3.y()/m,
-				     pos3.z()/m,
-				     track->GetGlobalTime()/second
-				     ));
+        pos3.x()/m,
+        pos3.y()/m,
+        pos3.z()/m,
+        track->GetGlobalTime()/second
+      ));
       
       fEvent->AddPhoton(hit);
       
