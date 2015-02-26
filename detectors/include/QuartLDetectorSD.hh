@@ -15,26 +15,32 @@
 #include "QuartLEvent.h"
 #include "QuartLPhotonHit.h"
 
-class G4Step;
-class RunAction;
-
-class QuartLDetectorSD: public G4VSensitiveDetector 
+namespace Quartic
 {
-  public:
-    QuartLDetectorSD(G4String);
-    ~QuartLDetectorSD();
+  /**
+   * Sensitive areas defined for the L-bar QUARTIC.
+   *
+   * \author Vladimir Samoilenko <vladimir.samoilenko@cern.ch>
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+   */
+  class QuartLDetectorSD: public G4VSensitiveDetector 
+  {
+    public:
+      QuartLDetectorSD(G4String);
+      ~QuartLDetectorSD();
   
-    void Initialize(G4HCofThisEvent*);
-    G4bool ProcessHits(G4Step*, G4TouchableHistory*);
-    void EndOfEvent(G4HCofThisEvent*);
+      void Initialize(G4HCofThisEvent*);
+      G4bool ProcessHits(G4Step*, G4TouchableHistory*);
+      void EndOfEvent(G4HCofThisEvent*);
     
-  private:
-    RunAction* fRunAction;
-    FileWriter *fOutput;
+    private:
+      PPS::RunAction* fRunAction;
+      PPS::FileWriter *fOutput;
 
-    PPS::QuartLEvent *fEvent;
+      QuartLEvent *fEvent;
 
-    time_t fEventTime;
-};
+      time_t fEventTime;
+  };
+}
 
 #endif

@@ -1,8 +1,8 @@
 #include "QuartLEvent.h"
 
-ClassImp(PPS::QuartLEvent)
+ClassImp(Quartic::QuartLEvent)
 
-namespace PPS
+namespace Quartic
 {
   QuartLEvent::QuartLEvent() :
     fName(""), fHitMap(0)
@@ -24,21 +24,8 @@ namespace PPS
   QuartLEvent::AddPhoton(QuartLPhotonHit hit)
   {
     fHitsCollection.push_back(hit);
-    // Cells mapping (downstream from the beam) :
-    // -------------------------
-    // |  3  |  7  | 11  | 15  | 
-    // -------------------------
-    // |  2  |  6  | 10  | 14  | 
-    // -------------------------
-    // |  1  |  5  |  9  | 13  | 
-    // -------------------------
-    // |  0  |  4  |  8  | 12  | 
-    // -------------------------
-    int cellId = hit.GetCellID();
-    int rowId = cellId%4;
-    int colId = (cellId-rowId)/4;
-    fHitMap->Fill(colId, rowId);
-    //fEnergyMap[fStationId[fNumHits]]->Fill(colId, rowId, fE[fNumHits]);
+    fHitMap->Fill(hit.GetCellColumnID(), hit.GetCellRowID());
+    //fEnergyMap[fStationId[fNumHits]]->Fill(hit.GetCellColumnID(), hit.GetCellRowID(), hit.Momentum().E());
   }
 
   void

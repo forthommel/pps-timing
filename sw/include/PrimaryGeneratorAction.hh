@@ -17,44 +17,47 @@
 #include "TFile.h"
 #include "TTree.h"
 
-class G4ParticleGun;
-class G4Event;
-class PrimaryGeneratorMessenger;
-
-class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+namespace PPS
 {
-  public:
-    PrimaryGeneratorAction();
-    ~PrimaryGeneratorAction();
+  class PrimaryGeneratorMessenger;
+  /**
+   * \date Feb 2015
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+   */
+  class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+  {
+    public:
+      PrimaryGeneratorAction();
+      ~PrimaryGeneratorAction();
 
-    void GeneratePrimaries(G4Event*);
+      void GeneratePrimaries(G4Event*);
 
-    void SetOptPhotonPolar();
-    void SetOptPhotonPolar(G4double);
+      void SetOptPhotonPolar();
+      void SetOptPhotonPolar(G4double);
     
-    /**
-     * Sets the input ROOT file from which all simulated events are to be fetched in private attributes.
-     * \param[in] filename The ROOT file to open to fetch events
-     * \return A boolean stating the success or failure of the TTree retrieval
-     */
-    G4bool SetInputROOTFile(G4String);
-    G4bool ProbeOneQUARTICCell(G4int,G4int,G4double);
+      /**
+       * Sets the input ROOT file from which all simulated events are to be fetched in private attributes.
+       * \param[in] filename The ROOT file to open to fetch events
+       * \return A boolean stating the success or failure of the TTree retrieval
+       */
+      G4bool SetInputROOTFile(G4String);
+      G4bool ProbeOneQUARTICCell(G4int,G4double);
 
-  private:
-    
-    G4ParticleGun* fParticleGun;
-    PrimaryGeneratorMessenger* fGunMessenger;
-    
-    TFile* fFile;
-    TTree* fTree;
-    
-    // Input TTree content placeholders
-    G4double fX0, fY0, fZ0;
-    G4double **fX, **fY, **fE, **fArrivalTime;
-    G4int **fIsSignal;
-    G4int *fNumHits;
-    G4bool fHasEventsCollection;
-    G4int fEventsCollectionSize;
-};
+    private:
+      G4ParticleGun* fParticleGun;
+      PrimaryGeneratorMessenger* fGunMessenger;
+
+      TFile* fFile;
+      TTree* fTree;
+
+      // Input TTree content placeholders
+      G4double fX0, fY0, fZ0;
+      G4double **fX, **fY, **fE, **fArrivalTime;
+      G4int **fIsSignal;
+      G4int *fNumHits;
+      G4bool fHasEventsCollection;
+      G4int fEventsCollectionSize;
+  };
+}
 
 #endif

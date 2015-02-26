@@ -11,15 +11,20 @@
 
 #include "GeometryConstructor.hh"
 
-class GeometryConstructor;
-
-class GeometryConstructorMessenger : public G4UImessenger
+namespace PPS
 {
-  public:
-    GeometryConstructorMessenger(GeometryConstructor*);
-    ~GeometryConstructorMessenger();
+  class GeometryConstructor; // Forward declaration by construction
+  /**
+   * \date Feb 2015
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+   */
+  class GeometryConstructorMessenger : public G4UImessenger
+  {
+    public:
+      GeometryConstructorMessenger(GeometryConstructor*);
+      ~GeometryConstructorMessenger();
 
-    void SetNewValue(G4UIcommand*, G4String);
+      void SetNewValue(G4UIcommand*, G4String);
 
   private:
     GeometryConstructor *fDC;
@@ -34,7 +39,7 @@ class GeometryConstructorMessenger : public G4UImessenger
     G4UIcmdWithAString* fGDMLOutput;
 
     G4int fLastComponentAdded;
-    
-};
+  };
+}
 
 #endif

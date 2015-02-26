@@ -43,9 +43,21 @@ namespace PPS
     gStyle->SetTitle("");
     gStyle->SetTitleFont(43, "XYZ");
     gStyle->SetTitleSize(22, "XYZ");
+    //gStyle->SetTitleOffset(2., "Y");
     gStyle->SetLabelFont(43, "XYZ");
     gStyle->SetLabelSize(22, "XYZ");
     gStyle->SetTitleOffset(1.3, "Y");
+    
+    Divide(1,2);
+    c1 = (TPad*)GetPad(1);
+    c2 = (TPad*)GetPad(2);
+    c1->SetPad(0.,0.,1.,1.);
+    c2->SetPad(0.,0.,1.,0.);
+    c1->SetBottomMargin(0.1);
+    c1->SetLeftMargin(0.1);
+    c1->SetRightMargin(0.1);
+    c1->SetTopMargin(0.1);
+    cd(1);
     
     fLegend = new TLegend(fLegendX, fLegendY, fLegendX+.35, fLegendY+.12);
     fLegend->SetFillColor(kWhite);
@@ -53,20 +65,8 @@ namespace PPS
     fLegend->SetLineWidth(0);
     fLegend->SetTextFont(43);
     fLegend->SetTextSize(14);
-
-    Divide(1,2);
     
-    fC1 = (TPad*)GetPad(1);
-    TPad* c2 = (TPad*)GetPad(2);
-    fC1->SetPad(0.,0.,1.,1.);
-    c2->SetPad(0.,0.,1.,0.);
-    fC1->SetBottomMargin(0.1);
-    fC1->SetLeftMargin(0.1);
-    fC1->SetRightMargin(0.1);
-    fC1->SetTopMargin(0.1);
-    cd(1);
-
-    SetTicks(1, 1);
+    c1->SetTicks(1, 1);
   }
 
   void
@@ -99,8 +99,10 @@ namespace PPS
   void
   Canvas::Save(TString path)
   {
-    if (path=="") path = GetName();
     std::stringstream output;
+    if (path=="") {
+      path = GetName();
+    }
     
     if (!fLabelsDrawn) {
       fLabel1 = new TPaveText(.115, .925, .2, .955, "NDC");

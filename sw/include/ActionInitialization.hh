@@ -10,21 +10,29 @@
 #include "TrackingAction.hh"
 #include "FileWriter.hh"
 
-class ActionInitialization : public G4VUserActionInitialization
+namespace PPS
 {
-  public:
-    ActionInitialization();
-    virtual ~ActionInitialization();
+  /**
+   * Object holding all user information to be filled and propagated by Geant4 along the simulation stage
+   * \date Feb 2015
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+   */
+  class ActionInitialization : public G4VUserActionInitialization
+  {
+    public:
+      ActionInitialization();
+      virtual ~ActionInitialization();
 
-    virtual void BuildForMaster() const;
-    virtual void Build() const;
-        
-  private:
-    G4UserEventAction* fEventAction;
-    G4VUserPrimaryGeneratorAction* fPrimaryGenerator;
-    G4UserStackingAction* fStackingAction;
-    G4UserTrackingAction* fTrackingAction;
-    FileWriter* fOutput;
-};
+      virtual void BuildForMaster() const;
+      virtual void Build() const;
+
+    private:
+      G4UserEventAction* fEventAction;
+      G4VUserPrimaryGeneratorAction* fPrimaryGenerator;
+      G4UserStackingAction* fStackingAction;
+      G4UserTrackingAction* fTrackingAction;
+      FileWriter* fOutput;
+  };
+}
 
 #endif

@@ -2,6 +2,7 @@
 #define Canvas_h
 
 #include "TCanvas.h"
+#include "TPad.h"
 #include "TPaveText.h"
 #include "TLegend.h"
 #include "TStyle.h"
@@ -10,6 +11,12 @@
 
 namespace PPS
 {
+  /**
+   * Extension of the TCanvas object to beautify and uniformize the plots of interest
+   *
+   * \date Nov 2013 (GasToF version)
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+   */
   class Canvas : public TCanvas
   {
     public:
@@ -20,13 +27,13 @@ namespace PPS
 
       void SetUpperLabel(TString text_="");
       void AddLegendEntry(const TObject*, TString label_="", Option_t* option_="lpf");
-      inline TPad* Pad() { return fC1; }
-      void Save(TString path="");
+      void Save(TString filename="");
+      inline TPad* Pad() { return c1; }
 
     private:
       void Build();
-
-      TPad* fC1;
+      
+      TPad *c1, *c2;
       Double_t fWidth, fHeight;
       TLegend *fLegend;
       Double_t fLegendX, fLegendY;

@@ -5,28 +5,33 @@
 #include "G4NistManager.hh"
 #include "G4OpticalSurface.hh"
 
-class MaterialManager
+namespace PPS
 {
-  public:
-    MaterialManager();
-    ~MaterialManager();
-    
-    G4Material* Air;
-    G4Material* Sil;
-    G4Material* Sapphire;
-    G4Material* Glass;
-    G4Material* StainlessSteel;
-    G4Material* AlBeMet;
-    G4Material* Beryllium;
+  /**
+   * \date Feb 2015
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+   */
+  class MaterialManager
+  {
+    public:
+      MaterialManager();
+      ~MaterialManager();
 
-    G4OpticalSurface* OpSilSurface;
+      G4Material* Air;
+      G4Material* Sil;
+      G4Material* Sapphire;
+      G4Material* Glass;
+      G4Material* StainlessSteel;
+      G4Material* AlBeMet;
+      G4Material* Beryllium;
 
-  private:
-    /** Generate and add material properties table */
-    void BuildOpticalProperties();
+      G4OpticalSurface* OpSilSurface;
 
-    
-};
+    private:
+      /** Generate and add material properties table */
+      void BuildOpticalProperties();
+  };
+}
 
 #endif
 

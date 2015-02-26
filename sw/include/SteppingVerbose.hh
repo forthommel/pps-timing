@@ -5,16 +5,25 @@
 #include "G4SteppingManager.hh"
 #include "G4UnitsTable.hh"
 
-class SteppingVerbose : public G4SteppingVerbose
+namespace PPS
 {
- public:   
+  /**
+   * Object controlling the tracking operation verbosity
+   *
+   * \date Feb 2015
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+   * \author Vladimir Samoilenko <vladimir.samoilenko@cern.ch>
+   */
+  class SteppingVerbose : public G4SteppingVerbose
+  {
+    public:   
 
-   SteppingVerbose();
-   ~SteppingVerbose();
+     SteppingVerbose();
+     ~SteppingVerbose();
 
-   void StepInfo();
-   void TrackingStarted();
-
-};
+     void StepInfo();
+     void TrackingStarted();
+  };
+}
 
 #endif
