@@ -16,18 +16,18 @@ namespace PPS
       virtual ~RunInformation();
       void Clear(Option_t*);
 
-      inline void AddIncomingParticle(IncomingParticle* ip) { fIPCollection->Add(ip); }
-      inline size_t GetNumberOfIncomingParticles() const { return fIPCollection->GetSize(); }
+      inline void AddIncomingParticle(IncomingParticle* ip) { fIPCollection->push_back(ip); }
+      inline size_t GetNumberOfIncomingParticles() const { return fIPCollection->size(); }
       inline double GetMeanIncomingParticlesEnergy() const {
 	double esum = 0.;
-	for (size_t i=0; i<GetNumberOfIncomingParticles(); i++) {
-	  esum += ((IncomingParticle*)fIPCollection->At(i))->GetMomentum()->E();
+	for (std::vector<IncomingParticle*>::const_iterator it=fIPCollection->begin(); it!=fIPCollection->end(); it++) {
+	  esum += (*it)->GetMomentum()->E();
 	}
 	return esum/GetNumberOfIncomingParticles();
       }
 
     private:
-      TList* fIPCollection;
+      IncomingParticlesRef* fIPCollection;
 
     public:
       ClassDef(RunInformation, 1)

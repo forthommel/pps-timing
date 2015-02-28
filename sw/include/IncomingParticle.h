@@ -3,6 +3,7 @@
 
 #include "TObject.h"
 #include "TLorentzVector.h"
+#include <vector>
 
 namespace PPS
 {
@@ -33,6 +34,8 @@ namespace PPS
     public:
       ClassDef(IncomingParticle, 1)
   };
+  typedef std::vector<IncomingParticle> IncomingParticles;
+  typedef std::vector<IncomingParticle*> IncomingParticlesRef;
 }
 
 #endif

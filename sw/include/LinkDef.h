@@ -1,7 +1,6 @@
 #include "RunInformation.h"
 #include "Canvas.h"
 #include "IncomingParticle.h"
-#include <vector>
 
 #ifdef __CINT__
 
@@ -13,6 +12,7 @@
 #pragma link C++ class PPS::RunInformation+;
 #pragma link C++ class PPS::Canvas+;
 #pragma link C++ class PPS::IncomingParticle+;
-#pragma link C++ class std::vector<PPS::IncomingParticle>;
+#pragma link C++ class PPS::IncomingParticlesRef+;
+#pragma link C++ class PPS::IncomingParticlesRef::const_iterator+;
 
 #endif

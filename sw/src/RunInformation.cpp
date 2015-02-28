@@ -4,7 +4,7 @@ namespace PPS
 {
   RunInformation::RunInformation()
   {
-    fIPCollection = new TList;
+    fIPCollection = new IncomingParticlesRef;
   }
 
   RunInformation::~RunInformation()
@@ -13,10 +13,10 @@ namespace PPS
   }
 
   void
-  RunInformation::Clear(Option_t* opt)
+  RunInformation::Clear(Option_t*)
   {
     if (!fIPCollection) return;
-    fIPCollection->Clear(opt);
+    fIPCollection->clear();
   }
 }
 
