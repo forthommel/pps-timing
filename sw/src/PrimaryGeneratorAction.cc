@@ -104,11 +104,11 @@ namespace PPS
       fParticleGun->GeneratePrimaryVertex(event);
     }
     // Now we fill the run tree with primary particles' information
-    PPS::IncomingParticle ip;
+    PPS::IncomingParticle* ip = new PPS::IncomingParticle;
     G4ThreeVector pos = fParticleGun->GetParticlePosition();
     G4ParticleMomentum mom = fParticleGun->GetParticleMomentumDirection()*fParticleGun->GetParticleMomentum();
-    ip.SetPosition(TLorentzVector(pos.x()/m, pos.y()/m, pos.z()/m, fParticleGun->GetParticleTime()/second));
-    ip.SetMomentum(TLorentzVector(mom.x()/GeV, mom.y()/GeV, mom.z()/GeV, fParticleGun->GetParticleEnergy()/GeV));
+    ip->SetPosition(TLorentzVector(pos.x()/m, pos.y()/m, pos.z()/m, fParticleGun->GetParticleTime()/second));
+    ip->SetMomentum(TLorentzVector(mom.x()/GeV, mom.y()/GeV, mom.z()/GeV, fParticleGun->GetParticleEnergy()/GeV));
     run->GetRunInformation()->AddIncomingParticle(ip);
   }
   

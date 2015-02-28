@@ -19,16 +19,16 @@ namespace PPS
       IncomingParticle(int);
       virtual ~IncomingParticle();
 
-      inline void SetPosition(TLorentzVector pos) { fPosition=pos; }
-      inline TLorentzVector GetPosition() const { return fPosition; }
+      inline void SetPosition(TLorentzVector pos) { *fPosition=pos; }
+      inline TLorentzVector* GetPosition() const { return fPosition; }
 
-      inline void SetMomentum(TLorentzVector mom) { fMomentum=mom; }
-      inline TLorentzVector GetMomentum() const { return fMomentum; }
+      inline void SetMomentum(TLorentzVector mom) { *fMomentum=mom; }
+      inline TLorentzVector* GetMomentum() const { return fMomentum; }
 
     private:
       int fID;
-      TLorentzVector fPosition;
-      TLorentzVector fMomentum;
+      TLorentzVector* fPosition;
+      TLorentzVector* fMomentum;
 
     public:
       ClassDef(IncomingParticle, 1)

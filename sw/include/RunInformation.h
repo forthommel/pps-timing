@@ -4,9 +4,8 @@
 #include "IncomingParticle.h"
 
 #include "TObject.h"
+#include "TList.h"
 #include "TLorentzVector.h"
-
-#include <vector>
 
 namespace PPS
 {
@@ -15,19 +14,20 @@ namespace PPS
     public:
       RunInformation();
       virtual ~RunInformation();
+      void Clear(Option_t*);
 
-      inline void AddIncomingParticle(IncomingParticle ip) { fIPCollection.push_back(ip); }
-      inline size_t GetNumberOfIncomingParticles() const { return fIPCollection.size(); }
+      inline void AddIncomingParticle(IncomingParticle* ip) { fIPCollection->Add(ip); }
+      inline size_t GetNumberOfIncomingParticles() const { return fIPCollection->GetSize(); }
       inline double GetMeanIncomingParticlesEnergy() const {
 	double esum = 0.;
-	for (std::vector<IncomingParticle>::const_iterator ip=fIPCollection.begin(); ip!=fIPCollection.end(); ip++) {
-	  esum += ip->GetMomentum().E();
+	for (size_t i=0; i<GetNumberOfIncomingParticles(); i++) {
+	  esum += ((IncomingParticle*)fIPCollection->At(i))->GetMomentum()->E();
 	}
 	return esum/GetNumberOfIncomingParticles();
       }
 
     private:
-      std::vector<IncomingParticle> fIPCollection;
+      TList* fIPCollection;
 
     public:
       ClassDef(RunInformation, 1)
