@@ -17,6 +17,8 @@ namespace PPS
       void Clear(Option_t*);
 
       inline void AddIncomingParticle(IncomingParticle* ip) { fIPCollection->push_back(ip); }
+      inline IncomingParticle* GetIncomingParticle(size_t i) { return fIPCollection->at(i); }
+
       inline size_t GetNumberOfIncomingParticles() const { return fIPCollection->size(); }
       inline double GetMeanIncomingParticlesEnergy() const {
 	double esum = 0.;
@@ -27,7 +29,7 @@ namespace PPS
       }
 
     private:
-      IncomingParticlesRef* fIPCollection;
+      IncomingParticlesRef* fIPCollection; //!
 
     public:
       ClassDef(RunInformation, 1)

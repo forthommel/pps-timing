@@ -13,6 +13,7 @@
 #pragma link C++ class PPS::Canvas+;
 #pragma link C++ class PPS::IncomingParticle+;
 #pragma link C++ class PPS::IncomingParticlesRef+;
+#pragma link C++ class PPS::IncomingParticlesRef::iterator+;
 #pragma link C++ class PPS::IncomingParticlesRef::const_iterator+;
 
 #endif

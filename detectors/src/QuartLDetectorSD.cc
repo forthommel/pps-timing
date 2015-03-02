@@ -39,20 +39,21 @@ namespace Quartic
       
       //G4cout << __PRETTY_FUNCTION__ << " --> track " << track->GetTrackID() << " has parent " << ti->GetOriginalTrackID() << G4endl;
       
-      QuartLPhotonHit hit(ti->GetOriginalTrackID());
-      hit.SetCellID(step->GetPreStepPoint()->GetPhysicalVolume()->GetCopyNo());
-      hit.SetMomentum(TLorentzVector(
-				     mom3.x()/GeV,
-				     mom3.y()/GeV,
-				     mom3.z()/GeV,
-				     track->GetTotalEnergy()/GeV
-				     ));
-      hit.SetPosition(TLorentzVector(
-				     pos3.x()/m,
-				     pos3.y()/m,
-				     pos3.z()/m,
-				     track->GetGlobalTime()/second
-				     ));
+      QuartLPhotonHit *hit = new QuartLPhotonHit(ti->GetOriginalTrackID());
+      hit->SetCellID(step->GetPreStepPoint()->GetPhysicalVolume()->GetCopyNo());
+      hit->SetMomentum(TLorentzVector(
+        mom3.x()/GeV,
+        mom3.y()/GeV,
+        mom3.z()/GeV,
+        track->GetTotalEnergy()/GeV
+      ));
+      hit->SetPosition(TLorentzVector(
+        pos3.x()/m,
+        pos3.y()/m,
+        pos3.z()/m,
+        track->GetGlobalTime()/second
+      ));
+      hit->SetIncomingParticle(fRunAction->GetRunInformation()->GetIncomingParticle(ti->GetOriginalTrackID()-1));
       
       fEvent->AddPhoton(hit);
       
