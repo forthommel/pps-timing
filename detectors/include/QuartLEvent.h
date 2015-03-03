@@ -33,11 +33,11 @@ namespace Quartic
       /**
        * \brief Total number of photon hits collected in one single event
        */
-      inline size_t GetNumberOfPhotons() const { return fHitsCollection->size(); }
+      inline size_t GetNumberOfPhotons() const { return (!fHitsCollection) ? -1 : fHitsCollection->size(); }
       /**
        * \brief Retrieve one photon hit from the collection
        */
-      inline QuartLPhotonHit* GetHit(size_t i) const { return fHitsCollection->at(i); }
+      inline QuartLPhotonHit* GetHit(size_t i) const { return (!fHitsCollection) ? 0 : fHitsCollection->at(i); }
 
       /**
        * \brief Add a new photon hit on the PMT in the events' collection.

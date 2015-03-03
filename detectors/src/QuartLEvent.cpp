@@ -6,9 +6,7 @@ namespace Quartic
 {
   QuartLEvent::QuartLEvent() :
     fName(""), fHitsCollection(0), fHitMap(0)
-  {
-    fHitsCollection = new HitsCollection;
-  }
+  {}
 
   QuartLEvent::QuartLEvent(TString name) :
     fName(name), fHitsCollection(0), fHitMap(0)

@@ -18,7 +18,7 @@ namespace PPS
   FileWriter::~FileWriter()
   {
     G4cout << __PRETTY_FUNCTION__ << " File ' " << fFilename << " ' successfully created and filled with " << fEventsTree->GetEntries() << " events !" << G4endl;
-    fRun->Write();
+    fRun->Write("run");
     fFile->Write();
     fFile->Close();
 
