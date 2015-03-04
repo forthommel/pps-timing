@@ -1,6 +1,8 @@
 #ifndef QuartLPhotonHit_h
 #define QuartLPhotonHit_h
 
+#include "IncomingParticle.h"
+
 #include "TObject.h"
 #include "TLorentzVector.h"
 
@@ -14,10 +16,13 @@ namespace Quartic
       virtual ~QuartLPhotonHit();
       
       inline void SetPosition(TLorentzVector pos) { fPosition=pos; }
-      inline TLorentzVector Position() const { return fPosition; }
+      inline TLorentzVector GetPosition() const { return fPosition; }
       
       inline void SetMomentum(TLorentzVector mom) { fMomentum=mom; }
-      inline TLorentzVector Momentum() const { return fMomentum; }
+      inline TLorentzVector GetMomentum() const { return fMomentum; }
+
+      inline void SetIncomingParticle(PPS::IncomingParticle* ip) { fIP=ip; }
+      inline PPS::IncomingParticle* GetIncomingParticle() const { return fIP; }
 
       /**
        * Set the incoming proton unique identifier giving rise to this photon hit
@@ -56,6 +61,7 @@ namespace Quartic
       int fCellID;
       int fCellRowID;
       int fCellColID;
+      PPS::IncomingParticle* fIP;
       
     public:
       ClassDef(QuartLPhotonHit, 1)
