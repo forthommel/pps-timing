@@ -41,6 +41,7 @@ namespace Quartic
         pos3.z()/m,
         track->GetGlobalTime()/second
       ));
+      hit->SetIncomingParticle(fRunAction->GetRunInformation()->GetIncomingParticle(ti->GetOriginalTrackID()-1));
       
       fEvent->AddPhoton(hit);
       

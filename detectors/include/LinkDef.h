@@ -13,6 +13,8 @@
 #pragma link C++ class Quartic::QuartLInformation+;
 #pragma link C++ class Quartic::QuartLEvent+;
 #pragma link C++ class Quartic::QuartLPhotonHit+;
+#pragma link C++ class Quartic::HitsCollection+;
+
 #pragma link C++ namespace PPS;
 #pragma link C++ class PPS::PPSReader+;
 #pragma link C++ function PPS::PPSReader::SetDetectorEventsAddress(TString,Quartic::QuartLEvent*)+;

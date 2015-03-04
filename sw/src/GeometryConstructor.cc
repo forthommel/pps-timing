@@ -66,7 +66,7 @@ namespace PPS
     
     return expHall_phys;
   }
-  
+
   G4int
   GeometryConstructor::AddNewComponent(G4String type)
   {

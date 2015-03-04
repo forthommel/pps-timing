@@ -97,8 +97,10 @@ namespace Quartic
       Zoffs[i] = -zlength/2.+fZoffs[i]+RadL[0]/2.;
     }
     
+    std::ostringstream cl; cl << fName << "_container_log";
+    std::ostringstream cp; cp << fName << "_container_phys";
     G4Box* container_box = new G4Box("Container", xlength/2., ylength/2., zlength/2.);
-    G4LogicalVolume* container_log = new G4LogicalVolume(container_box, fContainerMaterial, "Container_log", 0, 0, 0);
+    G4LogicalVolume* container_log = new G4LogicalVolume(container_box, fContainerMaterial, cl.str(), 0, 0, 0);
     G4PVPlacement* container_phys = new G4PVPlacement(
       &fRotation,
       G4ThreeVector(
@@ -107,7 +109,7 @@ namespace Quartic
 	fPosition.z()+zlength/2.
       ),
       container_log,
-      "Container_phys",
+      cp.str(),
       fParentLog,
       false,
       0

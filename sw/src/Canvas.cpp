@@ -46,6 +46,7 @@ namespace PPS
     //gStyle->SetTitleOffset(2., "Y");
     gStyle->SetLabelFont(43, "XYZ");
     gStyle->SetLabelSize(22, "XYZ");
+    gStyle->SetTitleOffset(1.3, "Y");
     
     Divide(1,2);
     c1 = (TPad*)GetPad(1);
@@ -96,11 +97,11 @@ namespace PPS
   }
 
   void
-  Canvas::Save(TString filename)
+  Canvas::Save(TString path)
   {
     std::stringstream output;
-    if (filename=="") {
-      filename = GetName();
+    if (path=="") {
+      path = GetName();
     }
     
     if (!fLabelsDrawn) {
@@ -130,11 +131,11 @@ namespace PPS
       SetUpperLabel(fUpperLabelText);
       fLabelsDrawn = true;
     }
-    output.str(""); output << filename << ".png";
+    output.str(""); output << path << ".png";
     SaveAs(output.str().c_str());
-    output.str(""); output << filename << ".pdf";
+    output.str(""); output << path << ".pdf";
     SaveAs(output.str().c_str());
-    //output.str(""); output << filename << ".root";
+    //output.str(""); output << path << ".root";
     ////SaveAs(output.str().c_str());
     //}
   }

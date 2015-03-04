@@ -16,8 +16,9 @@ namespace MBP
     
     fPhys = fParser->GetWorldVolume();
     G4cout << fParser->GetPosition("v1") << "\t" << G4endl;
-    fPhys->SetTranslation(fPosition);
     fPhys->SetMotherLogical(fParentLog);
+    fPhys->SetTranslation(fPosition);
+    fPhys->SetRotation(&fRotation);
   }
   
   MBP::~MBP()

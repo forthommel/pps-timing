@@ -52,10 +52,14 @@ namespace PPS
 	return true;
       }
 
-      G4bool SetRunInformation(PPS::RunInformation* ri) {
-        if (!fFile or !fRunsTree) return false;
-	fRunsTree->Branch("run", ri->ClassName(), ri, 64000, 1);
-	return true;
+      /**
+       * \brief Add the information on current run to the output file
+       * \return A boolean stating the succes (or error) of the operation
+       */
+      G4bool SetRunInformation(RunInformation* ri) {
+        if (!fFile) return false;
+        fRun = ri;
+        return true;
       }
     
       /**
@@ -64,6 +68,7 @@ namespace PPS
        * \param[in] sd Sensitive detector name the data is related to
        * \param[in] object Data container (derived from a TObject class)
        *  to be stored in the output TTree
+       * \tparam T Type of event object to be stored in the file
        * \return A boolean stating the success (or error) of the operation
        */
       template<class T> G4bool AddSDData(TString sd, T* object) {
@@ -82,7 +87,7 @@ namespace PPS
       TString fFilename;
       TFile *fFile;
 
-      TTree *fRunsTree;
+      RunInformation* fRun;
     
       TTree *fEventsTree;
       std::vector<TString> fEventObjectsName;
