@@ -28,7 +28,7 @@ example(TString filename)
   r->SetDetectorEventsAddress("quartic2", &ev2);
 
   hitmap = new TH2D("hitmap", "", 280, 0., 14., 200, -2.5, 2.5);
-  corr_timing = new TH2D("corr_timing", "", 100, 0., 5., 200, -2.5, 2.5);
+  corr_timing = new TH2D("corr_timing", "", 200, 0., 10., 380, 0., 16.);
   lambda = new TH1D("lambda", "", 100, 20., 120.);
 
   for (int i=0; i<r->NumEvents(); i++) {
@@ -37,13 +37,14 @@ example(TString filename)
     for (int j=0; j<ev1->GetNumberOfPhotons(); j++) {
       hit = ev1->GetHit(j);
       hitmap->Fill(hit->GetPosition().Z()*100., hit->GetPosition().Y()*100.); // we want it in cm...
-      corr_timing->Fill(hit->GetPosition().T()*1.e9, hit->GetPosition().Y()*100.);
+      corr_timing->Fill(hit->GetPosition().T()*1.e9, hit->GetPosition().Z()*100.);
       lambda->Fill(TMath::H()*TMath::C()/(hit->GetMomentum().E()*1.e-9)*1.e9); // we want it in nm... (and energy is in GeV)
     }
     // Loop over all hits observed in second QUARTIC
     for (int j=0; j<ev2->GetNumberOfPhotons(); j++) {
       hit = ev2->GetHit(j);
       hitmap->Fill(hit->GetPosition().Z()*100., hit->GetPosition().Y()*100.); // we want it in cm...
+      corr_timing->Fill(hit->GetPosition().T()*1.e9, hit->GetPosition().Z()*100.);
     }
   }
   hitmap->Scale(1./r->NumEvents());
@@ -56,10 +57,11 @@ example(TString filename)
   hitmap->GetYaxis()->SetTitle("Y [cm]");
   c_hm->Save();
 
-  c_ct = new PPS::Canvas("corr_timing", "T-Y correlation (yields per proton)");
+  c_ct = new PPS::Canvas("corr_timing", "T-Z correlation (yields per proton)");
   corr_timing->Draw("colz");
   corr_timing->GetXaxis()->SetTitle("Time of arrival [ns]");
-  corr_timing->GetYaxis()->SetTitle("Y [cm]");
+  corr_timing->GetYaxis()->SetTitle("Z [cm]");
+  c_ct->Pad()->SetLogz();
   c_ct->Save();
 
   c_lambda = new PPS::Canvas("photon_lambda", "First QUARTIC station, per proton");
