@@ -1,20 +1,20 @@
-#include "PPSReader.h"
+#include "FileReader.h"
 
-ClassImp(PPS::PPSReader)
+ClassImp(PPS::FileReader)
 
 namespace PPS
 {
-  PPSReader::PPSReader() :
+  FileReader::FileReader() :
     fFilename(""), fFile(0), fEventsTree(0)
   {}
 
-  PPSReader::PPSReader(TString file) :
-    fFilename(file), fFile(0), fEventsTree(0), fBranches(0)
+  FileReader::FileReader(TString file) :
+    fFilename(file), fFile(0), fEventsTree(0)
   {
     Open(fFilename);
   }
 
-  PPSReader::~PPSReader()
+  FileReader::~FileReader()
   {
     /*if (fFile) {
       if (fFile->IsOpen()) {
@@ -27,7 +27,7 @@ namespace PPS
   }
 
   bool
-  PPSReader::Open(TString file)
+  FileReader::Open(TString file)
   {
     fFilename = file;
     if (fFilename=="") return false;
@@ -35,10 +35,8 @@ namespace PPS
     fFile = new TFile(fFilename, "READ");
     if (!fFile->IsOpen()) return false;
 
-    fEventsTree = (TTree*)(fFile->Get("events"));
+    fEventsTree = static_cast<TTree*>(fFile->Get("events"));
     if (!fEventsTree) return false;
-
-    fBranches = new TBranchesRef;
 
     //fEventsTree->SetBranchStatus("*", 0); // introduced to speed up the tree reading
 

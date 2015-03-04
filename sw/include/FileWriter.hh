@@ -46,7 +46,7 @@ namespace PPS
       template<class T> G4bool RegisterSD(T* object) {
 	if (!fFile or !fEventsTree) return false;
 	fEventObjects.push_back(object);
-	fEventsTree->Branch(Form("%s__%s", object->GetSDName().Data(), object->GetName()), object->ClassName(), object, 64000, 1);
+	fEventsTree->Branch(Form("%s__%s", object->GetSDName().Data(), object->GetName()), object->ClassName(), object, 32000, 1);
 	fEventObjectsName.push_back(object->GetSDName());
 	object->Clear(); // Object is cleared before any run
 	return true;

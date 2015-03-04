@@ -30,7 +30,7 @@ namespace PPS
       virtual ~SensitiveDetector() {
         delete fEvent;
       }
-  
+ 
       virtual void RegisterEvent()
       {
         G4cout << __PRETTY_FUNCTION__ << " new sensitive detector with name \"" << GetName() << "\" added to the output stream !" << G4endl;

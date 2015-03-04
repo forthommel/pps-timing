@@ -45,7 +45,8 @@ namespace PPS
     gStyle->SetTitleSize(22, "XYZ");
     //gStyle->SetTitleOffset(2., "Y");
     gStyle->SetLabelFont(43, "XYZ");
-    gStyle->SetLabelSize(22, "XYZ");
+    gStyle->SetLabelSize(22, "XY");
+    gStyle->SetLabelSize(18, "Z");
     gStyle->SetTitleOffset(1.3, "Y");
     
     Divide(1,2);
@@ -55,7 +56,7 @@ namespace PPS
     c2->SetPad(0.,0.,1.,0.);
     c1->SetBottomMargin(0.1);
     c1->SetLeftMargin(0.1);
-    c1->SetRightMargin(0.1);
+    c1->SetRightMargin(0.115);
     c1->SetTopMargin(0.1);
     cd(1);
     
@@ -73,7 +74,7 @@ namespace PPS
   Canvas::SetUpperLabel(TString text_)
   {
     fUpperLabelText = text_;
-    fUpperLabel = new TPaveText(.37, .922, .9, .952, "NDC");
+    fUpperLabel = new TPaveText(.37, .922, .885, .952, "NDC");
     fUpperLabel->SetMargin(0.);
     fUpperLabel->SetFillColor(kWhite);
     fUpperLabel->SetLineColor(kWhite);

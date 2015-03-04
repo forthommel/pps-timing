@@ -1,4 +1,4 @@
-#include "PPSReader.h"
+#include "FileReader.h"
 #include "QuartLInformation.h"
 #include "QuartLEvent.h"
 #include "QuartLPhotonHit.h"
@@ -16,7 +16,7 @@
 #pragma link C++ class Quartic::HitsCollection+;
 
 #pragma link C++ namespace PPS;
-#pragma link C++ class PPS::PPSReader+;
-#pragma link C++ function PPS::PPSReader::SetDetectorEventsAddress(TString,Quartic::QuartLEvent*)+;
+#pragma link C++ class PPS::FileReader+;
+#pragma link C++ function PPS::FileReader::SetDetectorEventsAddress(TString,Quartic::QuartLEvent*)+;
 
 #endif

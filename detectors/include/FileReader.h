@@ -1,5 +1,5 @@
-#ifndef PPSReader_h
-#define PPSReader_h
+#ifndef FileReader_h
+#define FileReader_h
 
 #include "RunInformation.h"
 #include "TFile.h"
@@ -10,18 +10,17 @@
 
 namespace PPS
 {
-  typedef std::vector<TBranch*> TBranchesRef;
   /**
    * \brief PPS file format reader
    * \author Laurent Forthomme <laurent.forthomme@cern.ch>
    * \date 17 Feb 2015
    */
-  class PPSReader
+  class FileReader
   {
     public:
-      PPSReader();
-      PPSReader(TString file);
-      virtual ~PPSReader();
+      FileReader();
+      FileReader(TString file);
+      virtual ~FileReader();
 
       bool Open(TString file="");
       /**
@@ -47,21 +46,14 @@ namespace PPS
       template<class T> int SetDetectorEventsAddress(TString det, T* obj) {
         // it looks like CINT and templates are worthless to be put together...
         obj = new T;
+        obj->Clear();
         //T* obj_cop = new T;
         TString name = Form("%s__%s", det.Data(), obj->ClassName());
         //delete obj_cop;
         std::cout << __PRETTY_FUNCTION__ << " invoked to retrieve a \"" << name << "\" object" << std::endl;
         if (!fFile or !fEventsTree) return -1;
         fEventsTree->SetBranchStatus(name, 1);
-        //if (fEventsTree->SetBranchAddress(name, &obj)<0) return false;
-        //int ret = fEventsTree->SetBranchAddress(name, obj);
-        TBranch *br = fEventsTree->GetBranch(name);
-        fBranches->push_back(br);
-        br->SetAddress(&obj);
-        std::cout << __PRETTY_FUNCTION__ << " branch " << name << " : " << std::endl;
-        br->Print();
-        return 0;
-        //return true;
+        return fEventsTree->SetBranchAddress(name, &obj);
       }
 #endif
       /**
@@ -76,10 +68,7 @@ namespace PPS
         if (!fEventsTree) return;
         if (i>=NumEvents()) return;
         std::cout << "retrieving event " << i << "/" << NumEvents() << std::endl;
-        for (TBranchesRef::iterator br=fBranches->begin(); br<fBranches->end(); br++) {
-        //fEventsTree->GetEntry(i);
-          (*br)->GetEntry(i);
-        }
+        fEventsTree->GetEntry(i, 1);
       }
 
     private:
@@ -89,9 +78,8 @@ namespace PPS
       TFile* fFile;
       /// Tree containing all the events information
       TTree* fEventsTree;
-      TBranchesRef* fBranches;
     public:
-      ClassDef(PPSReader, 1)
+      ClassDef(FileReader, 1)
   };
 }
 

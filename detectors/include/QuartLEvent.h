@@ -51,6 +51,7 @@ namespace Quartic
       
       HitsCollection* fHitsCollection;
       TH2D* fHitMap;
+      TH2D* fEnergyMap;
 
     public:
       ClassDef(QuartLEvent, 1)
