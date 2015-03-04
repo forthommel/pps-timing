@@ -38,8 +38,6 @@ namespace PPS
     fEventsTree = static_cast<TTree*>(fFile->Get("events"));
     if (!fEventsTree) return false;
 
-    //fEventsTree->SetBranchStatus("*", 0); // introduced to speed up the tree reading
-
     return true;
   }
 }

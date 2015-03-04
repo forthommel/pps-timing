@@ -27,6 +27,12 @@ namespace PPS
        * Test to check the validity of the opened file (if opened).
        */
       inline bool IsOpen() const { return (fFile!=0 && fFile->IsOpen()); }
+
+      inline void ShowEvents() const {
+        if (!fFile or !fEventsTree) return;
+        fEventsTree->Show();
+      }
+
       /**
        * Extract all the information on the run to produce these events.
        */
@@ -41,19 +47,17 @@ namespace PPS
        * \return An integer stating the result of the operation (same as TTree::SetBranchAddress)
        */
 #ifdef __CINT__
-      template<class T> int SetDetectorEventsAddress(TString det, T* obj);
+      template<class T> int SetDetectorEventsAddress(TString det, T** obj);
 #else
-      template<class T> int SetDetectorEventsAddress(TString det, T* obj) {
-        // it looks like CINT and templates are worthless to be put together...
-        obj = new T;
-        obj->Clear();
-        //T* obj_cop = new T;
-        TString name = Form("%s__%s", det.Data(), obj->ClassName());
-        //delete obj_cop;
+      template<class T> int SetDetectorEventsAddress(TString det, T** obj) {
+        T* obj_cop = new T;
+        TString name = Form("%s__%s", det.Data(), obj_cop->ClassName());
+        delete obj_cop;
+#ifdef DEBUG
         std::cout << __PRETTY_FUNCTION__ << " invoked to retrieve a \"" << name << "\" object" << std::endl;
+#endif
         if (!fFile or !fEventsTree) return -1;
-        fEventsTree->SetBranchStatus(name, 1);
-        return fEventsTree->SetBranchAddress(name, &obj);
+        return fEventsTree->SetBranchAddress(name, obj);
       }
 #endif
       /**
@@ -67,8 +71,9 @@ namespace PPS
       inline void GetEvent(size_t i) const {
         if (!fEventsTree) return;
         if (i>=NumEvents()) return;
-        std::cout << "retrieving event " << i << "/" << NumEvents() << std::endl;
-        fEventsTree->GetEntry(i, 1);
+        if (fmod(100.*i/NumEvents(), 10.)==0) 
+          std::cout << "Retrieving event " << i << "/" << NumEvents() << std::endl;
+        fEventsTree->GetEntry(i);
       }
 
     private:

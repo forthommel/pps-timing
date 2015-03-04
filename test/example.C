@@ -9,45 +9,46 @@ gSystem->Load("detectors/libDetectors.so");
 void
 example(TString filename)
 {
-  TFile *file;
-  TTree *tree;
+  PPS::FileReader* r;
+  PPS::Canvas *c_hm, *c_ct, *c_lambda;
   Quartic::QuartLEvent *ev1, *ev2;
   Quartic::QuartLPhotonHit* hit;
   TH2D *hitmap;
   TH1D *lambda;
-  PPS::Canvas *c_hm, *c_lambda;
 
-  file = new TFile(filename, "READ");
-  if (!file->IsOpen()) return;
-  tree = (TTree*)(file->Get("events"));
-  tree->SetBranchAddress("quartic1__Quartic::QuartLEvent", &ev1);
-  tree->SetBranchAddress("quartic2__Quartic::QuartLEvent", &ev2);
+  r = new PPS::FileReader(filename);
+  if (!r->IsOpen()) return;
+
+  const PPS::RunInformation* ri = r->GetRunInformation();
+  cout << "=> Run: " << ri->GetNumberOfIncomingParticles() << " incoming particles"
+       << " with a mean energy of " << ri->GetMeanIncomingParticlesEnergy() << " GeV"
+       << endl;
+			     
+  r->SetDetectorEventsAddress("quartic1", &ev1);
+  r->SetDetectorEventsAddress("quartic2", &ev2);
 
   hitmap = new TH2D("hitmap", "", 280, 0., 14., 200, -2.5, 2.5);
   corr_timing = new TH2D("corr_timing", "", 100, 0., 5., 200, -2.5, 2.5);
   lambda = new TH1D("lambda", "", 100, 20., 120.);
 
-  for (int i=0; i<tree->GetEntries(); i++) {
-    tree->GetEntry(i);
-    if (i%50==0) {
-      cout << "-> Loading entry " << i << " / " << tree->GetEntries()
-	   << " --> " << ev1->GetNumberOfPhotons() << " / " << ev2->GetNumberOfPhotons() << " photon hits in this event"
-	   << endl;
-    }
+  for (int i=0; i<r->NumEvents(); i++) {
+    r->GetEvent(i);
     // Loop over all hits observed in first QUARTIC
     for (int j=0; j<ev1->GetNumberOfPhotons(); j++) {
       hit = ev1->GetHit(j);
-      hitmap->Fill(hit->GetPosition().Z()*100., hit->GetPosition().Y()*100., 1./tree->GetEntries()); // we want it in cm...
-      corr_timing->Fill(hit->GetPosition().T()*1.e9, hit->GetPosition().Y()*100., 1./tree->GetEntries());
-      lambda->Fill(TMath::H()*TMath::C()/(hit->GetMomentum().E()*1.e-9)*1.e9, 1./tree->GetEntries()); // we want it in nm... (and energy is in GeV)
+      hitmap->Fill(hit->GetPosition().Z()*100., hit->GetPosition().Y()*100.); // we want it in cm...
+      corr_timing->Fill(hit->GetPosition().T()*1.e9, hit->GetPosition().Y()*100.);
+      lambda->Fill(TMath::H()*TMath::C()/(hit->GetMomentum().E()*1.e-9)*1.e9); // we want it in nm... (and energy is in GeV)
     }
     // Loop over all hits observed in second QUARTIC
     for (int j=0; j<ev2->GetNumberOfPhotons(); j++) {
       hit = ev2->GetHit(j);
-      hitmap->Fill(hit->GetPosition().Z()*100., hit->GetPosition().Y()*100., 1./tree->GetEntries()); // we want it in cm...
+      hitmap->Fill(hit->GetPosition().Z()*100., hit->GetPosition().Y()*100.); // we want it in cm...
     }
   }
-  hitmap->Scale(1./tree->GetEntries());
+  hitmap->Scale(1./r->NumEvents());
+  corr_timing->Scale(1./r->NumEvents());
+  lambda->Scale(1./r->NumEvents());
 
   c_hm = new PPS::Canvas("hits", "Photon hits (yields per proton)");
   hitmap->Draw("colz");
