@@ -6,6 +6,7 @@
 #include "TTree.h"
 
 #include <iostream>
+#include <iomanip>
 #include <vector>
 
 namespace PPS
@@ -72,7 +73,7 @@ namespace PPS
         if (!fEventsTree) return;
         if (i>=NumEvents()) return;
         if (fmod(100.*i/NumEvents(), 10.)==0) 
-          std::cout << "Retrieving event " << i << "/" << NumEvents() << std::endl;
+          std::cout << "[" << std::setw(3) << static_cast<int>(100.*i/NumEvents()) << "%]  Retrieving event " << i << "/" << NumEvents() << std::endl;
         fEventsTree->GetEntry(i);
       }
 

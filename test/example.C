@@ -26,30 +26,31 @@ example(TString filename)
 			     
   r->SetDetectorEventsAddress("quartic1", &ev1);
   r->SetDetectorEventsAddress("quartic2", &ev2);
+  const numEvents = r->NumEvents();
 
   hitmap = new TH2D("hitmap", "", 280, 0., 14., 200, -2.5, 2.5);
   corr_timing = new TH2D("corr_timing", "", 200, 0., 10., 380, 0., 16.);
   lambda = new TH1D("lambda", "", 100, 20., 120.);
 
-  for (int i=0; i<r->NumEvents(); i++) {
+  for (int i=0; i<numEvents; i++) {
     r->GetEvent(i);
     // Loop over all hits observed in first QUARTIC
     for (int j=0; j<ev1->GetNumberOfPhotons(); j++) {
       hit = ev1->GetHit(j);
-      hitmap->Fill(hit->GetPosition().Z()*100., hit->GetPosition().Y()*100.); // we want it in cm...
-      corr_timing->Fill(hit->GetPosition().T()*1.e9, hit->GetPosition().Z()*100.);
-      lambda->Fill(TMath::H()*TMath::C()/(hit->GetMomentum().E()*1.e-9)*1.e9); // we want it in nm... (and energy is in GeV)
+      hitmap->Fill(hit->GetPosition()->Z()*100., hit->GetPosition()->Y()*100.); // we want it in cm...
+      corr_timing->Fill(hit->GetPosition()->T()*1.e9, hit->GetPosition()->Z()*100.);
+      lambda->Fill(TMath::H()*TMath::C()/(hit->GetMomentum()->E()*1.e-9)*1.e9); // we want it in nm... (and energy is in GeV)
     }
     // Loop over all hits observed in second QUARTIC
     for (int j=0; j<ev2->GetNumberOfPhotons(); j++) {
       hit = ev2->GetHit(j);
-      hitmap->Fill(hit->GetPosition().Z()*100., hit->GetPosition().Y()*100.); // we want it in cm...
-      corr_timing->Fill(hit->GetPosition().T()*1.e9, hit->GetPosition().Z()*100.);
+      hitmap->Fill(hit->GetPosition()->Z()*100., hit->GetPosition()->Y()*100.); // we want it in cm...
+      corr_timing->Fill(hit->GetPosition()->T()*1.e9, hit->GetPosition()->Z()*100.);
     }
   }
-  hitmap->Scale(1./r->NumEvents());
-  corr_timing->Scale(1./r->NumEvents());
-  lambda->Scale(1./r->NumEvents());
+  hitmap->Scale(1./numEvents);
+  corr_timing->Scale(1./numEvents);
+  lambda->Scale(1./numEvents);
 
   c_hm = new PPS::Canvas("hits", "Photon hits (yields per proton)");
   hitmap->Draw("colz");

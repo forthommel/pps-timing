@@ -21,21 +21,26 @@ namespace Quartic
   class QuartLEvent : public TObject
   {
     public:
-      QuartLEvent(); // Default constructor for ROOT not to complain in TTree readout...
+      /// Class constructor without any argument for ROOT not to complain in the tree readout stage...
+      QuartLEvent();
+      /// Class constructor
       QuartLEvent(TString);
       virtual ~QuartLEvent();
       /**
        * \brief Reset the event after its storage to the output file
        */
       virtual void Clear(Option_t* opt="");
-      
+     
+      /**
+       * \brief Retrieve the sensitive detector name associated to this event.
+       */
       inline TString GetSDName() const { return fName; }
       /**
-       * \brief Total number of photon hits collected in one single event
+       * \brief Total number of photon hits collected in one single event.
        */
       inline size_t GetNumberOfPhotons() const { return (!fHitsCollection) ? -1 : fHitsCollection->size(); }
       /**
-       * \brief Retrieve one photon hit from the collection
+       * \brief Retrieve the pointer to one photon hit from the collection.
        */
       inline QuartLPhotonHit* GetHit(size_t i) const { return (!fHitsCollection) ? 0 : fHitsCollection->at(i); }
 
@@ -48,10 +53,8 @@ namespace Quartic
             
     private:
       TString fName;
-      
+      /// List of photon hits collected in this event
       HitsCollection* fHitsCollection;
-      TH2D* fHitMap;
-      TH2D* fEnergyMap;
 
     public:
       ClassDef(QuartLEvent, 1)

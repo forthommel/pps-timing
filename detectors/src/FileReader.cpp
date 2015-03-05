@@ -16,14 +16,13 @@ namespace PPS
 
   FileReader::~FileReader()
   {
-    /*if (fFile) {
+    if (fFile) {
       if (fFile->IsOpen()) {
-        //delete fRunsTree;
         delete fEventsTree;
       }
       fFile->Close();
       delete fFile;
-    }*/
+    }
   }
 
   bool

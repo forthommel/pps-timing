@@ -7,7 +7,7 @@ namespace PPS
     fParentLog(0), fParentPhys(0), fPhys(0),
     fIsSensitive(false), fSDname(""), fEvent(0)
   {
-    fMaterial = ((RunAction*)G4RunManager::GetRunManager()->GetUserRunAction())->GetMaterialManager();
+    fMaterial = ((const RunAction*)G4RunManager::GetRunManager()->GetUserRunAction())->GetMaterialManager();
     fContainerMaterial = fMaterial->Air;
   }
   

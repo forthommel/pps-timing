@@ -8,16 +8,10 @@
 
 namespace MBP
 {
-  typedef enum {
-    STAINLESS_STEEL,
-    ALBEMET,
-    BERYLLIUM
-  } window_type;
-  
   class MBP : public PPS::GeometryComponent
   {
   public:
-    MBP(G4String name, window_type=STAINLESS_STEEL, G4bool only_window=false);
+    MBP(G4String name);
     virtual ~MBP();
     
   private:

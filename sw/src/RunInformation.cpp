@@ -1,5 +1,7 @@
 #include "RunInformation.h"
 
+ClassImp(PPS::RunInformation)
+
 namespace PPS
 {
   RunInformation::RunInformation()

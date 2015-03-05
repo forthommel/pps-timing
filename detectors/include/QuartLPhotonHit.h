@@ -12,28 +12,16 @@ namespace Quartic
   {
     public:
       QuartLPhotonHit();
-      QuartLPhotonHit(int);
       virtual ~QuartLPhotonHit();
       
-      inline void SetPosition(TLorentzVector pos) { fPosition=pos; }
-      inline TLorentzVector GetPosition() const { return fPosition; }
+      inline void SetPosition(TLorentzVector pos) { *fPosition=pos; }
+      inline TLorentzVector* GetPosition() const { return fPosition; }
       
-      inline void SetMomentum(TLorentzVector mom) { fMomentum=mom; }
-      inline TLorentzVector GetMomentum() const { return fMomentum; }
+      inline void SetMomentum(TLorentzVector mom) { *fMomentum=mom; }
+      inline TLorentzVector* GetMomentum() const { return fMomentum; }
 
       inline void SetIncomingParticle(PPS::IncomingParticle* ip) { fIP=ip; }
       inline PPS::IncomingParticle* GetIncomingParticle() const { return fIP; }
-
-      /**
-       * Set the incoming proton unique identifier giving rise to this photon hit
-       * \param[in] par_id Unique identifier of the incoming proton
-       */
-      inline void SetParentID(int par_id) { fParentID=par_id; }
-      /**
-       * Return the incoming proton unique identifier giving rise to this photon hit
-       * \return Unique identifier of the incoming proton
-       */
-      inline int GetParentID() const { return fParentID; }
 
       // Cells mapping (downstream from the beam) :
       // -------------------------
@@ -55,13 +43,12 @@ namespace Quartic
       int GetCellColumnID() const { return fCellColID; } //!
     
     private:
-      TLorentzVector fPosition;
-      TLorentzVector fMomentum;
-      int fParentID;
+      TLorentzVector* fPosition;
+      TLorentzVector* fMomentum;
+      PPS::IncomingParticle* fIP;
       int fCellID;
       int fCellRowID;
       int fCellColID;
-      PPS::IncomingParticle* fIP;
       
     public:
       ClassDef(QuartLPhotonHit, 1)

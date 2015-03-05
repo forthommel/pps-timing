@@ -56,7 +56,7 @@ namespace PPS
       }
 
     private:
-      IncomingParticlesRef* fIPCollection;
+      IncomingParticlesRef* fIPCollection; //->
 
     public:
       ClassDef(RunInformation, 1)

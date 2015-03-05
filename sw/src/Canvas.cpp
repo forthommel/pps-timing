@@ -1,5 +1,7 @@
 #include "Canvas.h"
 
+ClassImp(PPS::Canvas)
+
 namespace PPS
 {
   Canvas::Canvas() :

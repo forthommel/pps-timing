@@ -27,7 +27,8 @@ namespace Quartic
       
       //G4cout << __PRETTY_FUNCTION__ << " --> track " << track->GetTrackID() << " has parent " << ti->GetOriginalTrackID() << G4endl;
       
-      QuartLPhotonHit* hit = new QuartLPhotonHit(ti->GetOriginalTrackID());
+      QuartLPhotonHit* hit = new QuartLPhotonHit;
+      hit->SetIncomingParticle(fRunAction->GetRunInformation()->GetIncomingParticle(ti->GetOriginalTrackID()-1));
       hit->SetCellID(step->GetPreStepPoint()->GetPhysicalVolume()->GetCopyNo());
       hit->SetMomentum(TLorentzVector(
         mom3.x()/GeV,
@@ -41,7 +42,6 @@ namespace Quartic
         pos3.z()/m,
         track->GetGlobalTime()/second
       ));
-      hit->SetIncomingParticle(fRunAction->GetRunInformation()->GetIncomingParticle(ti->GetOriginalTrackID()-1));
       
       fEvent->AddPhoton(hit);
       
