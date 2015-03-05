@@ -10,13 +10,10 @@ file(GLOB headers include/*.hh)
 # in the output TTrees
 #
 
-#file(GLOB dict_headers include/*.h ${PROJECT_SOURCE_DIR}/sw/include/*.h)
-#file(GLOB dict_headers include/*.h ${PROJECT_SOURCE_DIR}/sw/include/PPSReader.h)
 file(GLOB dict_headers include/*.h)
+list(APPEND dict_headers ${PROJECT_SOURCE_DIR}/sw/include/FileReader.h)
 list(REMOVE_ITEM dict_headers include/LinkDef.h)
 
-#file(GLOB dict_sources src/*.cpp ${PROJECT_SOURCE_DIR}/sw/src/*.cpp)
-#file(GLOB dict_sources src/*.cpp ${PROJECT_SOURCE_DIR}/sw/src/PPSReader.cpp)
 file(GLOB dict_sources src/*.cpp)
 
 # message(STATUS "Headers for dictionary : " ${dict_headers})

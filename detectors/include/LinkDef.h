@@ -1,7 +1,8 @@
-#include "FileReader.h"
 #include "QuartLInformation.h"
 #include "QuartLEvent.h"
 #include "QuartLPhotonHit.h"
+
+#include "FileReader.h"
 
 #ifdef __CINT__
 
@@ -15,8 +16,6 @@
 #pragma link C++ class Quartic::QuartLPhotonHit+;
 #pragma link C++ class Quartic::HitsCollection+;
 
-#pragma link C++ namespace PPS;
-#pragma link C++ class PPS::FileReader+;
 #pragma link C++ function PPS::FileReader::SetDetectorEventsAddress(TString,Quartic::QuartLEvent*)+;
 
 #endif

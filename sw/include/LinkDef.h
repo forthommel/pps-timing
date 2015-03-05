@@ -15,5 +15,6 @@
 #pragma link C++ class PPS::IncomingParticlesRef+;
 #pragma link C++ class PPS::IncomingParticlesRef::iterator+;
 #pragma link C++ class PPS::IncomingParticlesRef::const_iterator+;
+#pragma link C++ class PPS::FileReader+;
 
 #endif
