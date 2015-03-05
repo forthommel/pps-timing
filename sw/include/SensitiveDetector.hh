@@ -25,7 +25,7 @@ namespace PPS
   class SensitiveDetector : public G4VSensitiveDetector 
   {
     public:
-      SensitiveDetector(G4String name) :
+      SensitiveDetector(G4String name="") :
         G4VSensitiveDetector(name), fRunAction(0), fOutput(0), fEvent(0)
       {}
       
@@ -42,7 +42,7 @@ namespace PPS
         if (!fRunAction) fRunAction = (RunAction*)G4RunManager::GetRunManager()->GetUserRunAction();
         fEvent = new T(GetName());
         fOutput = static_cast<FileWriter*>(fRunAction->GetFileWriter());
-        fOutput->RegisterSD(fEvent);
+        fOutput->GetEventInformation()->RegisterDetector<T>(fEvent);
       }
 
       /**
@@ -59,7 +59,7 @@ namespace PPS
        */
       virtual inline void EndOfEvent(G4HCofThisEvent*)
       {
-        fOutput->AddSDData<T>(GetName(), fEvent);
+        fOutput->GetEventInformation()->AddDetectorData<T>(GetName(), fEvent);
       }
     
     protected:

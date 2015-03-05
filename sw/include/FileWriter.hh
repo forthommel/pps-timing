@@ -2,12 +2,11 @@
 #define FileWriter_h
 
 #include "RunInformation.h"
+#include "EventInformation.h"
 
 #include "G4Step.hh"
 
-#include "TTree.h"
 #include "TFile.h"
-#include "TH2.h"
 
 #define MAX_MODULES 4
 
@@ -37,61 +36,23 @@ namespace PPS
       void StoreEvent();
     
       /**
-       * Add a new sensitive detector to the output file (and TTree) for
-       * the storage of data accumulated at each event for it.
-       * \param[inout] object Class (derived from a TObject) to be stored in
-       *  the TTree
-       * \return A boolean stating the success (or error) of the operation
-       */
-      template<class T> G4bool RegisterSD(T* object) {
-	if (!fFile or !fEventsTree) return false;
-	fEventObjects.push_back(object);
-	fEventsTree->Branch(Form("%s__%s", object->GetSDName().Data(), object->GetName()), object->ClassName(), object, 32000, 1);
-	fEventObjectsName.push_back(object->GetSDName());
-	object->Clear(); // Object is cleared before any run
-	return true;
-      }
-
-      /**
        * \brief Add the information on current run to the output file
        * \return A boolean stating the succes (or error) of the operation
        */
-      G4bool SetRunInformation(RunInformation* ri) {
+      inline G4bool SetRunInformation(RunInformation* ri) {
         if (!fFile) return false;
         fRun = ri;
         return true;
       }
+      inline RunInformation* GetRunInformation() const { return fRun; }
+      inline EventInformation* GetEventInformation() const { return fEvent; }
     
-      /**
-       *  Add all the information about a sensitive detector to the output
-       *  file.
-       * \param[in] sd Sensitive detector name the data is related to
-       * \param[in] object Data container (derived from a TObject class)
-       *  to be stored in the output TTree
-       * \tparam T Type of event object to be stored in the file
-       * \return A boolean stating the success (or error) of the operation
-       */
-      template<class T> G4bool AddSDData(TString sd, T* object) {
-	G4int i = 0;
-	for (std::vector<TString>::iterator nm=fEventObjectsName.begin(); nm!=fEventObjectsName.end(); nm++, i++) {
-	  if ((*nm)==sd) {
-	    fEventObjects.at(i) = object;
-	    //G4cout << __PRETTY_FUNCTION__ << " object \"" << fObjectsName.at(i) << "\" set and filled !" << G4endl;
-	    return true;
-	  }
-	}
-	return false;
-      }
-  
     private:
       TString fFilename;
       TFile *fFile;
 
       RunInformation* fRun;
-    
-      TTree *fEventsTree;
-      std::vector<TString> fEventObjectsName;
-      std::vector<TObject*> fEventObjects;
+      EventInformation* fEvent;
   };
 }
 

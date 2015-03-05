@@ -7,14 +7,13 @@ namespace PPS
   {
     fTimer = new G4Timer;
     fMaterialManager = new MaterialManager;
-    fRunInfo = new PPS::RunInformation;
+    fRunInfo = static_cast<RunInformation*>(analyzer->GetRunInformation());
   }
   
   RunAction::~RunAction()
   {
     delete fTimer;
     delete fMaterialManager;
-    delete fRunInfo;
   }
   
   void

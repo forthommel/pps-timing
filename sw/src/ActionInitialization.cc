@@ -21,7 +21,6 @@ namespace PPS
   ActionInitialization::BuildForMaster() const
   {
     RunAction* fRunAction = new RunAction(fOutput);
-    fOutput->SetRunInformation(fRunAction->GetRunInformation());
     SetUserAction(fRunAction);
   }
   
@@ -29,7 +28,6 @@ namespace PPS
   ActionInitialization::Build() const
   {
     RunAction* fRunAction = new RunAction(fOutput);
-    fOutput->SetRunInformation(fRunAction->GetRunInformation());
     SetUserAction(fPrimaryGenerator);
     SetUserAction(fRunAction);
     SetUserAction(fEventAction);

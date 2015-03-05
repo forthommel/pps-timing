@@ -2,6 +2,7 @@
 #define FileReader_h
 
 #include "RunInformation.h"
+#include "EventInformation.h"
 #include "TFile.h"
 #include "TTree.h"
 

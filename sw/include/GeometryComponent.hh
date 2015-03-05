@@ -2,10 +2,13 @@
 #define GeometryComponent_h
 
 #include "G4VPhysicalVolume.hh"
+#include "G4PVPlacement.hh"
 #include "G4RunManager.hh"
 #include "G4SDManager.hh"
 
 #include "RunAction.hh"
+
+#include <string>
 
 namespace PPS
 {
@@ -24,6 +27,7 @@ namespace PPS
       GeometryComponent(G4String name);
       ~GeometryComponent();
 
+      inline std::string GetName() const { return static_cast<std::string>(fName); }
       /**
        * \brief Set the mother logical volume associated to this component.
        */

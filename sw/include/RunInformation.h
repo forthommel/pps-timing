@@ -4,8 +4,9 @@
 #include "IncomingParticle.h"
 
 #include "TObject.h"
-#include "TList.h"
-#include "TLorentzVector.h"
+#include "TTree.h"
+
+#define MAX_IP 1000
 
 namespace PPS
 {
@@ -16,7 +17,7 @@ namespace PPS
    * \author Laurent Forthomme <laurent.forthomme@cern.ch>
    * \date Feb 2015
    */
-  class RunInformation : public TObject
+  class RunInformation : public TTree
   {
     public:
       RunInformation();
@@ -24,7 +25,10 @@ namespace PPS
       /**
        * \brief Remove all information associated to the current run from this object
        */
-      void Clear(Option_t*);
+      inline void Clear(Option_t*) {
+        if (!fIPCollection) return;
+        fIPCollection->clear();
+      }
       
       /**
        * \brief Add an additional incoming particle to the present run
@@ -48,15 +52,16 @@ namespace PPS
        * in this run
        */
       inline double GetMeanIncomingParticlesEnergy() const {
+        if (!fIPCollection) return -1.;
 	double esum = 0.;
-	for (IncomingParticlesRef::const_iterator it=fIPCollection->begin(); it!=fIPCollection->end(); it++) {
-	  esum += (*it)->GetMomentum()->E();
+	for (IncomingParticlesRef::iterator ip=fIPCollection->begin(); ip!=fIPCollection->end(); ip++) {
+	  esum += (*ip)->GetMomentum()->E();
 	}
 	return esum/GetNumberOfIncomingParticles();
       }
 
     private:
-      IncomingParticlesRef* fIPCollection; //->
+      IncomingParticlesRef* fIPCollection;
 
     public:
       ClassDef(RunInformation, 1)

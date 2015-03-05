@@ -3,7 +3,6 @@
 
 #include "G4Box.hh"
 #include "G4UnionSolid.hh"
-#include "G4PVPlacement.hh"
 #include "G4LogicalBorderSurface.hh"
 
 #include "GeometryComponent.hh"
