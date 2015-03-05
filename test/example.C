@@ -26,7 +26,7 @@ example(TString filename)
 			     
   r->SetDetectorEventsAddress("quartic1", &ev1);
   r->SetDetectorEventsAddress("quartic2", &ev2);
-  const numEvents = r->NumEvents();
+  const Int_t numEvents = r->NumEvents();
 
   hitmap = new TH2D("hitmap", "", 280, 0., 14., 200, -2.5, 2.5);
   corr_timing = new TH2D("corr_timing", "", 200, 0., 10., 380, 0., 16.);

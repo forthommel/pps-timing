@@ -8,8 +8,8 @@
 
 namespace PPS
 {
-  typedef std::vector<TObject*> DetectorRefCollection;
-  typedef std::vector<TString> DetectorNameCollection;
+  typedef std::vector<TObject*> DetectorsRef;
+  typedef std::vector<TString> DetectorsNames;
   /**
    * Object containing useful information on the sensitive detectors present in
    * this sample of simulated events.
@@ -60,7 +60,7 @@ namespace PPS
 #ifndef __MAKECINT__
       template<class T> bool AddDetectorData(TString sd, T* det) {
         int i=0;
-        for (DetectorNameCollection::iterator n=fDetCollectionName.begin(); n!=fDetCollectionName.end(); n++, i++) {
+        for (DetectorsNames::iterator n=fDetCollectionName.begin(); n!=fDetCollectionName.end(); n++, i++) {
           if (*n==sd) {
             fDetCollection->at(i) = det;
             return true;
@@ -69,11 +69,11 @@ namespace PPS
         return false;
       }
 #endif
-      inline DetectorNameCollection GetDetectorsNames() const { return fDetCollectionName; }
+      inline DetectorsNames GetDetectorsNames() const { return fDetCollectionName; }
 
     private:
-      DetectorNameCollection fDetCollectionName;
-      DetectorRefCollection* fDetCollection;
+      DetectorsNames fDetCollectionName;
+      DetectorsRef* fDetCollection;
 
     public:
       ClassDef(EventInformation, 1)

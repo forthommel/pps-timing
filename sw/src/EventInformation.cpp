@@ -7,7 +7,7 @@ namespace PPS
   EventInformation::EventInformation() :
     TTree("events", "Information on the event")
   {
-    fDetCollection = new DetectorRefCollection;
+    fDetCollection = new DetectorsRef;
     Clear("");
   }
 

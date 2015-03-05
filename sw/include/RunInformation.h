@@ -6,8 +6,6 @@
 #include "TObject.h"
 #include "TTree.h"
 
-#define MAX_IP 1000
-
 namespace PPS
 {
   /**
@@ -41,7 +39,7 @@ namespace PPS
        * \return The IncomingParticle object containing all kinematic information from the
        * selected incoming particle
        */
-      inline IncomingParticle* GetIncomingParticle(size_t i) { return fIPCollection->at(i); }
+      inline IncomingParticle* GetIncomingParticle(size_t i) const { return fIPCollection->at(i); }
 
       /**
        * \brief Retrieve the number of incoming particles simulated in this run.
