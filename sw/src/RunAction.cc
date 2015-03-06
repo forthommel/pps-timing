@@ -7,7 +7,7 @@ namespace PPS
   {
     fTimer = new G4Timer;
     fMaterialManager = new MaterialManager;
-    fRunInfo = static_cast<RunInformation*>(analyzer->GetRunInformation());
+    fRunInfo = static_cast<RunInformation*>(fOutput->GetRunInformation());
   }
   
   RunAction::~RunAction()
@@ -19,7 +19,8 @@ namespace PPS
   void
   RunAction::BeginOfRunAction(const G4Run* aRun)
   {
-    G4cout << "##### Run " << aRun->GetRunID() << " is starting ! #####" << G4endl;
+    G4cerr << "##### Run " << aRun->GetRunID() << " is starting ! #####" << G4endl;
+    fOutput->GetEventInformation()->BeforeRun();
     fTimer->Start();
   }
   
@@ -27,7 +28,7 @@ namespace PPS
   RunAction::EndOfRunAction(const G4Run* aRun)
   {   
     fTimer->Stop();
-    G4cout << " Number of events = "
+    G4cerr << " Number of events = "
 	   << aRun->GetNumberOfEvent() << G4endl
 	   << " Timing : " << *fTimer << G4endl;
     fOutput->StoreRun();

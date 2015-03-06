@@ -15,5 +15,11 @@ namespace PPS
   {
     delete fDetCollection;
   }
+
+  void
+  EventInformation::BeforeRun()
+  {
+    Branch("fGenTime", &fGenTime, "fGenTime/F");
+  }
 }
 

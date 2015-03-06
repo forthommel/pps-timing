@@ -35,9 +35,12 @@ namespace PPS
       inline void Lock() {
         std::cout << __PRETTY_FUNCTION__ << " events format locked !" << std::endl;
         fLocked = true;
-        Branch("fGenTime", &fGenTime, "fGenTime/F");
       }
-      inline void UnLock() { fLocked=false; }
+      inline void UnLock() {
+        std::cout << __PRETTY_FUNCTION__ << " events format unlocked !" << std::endl;
+        fLocked = false;
+      }
+      void BeforeRun();
       
       /**
        * \brief Register an additional detector to the present events content

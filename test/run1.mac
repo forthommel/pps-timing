@@ -11,4 +11,4 @@
 #/gun/energy 6500 GeV
 /gun/energy 100 GeV
 #
-/run/beamOn 10
+/run/beamOn 500
