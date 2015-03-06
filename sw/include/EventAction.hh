@@ -10,6 +10,7 @@
 #include "G4UserEventAction.hh"
 #include "G4Run.hh"
 #include "G4RunManager.hh"
+#include "G4Timer.hh"
 
 #include "RunAction.hh"
 
@@ -29,6 +30,9 @@ namespace PPS
 
       void BeginOfEventAction(const G4Event*);
       void EndOfEventAction(const G4Event*);
+
+    private:
+      G4Timer *fTimer;
   };
 }
 

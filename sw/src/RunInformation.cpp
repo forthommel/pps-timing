@@ -5,9 +5,9 @@ ClassImp(PPS::RunInformation)
 namespace PPS
 {
   RunInformation::RunInformation() :
-    TTree("run", "Information on the run"), fIPCollection(0)
+    TTree("runs", "Information on the run"), fIPCollection(0)
   {
-    fIPCollection = new std::vector<IncomingParticle*>; //FIXME switch to a std::vector ?
+    fIPCollection = new IncomingParticlesRef;
     Clear("");
 
     Branch("fIPCollection", fIPCollection);

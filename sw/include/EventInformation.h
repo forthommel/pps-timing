@@ -4,6 +4,7 @@
 #include "TObject.h"
 #include "TTree.h"
 
+#include <iostream>
 #include <vector>
 
 namespace PPS
@@ -31,6 +32,12 @@ namespace PPS
         fDetCollection->clear();
         fDetCollectionName.clear();
       }
+      inline void Lock() {
+        std::cout << __PRETTY_FUNCTION__ << " events format locked !" << std::endl;
+        fLocked = true;
+        Branch("fGenTime", &fGenTime, "fGenTime/F");
+      }
+      inline void UnLock() { fLocked=false; }
       
       /**
        * \brief Register an additional detector to the present events content
@@ -41,6 +48,11 @@ namespace PPS
        */
 #ifndef __MAKECINT__
       template<class T> bool RegisterDetector(T* det) {
+        if (fLocked) {
+          std::cout << __PRETTY_FUNCTION__ << " Warning ! trying to add a new detector (\"" << det->GetName() << "\") with a locked data format !" << std::endl;
+          // one cannot add an extra detector once this structure is locked
+          return false;
+        }
         fDetCollection->push_back(det);
         Branch(Form("%s__%s", det->GetSDName().Data(), det->GetName()), det->ClassName(), det, 32000, 1);
         fDetCollectionName.push_back(det->GetSDName());
@@ -61,19 +73,24 @@ namespace PPS
       template<class T> bool AddDetectorData(TString sd, T* det) {
         int i=0;
         for (DetectorsNames::iterator n=fDetCollectionName.begin(); n!=fDetCollectionName.end(); n++, i++) {
-          if (*n==sd) {
-            fDetCollection->at(i) = det;
-            return true;
-          }
+          if (*n==sd) { fDetCollection->at(i) = det; return true; }
         }
         return false;
       }
 #endif
       inline DetectorsNames GetDetectorsNames() const { return fDetCollectionName; }
 
+      inline void SetGenerationTime(float gentime) { fGenTime=gentime; }
+      inline float GetGenerationTime() const { return fGenTime; }
+
     private:
+      bool fLocked;
+
       DetectorsNames fDetCollectionName;
       DetectorsRef* fDetCollection;
+
+      /// Event generation time
+      float fGenTime;
 
     public:
       ClassDef(EventInformation, 1)

@@ -5,7 +5,7 @@ ClassImp(PPS::EventInformation)
 namespace PPS
 {
   EventInformation::EventInformation() :
-    TTree("events", "Information on the event")
+    TTree("events", "Information on the event"), fLocked(false)
   {
     fDetCollection = new DetectorsRef;
     Clear("");

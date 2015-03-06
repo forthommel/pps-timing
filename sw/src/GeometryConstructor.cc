@@ -24,6 +24,8 @@ namespace PPS
   G4VPhysicalVolume*
   GeometryConstructor::Construct()
   {
+    // We build the detector geometry (along with the
+    // sensitive detectors associated to it)
     return ConstructGeometry();
   }
   
@@ -38,8 +40,6 @@ namespace PPS
     
     // Experimental hall
     G4Box* expHall_box = new G4Box("World", expHall_x, expHall_y, expHall_z);
-    /*G4SDManager* sdMan = G4SDManager::GetSDMpointer();
-      sdMan->AddNewDetector(windowSD);*/
     
     expHall_log = new G4LogicalVolume(
       expHall_box,
@@ -50,6 +50,11 @@ namespace PPS
     expHall_phys = new G4PVPlacement(0, G4ThreeVector(), expHall_log, "World", 0, false, 0);
     
     G4cout << __PRETTY_FUNCTION__ << G4endl;
+    
+    // First we unlock the output file to allow the addition of
+    // events placeholders from our sensitive detectors
+    RunAction* run = (RunAction*)G4RunManager::GetRunManager()->GetUserRunAction();
+    run->GetFileWriter()->GetEventInformation()->UnLock();
     
     G4int i=0;
     for (ComponentsRef::iterator det=fComponents.begin(); det!=fComponents.end(); det++, i++) {
@@ -64,6 +69,10 @@ namespace PPS
       fComponentsBuilt.at(i) = true;
     }
     
+    // Finally we lock the output file to avoid the addition of
+    // events placeholders from additional sensitive detectors
+    run->GetFileWriter()->GetEventInformation()->Lock();
+
     return expHall_phys;
   }
 

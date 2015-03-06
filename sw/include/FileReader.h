@@ -3,8 +3,8 @@
 
 #include "RunInformation.h"
 #include "EventInformation.h"
+
 #include "TFile.h"
-#include "TTree.h"
 
 #include <iostream>
 #include <iomanip>
@@ -31,17 +31,18 @@ namespace PPS
       inline bool IsOpen() const { return (fFile!=0 && fFile->IsOpen()); }
 
       inline void ShowEvents() const {
-        if (!fFile or !fEventsTree) return;
-        fEventsTree->Show();
+        if (!fFile or !fEvent) return;
+        fEvent->Show();
       }
 
       /**
        * Extract all the information on the run to produce these events.
        */
-      inline RunInformation* GetRunInformation() const {
-        if (!fFile) return 0;
-        return static_cast<RunInformation*>(fFile->Get("run"));
-      }
+      inline RunInformation* GetRunInformation() const { return fRun; }
+      /**
+       * Extract all the events content.
+       */
+      inline EventInformation* GetEventInformation() const { return fEvent; }
       /**
        * Set the address to the object to be retrieved for each event
        * \param[in] det The GeometryComponent's sensitive detector name to be retrieved
@@ -58,24 +59,24 @@ namespace PPS
 #ifdef DEBUG
         std::cout << __PRETTY_FUNCTION__ << " invoked to retrieve a \"" << name << "\" object" << std::endl;
 #endif
-        if (!fFile or !fEventsTree) return -1;
-        return fEventsTree->SetBranchAddress(name, obj);
+        if (!fFile or !fEvent) return -1;
+        return fEvent->SetBranchAddress(name, obj);
       }
 #endif
       /**
        * Get the number of events stored in the input file
        */
-      inline size_t NumEvents() const { return (size_t)fEventsTree->GetEntries(); }
+      inline size_t NumEvents() const { return static_cast<size_t>(fEvent->GetEntries()); }
       /**
        * Retrieve one event from the input file (and fill all the objects previously
        * declared through SetDetectorEventsAddress)
        */
       inline void GetEvent(size_t i) const {
-        if (!fEventsTree) return;
+        if (!fEvent) return;
         if (i>=NumEvents()) return;
         if (fmod(100.*i/NumEvents(), 10.)==0) 
           std::cout << "[" << std::setw(3) << static_cast<int>(100.*i/NumEvents()) << "%]  Retrieving event " << i << "/" << NumEvents() << std::endl;
-        fEventsTree->GetEntry(i);
+        fEvent->GetEntry(i);
       }
 
     private:
@@ -84,7 +85,9 @@ namespace PPS
       /// Retrieved input ROOT file
       TFile* fFile;
       /// Tree containing all the events information
-      TTree* fEventsTree;
+      RunInformation* fRun;
+      /// Tree containing all the events information
+      EventInformation* fEvent;
     public:
       ClassDef(FileReader, 1)
   };
