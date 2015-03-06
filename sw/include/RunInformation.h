@@ -51,11 +51,11 @@ namespace PPS
        */
       inline double GetMeanIncomingParticlesEnergy() const {
         if (!fIPCollection) return -1.;
-	double esum = 0.;
-	for (IncomingParticlesRef::iterator ip=fIPCollection->begin(); ip!=fIPCollection->end(); ip++) {
-	  esum += (*ip)->GetMomentum()->E();
-	}
-	return esum/GetNumberOfIncomingParticles();
+        double esum = 0.;
+        for (IncomingParticlesRef::iterator ip=fIPCollection->begin(); ip!=fIPCollection->end(); ip++) {
+          esum += (*ip)->GetMomentum()->E();
+        }
+        return esum/GetNumberOfIncomingParticles();
       }
 
     private:

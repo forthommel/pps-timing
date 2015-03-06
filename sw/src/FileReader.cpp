@@ -32,11 +32,11 @@ namespace PPS
     if (!fFile->IsOpen()) return false;
 
     // Extract all the information on the run to produce these events.
-    fRun = static_cast<RunInformation*>(fFile->Get("runs"));
+    fFile->GetObject("runs", fRun);
     if (!fRun) return false;
 
     // Extract all the events content.
-    fEvent = static_cast<EventInformation*>(fFile->Get("events"));
+    fFile->GetObject("events", fEvent);
     if (!fEvent) return false;
 
     return true;

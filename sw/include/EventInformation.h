@@ -87,13 +87,13 @@ namespace PPS
       inline float GetGenerationTime() const { return fGenTime; }
 
     private:
-      bool fLocked;
+      bool fLocked; //!
 
-      DetectorsNames fDetCollectionName;
-      DetectorsRef* fDetCollection;
+      DetectorsNames fDetCollectionName; //!
+      DetectorsRef* fDetCollection; //!
 
       /// Event generation time
-      float fGenTime;
+      float fGenTime; //!
 
     public:
       ClassDef(EventInformation, 1)

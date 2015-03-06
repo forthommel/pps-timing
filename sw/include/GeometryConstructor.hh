@@ -88,7 +88,7 @@ namespace PPS
 
       ComponentsRef fComponents;
       std::vector<G4ThreeVector> fComponentsLocation;
-      /** \brief Workaround to avoid building multiple times the same detector in the geometry update process */
+      /// Workaround to avoid building multiple times the same detector in the geometry update process.
       std::vector<bool> fComponentsBuilt;
   };
 }
