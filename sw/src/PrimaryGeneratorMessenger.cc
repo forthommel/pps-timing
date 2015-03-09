@@ -45,9 +45,9 @@ namespace PPS
     }
     else if (command==fInputFilename) {
       if (!fAction->SetInputROOTFile(value)) {
-	std::ostringstream ss;
-	ss << "Error while loading the TTree \"hits\" in ROOT input file \"" << value << "\"";
-	G4Exception("PrimaryGeneratorMessenger::SetNewValue", "InvalidFilename", JustWarning, ss);
+        std::ostringstream ss;
+        ss << "Error while loading the TTree \"hits\" in ROOT input file \"" << value << "\"";
+        G4Exception("PrimaryGeneratorMessenger::SetNewValue", "InvalidFilename", JustWarning, ss);
       }
     }
     else if (command==fProbeCell) {
@@ -55,11 +55,10 @@ namespace PPS
       //G4int station_id = static_cast<G4int>(val.x());
       G4int cell_id = static_cast<G4int>(val.y());
       if (!fAction->ProbeOneQUARTICCell(cell_id, val.z())) {
-	std::ostringstream ss;
-	ss << "Error while trying to probe the cell " << cell_id
-	  //<< " on station " << station_id
-	   << " with protons of " << val.z()/CLHEP::GeV << " GeV";
-	G4Exception("PrimaryGeneratorMessenger::SetNewValue", "InvalidCellProbe", JustWarning, ss);
+        std::ostringstream ss;
+        ss << "Error while trying to probe the cell " << cell_id
+           << " with protons of " << val.z()/CLHEP::GeV << " GeV";
+        G4Exception("PrimaryGeneratorMessenger::SetNewValue", "InvalidCellProbe", JustWarning, ss);
       }
     }
   }
