@@ -6,6 +6,7 @@
 #include "G4LogicalBorderSurface.hh"
 
 #include "GeometryComponent.hh"
+#include "ComponentsMap.hh"
 
 #include "QuartLDetectorSD.hh"
 
@@ -68,5 +69,7 @@ namespace Quartic
       G4Material* fContainerMaterial;
   };
 }
+
+//PPS::ComponentsMap::GetComponentsMap()->AddComponent(Quartic::QuartLDetector);
 
 #endif

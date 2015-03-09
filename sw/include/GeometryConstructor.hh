@@ -22,6 +22,7 @@
 #include "GeometryConstructorMessenger.hh"
 
 #include <vector>
+#include <map>
 
 ////////////////////////////////////////////////////////////////
 #include "detectors.hh"
@@ -29,7 +30,7 @@
 ////////////////////////////////////////////////////////////////
 
 namespace PPS
-{
+{  
   typedef std::vector<GeometryComponent*> ComponentsRef;
   class GeometryConstructorMessenger;
   /**
@@ -50,20 +51,33 @@ namespace PPS
       /**
        * Add a new component (detector, beampocket, ...) to the global geometry
        * \param[in] type String stating the component type
+       * \return Unique identifier of the component for a later usage.
        */
       G4int AddNewComponent(G4String type="");
       /**
        * Set the location of one given component
        * \param[in] id GeometryComponent unique identifier in this geometry
        * \param[in] pos Location of the component's center
+       * \return A boolean stating the success or error of the operation.
        */
       G4bool MoveComponent(G4int id=-1, G4ThreeVector pos=G4ThreeVector(0., 0., 0.));
+      /**
+       * Rotate the component around the x axis.
+       * \param[in] id GeometryComponent unique identifier in this geometry
+       * \return A boolean stating the success or error of the operation.
+       */
       G4bool RotateComponentTheta(G4int id=-1, G4double theta=0.);
+      /**
+       * Rotate the component around the z axis.
+       * \param[in] id GeometryComponent unique identifier in this geometry
+       * \return A boolean stating the success or error of the operation.
+       */
       G4bool RotateComponentPhi(G4int id=-1, G4double phi=0.);
       /**
        * Set the name of the sensitive detector attached to one geometry component
        * \param[in] id GeometryComponent unique identifier in this geometry
        * \param[in] name Sensitive detector's name for the GeometryComponent object
+       * \return A boolean stating the success or error of the operation.
        */
       G4bool SetSDname(G4int id=-1, G4String name="");
 
@@ -86,7 +100,9 @@ namespace PPS
       MaterialManager *fMaterial;
       GeometryConstructorMessenger *fMessenger;
 
+      /// Set of pointers to the components to be added in the geometry.
       ComponentsRef fComponents;
+      /// Components location (defined wrt. the mother physical volume)
       std::vector<G4ThreeVector> fComponentsLocation;
       /// Workaround to avoid building multiple times the same detector in the geometry update process.
       std::vector<bool> fComponentsBuilt;

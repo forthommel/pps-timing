@@ -5,6 +5,7 @@
 #include "globals.hh"
 
 #include "GeometryComponent.hh"
+#include "ComponentsMap.hh"
 
 namespace MBP
 {

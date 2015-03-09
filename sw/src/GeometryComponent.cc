@@ -2,8 +2,8 @@
 
 namespace PPS
 {
-  GeometryComponent::GeometryComponent(G4String name) :
-    fName(name),
+  GeometryComponent::GeometryComponent(G4String type, G4String name) :
+    fType(type), fName(name),
     fParentLog(0), fParentPhys(0), fPhys(0),
     fIsSensitive(false), fSDname(""), fEvent(0)
   {

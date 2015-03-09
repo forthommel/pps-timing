@@ -39,8 +39,8 @@ namespace Quartic
         fCellColID = (fCellID-fCellRowID)/4;
       }
       inline int GetCellID() const { return fCellID; }
-      int GetCellRowID() const { return fCellRowID; } //!
-      int GetCellColumnID() const { return fCellColID; } //!
+      int GetCellRowID() const { return fCellRowID; }
+      int GetCellColumnID() const { return fCellColID; }
     
     private:
       TLorentzVector* fPosition;
