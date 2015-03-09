@@ -53,10 +53,8 @@ namespace PPS
   {
     if (command==fAddComponent) {
       G4cout << __PRETTY_FUNCTION__ << " Adding a new component to the geometry : " << value << G4endl;
-      if (value=="QUARTIC" or value=="MBP") {
-	fLastComponentAdded = fDC->AddNewComponent(value);
-      }
-      else {
+      fLastComponentAdded = fDC->AddNewComponent(value);
+      if (fLastComponentAdded<0) {
         std::ostringstream ss;
         ss << "Error while trying to add a component to the run." << G4endl
            << "Component name \"" << value << "\" is invalid !";

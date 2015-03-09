@@ -25,10 +25,12 @@ namespace PPS
 
       virtual void BuildForMaster() const;
       virtual void Build() const;
+      
+      inline PrimaryGeneratorAction* GetPrimaryGenerator() { return fPrimaryGenerator; }
 
     private:
       G4UserEventAction* fEventAction;
-      G4VUserPrimaryGeneratorAction* fPrimaryGenerator;
+      PrimaryGeneratorAction* fPrimaryGenerator;
       G4UserStackingAction* fStackingAction;
       G4UserTrackingAction* fTrackingAction;
       FileWriter* fOutput;

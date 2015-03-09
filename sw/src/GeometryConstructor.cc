@@ -17,7 +17,7 @@ namespace PPS
     GeometryComponentStore::Names comp = GeometryComponentStore::GetInstance()->GetRegisteredComponents();
     G4cout << __PRETTY_FUNCTION__  << " : " << GeometryComponentStore::GetInstance()->GetNumRegisteredComponents() << " component(s) registered :"<< G4endl;
     for (GeometryComponentStore::Names::iterator it=comp.begin(); it!=comp.end(); it++) {
-      G4cout << "--> " << *it << G4endl;
+      G4cout << "--> \"" << *it << "\"" << G4endl;
     }
 
   }
