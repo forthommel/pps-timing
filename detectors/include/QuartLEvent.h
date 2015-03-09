@@ -38,7 +38,7 @@ namespace Quartic
       /**
        * \brief Total number of photon hits collected in one single event.
        */
-      inline size_t GetNumberOfPhotons() const { return (!fHitsCollection) ? -1 : fHitsCollection->size(); }
+      inline Int_t GetNumberOfPhotons() const { return (!fHitsCollection) ? -1 : fHitsCollection->size(); }
       /**
        * \brief Retrieve the pointer to one photon hit from the collection.
        */

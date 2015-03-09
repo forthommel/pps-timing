@@ -5,7 +5,7 @@
 #include "G4UnionSolid.hh"
 #include "G4LogicalBorderSurface.hh"
 
-#include "GeometryComponent.hh"
+#include "GeometryComponentStore.hh"
 
 #include "QuartLDetectorSD.hh"
 
@@ -22,8 +22,9 @@ namespace Quartic
   class QuartLDetector : public PPS::GeometryComponent
   {
     public:
-      QuartLDetector(G4String name);
+      QuartLDetector(G4String name="");
       virtual ~QuartLDetector();
+      static G4String GetType() { return "QUARTIC"; }
 
       void BeforeConstruct();
       G4ThreeVector GetCellCenter(G4int cell_id) const;

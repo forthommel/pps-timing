@@ -10,8 +10,13 @@
 
 #include <string>
 
+#define BUILDERNM(obj) obj ## Builder
+#define REGISTER_COMPONENT(obj,type) class BUILDERNM(obj) : public PPS::GeometryComponentBuilder { public: BUILDERNM(obj)() { PPS::GeometryComponentStore::GetInstance()->AddComponent(type,this); } virtual PPS::GeometryComponent* create(std::string name) { return new obj(name); } }; static BUILDERNM(obj) g ## obj;
+
 namespace PPS
 {
+  class GeometryComponentBuilder;
+  typedef std::map<std::string, GeometryComponentBuilder*> GeometryComponentMap;
   /**
    * Mother object for all geometrical components defining the detector.
    * This includes passive, as well as active elements, such as beampockets
@@ -24,10 +29,11 @@ namespace PPS
   class GeometryComponent
   {
     public:
-      GeometryComponent(G4String name);
+      GeometryComponent(G4String="");
       ~GeometryComponent();
 
       inline std::string GetName() const { return static_cast<std::string>(fName); }
+      inline std::string GetType() const { return ""; }
       /**
        * \brief Set the mother logical volume associated to this component.
        */
@@ -66,10 +72,25 @@ namespace PPS
        * \brief Build the physical volume associated to the geometry component.
        */
       virtual G4VPhysicalVolume* Construct();
+      
+      /*inline static void registerType(const std::string& name, GeometryComponentBuilder* builder)
+      {
+        fBuilders[name] = builder;
+      }*/
   
     protected:
+      G4String GetLogName() const {
+        std::ostringstream out;
+        out << GetName() << "_container_log";
+        return out.str();
+      }
+      G4String GetPhysName() const {
+        std::ostringstream out;
+        out << GetName() << "_container_phys";
+        return out.str();
+      }
       /// Name of this component
-      G4String fName;
+      const G4String fName;
       /// Instance of the materials manager object to be used to define the component
       const MaterialManager* fMaterial;
 
@@ -92,6 +113,8 @@ namespace PPS
       G4String fSDname;
 
       void* fEvent;
+      
+      static GeometryComponentMap fBuilders;
   };
 }
 

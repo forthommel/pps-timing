@@ -13,6 +13,13 @@ namespace PPS
     
     fMessenger = new GeometryConstructorMessenger(this);
     fMaterial = new MaterialManager;
+
+    GeometryComponentStore::Names comp = GeometryComponentStore::GetInstance()->GetRegisteredComponents();
+    G4cout << __PRETTY_FUNCTION__  << " : " << GeometryComponentStore::GetInstance()->GetNumRegisteredComponents() << " component(s) registered :"<< G4endl;
+    for (GeometryComponentStore::Names::iterator it=comp.begin(); it!=comp.end(); it++) {
+      G4cout << "--> " << *it << G4endl;
+    }
+
   }
   
   GeometryConstructor::~GeometryConstructor()
@@ -48,9 +55,7 @@ namespace PPS
       0, 0, 0);
 
     expHall_phys = new G4PVPlacement(0, G4ThreeVector(), expHall_log, "World", 0, false, 0);
-    
-    G4cout << __PRETTY_FUNCTION__ << G4endl;
-    
+
     // First we unlock the output file to allow the addition of
     // events placeholders from our sensitive detectors
     RunAction* run = (RunAction*)G4RunManager::GetRunManager()->GetUserRunAction();
@@ -80,16 +85,14 @@ namespace PPS
   GeometryConstructor::AddNewComponent(G4String type)
   {
     G4cout << __PRETTY_FUNCTION__ << " --> Let's add a \"" << type << "\", shall we ?" << G4endl;
-    if (type=="QUARTIC") {
-      std::ostringstream ss; ss << "quartic_" << fComponents.size();
-      fComponents.push_back((GeometryComponent*)(new Quartic::QuartLDetector(ss.str())));
+    std::ostringstream ss; ss << type << "_" << fComponents.size();
+    GeometryComponent* c = static_cast<GeometryComponent*>(GeometryComponentStore::GetInstance()->GetByType(type)->create(ss.str()));
+    if (!c) {
+      G4cerr << " --> ERROR : invalid component type (\"" << type << "\") !" << G4endl;
+      return -1;
     }
-    else if (type=="MBP") {
-      std::ostringstream ss; ss << "mbp_" << fComponents.size();
-      fComponents.push_back((GeometryComponent*)(new MBP::MBP(ss.str())));
-    }
-    else return -1;
     
+    fComponents.push_back(c);
     // By default the component is set to the origin
     fComponentsLocation.push_back(G4ThreeVector());
     fComponentsBuilt.push_back(false);

@@ -57,63 +57,63 @@ namespace PPS
 	fLastComponentAdded = fDC->AddNewComponent(value);
       }
       else {
-	std::ostringstream ss;
-	ss << "Error while trying to add a component to the run." << G4endl
-	   << "Component name \"" << value << "\" is invalid !";
-	G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
+        std::ostringstream ss;
+        ss << "Error while trying to add a component to the run." << G4endl
+           << "Component name \"" << value << "\" is invalid !";
+        G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", FatalErrorInArgument, ss);
       }
     }
     else if (command==fComponentPosition) {
       if (fLastComponentAdded<0) {
-	std::ostringstream ss;
-	ss << "Error while trying to set a previously added component's position." << G4endl
-	   << "Invalid component id (" << fLastComponentAdded << "). Check the addition procedure !";
-	G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
+        std::ostringstream ss;
+        ss << "Error while trying to set a previously added component's position." << G4endl
+           << "Invalid component id (" << fLastComponentAdded << "). Check the addition procedure !";
+        G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
       }
       if (!fDC->MoveComponent(fLastComponentAdded, fComponentPosition->GetNew3VectorValue(value))) {
-	std::ostringstream ss;
-	ss << "Error while trying to set a previously added component's position.";
-	G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
+        std::ostringstream ss;
+        ss << "Error while trying to set a previously added component's position.";
+        G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
       }
     }
     else if (command==fComponentRotationTheta) {
       if (fLastComponentAdded<0) {
-	std::ostringstream ss;
-	ss << "Error while trying to rotate a previously added component (theta)." << G4endl
-	   << "Invalid component id (" << fLastComponentAdded << "). Check the addition procedure !";
-	G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
+        std::ostringstream ss;
+        ss << "Error while trying to rotate a previously added component (theta)." << G4endl
+           << "Invalid component id (" << fLastComponentAdded << "). Check the addition procedure !";
+        G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
       }
       if (!fDC->RotateComponentTheta(fLastComponentAdded, -fComponentRotationTheta->GetNewDoubleValue(value))) {
-	std::ostringstream ss;
-	ss << "Error while trying to set a previously added component's theta rotation.";
-	G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
+        std::ostringstream ss;
+        ss << "Error while trying to set a previously added component's theta rotation.";
+        G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
       }
     }
     else if (command==fComponentRotationPhi) {
       if (fLastComponentAdded<0) {
-	std::ostringstream ss;
-	ss << "Error while trying to rotate a previously added component (phi)." << G4endl
-	   << "Invalid component id (" << fLastComponentAdded << "). Check the addition procedure !";
-	G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
+        std::ostringstream ss;
+        ss << "Error while trying to rotate a previously added component (phi)." << G4endl
+           << "Invalid component id (" << fLastComponentAdded << "). Check the addition procedure !";
+        G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
       }
       G4cout << __PRETTY_FUNCTION__ << " " << fComponentRotationPhi->GetNewDoubleValue(value) << G4endl;
       if (!fDC->RotateComponentPhi(fLastComponentAdded, -fComponentRotationPhi->GetNewDoubleValue(value))) {
-	std::ostringstream ss;
-	ss << "Error while trying to set a previously added component's phi rotation.";
-	G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
+        std::ostringstream ss;
+        ss << "Error while trying to set a previously added component's phi rotation.";
+        G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
       }
     }
     else if (command==fComponentSDname) {
       if (fLastComponentAdded<0) {
-	std::ostringstream ss;
-	ss << "Error while trying to set a previously added component's sensitive detector name." << G4endl
-	   << "Invalid component id (" << fLastComponentAdded << "). Check the addition procedure !";
-	G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
+        std::ostringstream ss;
+        ss << "Error while trying to set a previously added component's sensitive detector name." << G4endl
+           << "Invalid component id (" << fLastComponentAdded << "). Check the addition procedure !";
+        G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
       }
       if (!fDC->SetSDname(fLastComponentAdded, value)) {
-	std::ostringstream ss;
-	ss << "Error while trying to set a previously added component's sensitive detector name.";
-	G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
+        std::ostringstream ss;
+        ss << "Error while trying to set a previously added component's sensitive detector name.";
+        G4Exception(__PRETTY_FUNCTION__, "InvalidComponent", JustWarning, ss);
       }
     }
     else if (command==fUpdateGeometry) {

@@ -56,6 +56,7 @@ int main(int argc,char** argv)
   // UserInitialization classes - mandatory
   //
   PPS::GeometryConstructor *geom_constructor = new PPS::GeometryConstructor;
+  
   runManager->SetUserInitialization(geom_constructor);
   
   G4VModularPhysicsList* physics;

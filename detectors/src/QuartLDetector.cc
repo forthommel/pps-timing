@@ -97,19 +97,17 @@ namespace Quartic
       Zoffs[i] = -zlength/2.+fZoffs[i]+RadL[0]/2.;
     }
     
-    std::ostringstream cl; cl << fName << "_container_log";
-    std::ostringstream cp; cp << fName << "_container_phys";
     G4Box* container_box = new G4Box("Container", xlength/2., ylength/2., zlength/2.);
-    G4LogicalVolume* container_log = new G4LogicalVolume(container_box, fContainerMaterial, cl.str(), 0, 0, 0);
+    G4LogicalVolume* container_log = new G4LogicalVolume(container_box, fContainerMaterial, GetLogName(), 0, 0, 0);
     G4PVPlacement* container_phys = new G4PVPlacement(
       &fRotation,
       G4ThreeVector(
         fPosition.x()+xlength/2.,
-	fPosition.y(),
-	fPosition.z()+zlength/2.
+        fPosition.y(),
+        fPosition.z()+zlength/2.
       ),
       container_log,
-      cp.str(),
+      GetPhysName(),
       fParentLog,
       false,
       0
@@ -119,11 +117,11 @@ namespace Quartic
     
     for (G4int i=0; i<nBar; i++) {
       /*if (fNumBars>MAX_BARS) {
-	std::ostringstream ss;
-	ss << "Too many cells to be constructed for QUARTIC \"" << fName << "\" !" << G4endl
-	<< "  Maximal number of cells : " << MAX_BARS;
-	G4Exception("QuartLDetector::BuildOneStation", "TooManyCells", FatalException, ss);
-	}*/
+      std::ostringstream ss;
+      ss << "Too many cells to be constructed for QUARTIC \"" << fName << "\" !" << G4endl
+         << "  Maximal number of cells : " << MAX_BARS;
+      G4Exception("QuartLDetector::BuildOneStation", "TooManyCells", FatalException, ss);
+      }*/
       
       barv_l = RadL[i];
       barh_l = LigL[i];
@@ -141,16 +139,16 @@ namespace Quartic
       //Bar_log[fNumBars] = new G4LogicalVolume(Bar[fNumBars], fMaterial->Sapphire, ss.str(), 0, 0, 0);
       Bar_phys[fNumBars] = new G4PVPlacement(
         0,
-	G4ThreeVector(
+        G4ThreeVector(
           Xoffs[i],
-	  Yoffs[i],
-	  Zoffs[i]
+          Yoffs[i],
+          Zoffs[i]
         ),
-	Bar_log[fNumBars],
-	ss.str(),
-	container_log,
-	false,
-	fNumBars);
+        Bar_log[fNumBars],
+        ss.str(),
+        container_log,
+        false,
+        fNumBars);
       //
       //------------------------------------------------------------
       // Glass Window of Sensitive Detector
@@ -163,14 +161,14 @@ namespace Quartic
         0,
         G4ThreeVector(
           wind_x/2.+barh_l+bar_x/2.,
-	  0.,
+          0.,
          -wind_z/2.+barv_l/2.
         ),
-	window_log[fNumBars],
-	"Window",
-	Bar_log[fNumBars],
-	false,
-	fNumBars);
+        window_log[fNumBars],
+        "Window",
+        Bar_log[fNumBars],
+        false,
+        fNumBars);
       
       // Bar-Air Border
       SilAirBord[fNumBars] = new G4LogicalBorderSurface("SilAirBord", Bar_phys[i], fParentPhys, fMaterial->OpSilSurface);
@@ -191,4 +189,5 @@ namespace Quartic
     z = fPosition.z();
     return G4ThreeVector(x, y, z);
   }
+  REGISTER_COMPONENT(QuartLDetector, "QUARTIC")
 }
