@@ -85,22 +85,8 @@ namespace PPS
   GeometryConstructor::AddNewComponent(G4String type)
   {
     G4cout << __PRETTY_FUNCTION__ << " --> Let's add a \"" << type << "\", shall we ?" << G4endl;
-    //GeometryComponentBuilder* comp = GeometryComponentStore::GetInstance()->GetByType(type);
-    //if (!comp) return -1;
     std::ostringstream ss; ss << type << "_" << fComponents.size();
-    G4cerr << "---> " << type << " / " << GeometryComponentStore::GetInstance()->GetByType(type) << G4endl;
-    fComponents.push_back((GeometryComponent*)(GeometryComponentStore::GetInstance()->GetByType(type)->create(ss.str())));
-    //fComponents.push_back(comp->create(ss.str()));
-    /*if (type=="QUARTIC") {
-      std::ostringstream ss; ss << "quartic_" << fComponents.size();
-      fComponents.push_back((GeometryComponent*)(new Quartic::QuartLDetector(ss.str())));
-    }
-    else if (type=="MBP") {
-      std::ostringstream ss; ss << "mbp_" << fComponents.size();
-      fComponents.push_back((GeometryComponent*)(new MBP::MBP(ss.str())));
-    }
-    else return -1;
-    */
+    fComponents.push_back(static_cast<GeometryComponent*>(GeometryComponentStore::GetInstance()->GetByType(type)->create(ss.str())));
     // By default the component is set to the origin
     fComponentsLocation.push_back(G4ThreeVector());
     fComponentsBuilt.push_back(false);
