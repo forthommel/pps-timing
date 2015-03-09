@@ -48,8 +48,12 @@ namespace PPS
       0, 0, 0);
 
     expHall_phys = new G4PVPlacement(0, G4ThreeVector(), expHall_log, "World", 0, false, 0);
-    
-    G4cout << __PRETTY_FUNCTION__ << G4endl;
+        
+    std::vector<std::string> comp = ComponentsStore::GetInstance()->GetRegisteredComponents();
+    G4cout << __PRETTY_FUNCTION__  << " : " << ComponentsStore::GetInstance()->GetNumRegisteredComponents() << " components registered :"<< G4endl;
+    for (std::vector<std::string>::iterator it=comp.begin(); it!=comp.end(); it++) {
+      G4cout << "--> " << *it << G4endl;
+    }
     
     // First we unlock the output file to allow the addition of
     // events placeholders from our sensitive detectors

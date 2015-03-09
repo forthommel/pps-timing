@@ -5,7 +5,7 @@ using namespace CLHEP;
 namespace MBP
 {
   MBP::MBP(G4String name) :
-    PPS::GeometryComponent("MBP", name),
+    PPS::GeometryComponent(name),
     fParser(0)
   {
     G4Box* container_box = new G4Box("Container", 1.*m, 1.*m, 1.*m); // FIXME dimensions !
@@ -44,3 +44,7 @@ namespace MBP
     if (fParser) delete fParser;
   }
 }
+
+//REGISTER_COMPONENT(MBP::MBP)
+//PPS::ComponentsMap<MBP::MBP> gMBP;
+static PPS::GeometryComponentProxy<MBP::MBP> gMBP;

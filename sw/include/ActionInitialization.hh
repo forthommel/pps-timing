@@ -10,6 +10,8 @@
 #include "TrackingAction.hh"
 #include "FileWriter.hh"
 
+#include "ComponentsMap.hh"
+
 namespace PPS
 {
   /**

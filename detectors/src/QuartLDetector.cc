@@ -31,7 +31,7 @@ namespace Quartic
   };
   
   QuartLDetector::QuartLDetector(G4String name) :
-    PPS::GeometryComponent("QUARTIC", name),
+    PPS::GeometryComponent(name),
     fSD(0), fNumBars(0),
     fContainerMaterial(fMaterial->Air)
   {
@@ -190,3 +190,5 @@ namespace Quartic
     return G4ThreeVector(x, y, z);
   }
 }
+static PPS::GeometryComponentProxy<Quartic::QuartLDetector> gQUARTIC;
+

@@ -56,8 +56,6 @@ int main(int argc,char** argv)
   // UserInitialization classes - mandatory
   //
   PPS::GeometryConstructor *geom_constructor = new PPS::GeometryConstructor;
-  PPS::ComponentsMap::GetComponentsMap()->AddComponent(new MBP::MBP);
-  PPS::ComponentsMap::GetComponentsMap()->AddComponent(new Quartic::QuartLDetector);
   
   runManager->SetUserInitialization(geom_constructor);
   

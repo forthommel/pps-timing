@@ -24,11 +24,11 @@ namespace PPS
   class GeometryComponent
   {
     public:
-      GeometryComponent(G4String,G4String);
+      GeometryComponent(G4String);
       ~GeometryComponent();
 
       inline std::string GetName() const { return static_cast<std::string>(fName); }
-      inline std::string GetType() const { return fType; }
+      inline std::string GetType() const { return ""; }
       /**
        * \brief Set the mother logical volume associated to this component.
        */
@@ -79,7 +79,6 @@ namespace PPS
         out << GetName() << "_container_phys";
         return out.str();
       }
-      const G4String fType;
       /// Name of this component
       const G4String fName;
       /// Instance of the materials manager object to be used to define the component

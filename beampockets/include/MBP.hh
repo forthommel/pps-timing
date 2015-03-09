@@ -14,6 +14,7 @@ namespace MBP
   public:
     MBP(G4String name);
     virtual ~MBP();
+    static G4String GetType() { return "MBP"; }
     
   private:
     G4GDMLParser* fParser;
@@ -21,4 +22,3 @@ namespace MBP
 }
 
 #endif
-

@@ -25,6 +25,7 @@ namespace Quartic
     public:
       QuartLDetector(G4String name);
       virtual ~QuartLDetector();
+      static G4String GetType() { return "QUARTIC"; }
 
       void BeforeConstruct();
       G4ThreeVector GetCellCenter(G4int cell_id) const;
@@ -69,7 +70,5 @@ namespace Quartic
       G4Material* fContainerMaterial;
   };
 }
-
-//PPS::ComponentsMap::GetComponentsMap()->AddComponent(Quartic::QuartLDetector);
 
 #endif
