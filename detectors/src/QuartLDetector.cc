@@ -189,6 +189,5 @@ namespace Quartic
     z = fPosition.z();
     return G4ThreeVector(x, y, z);
   }
+  REGISTER_COMPONENT(QuartLDetector, "QUARTIC")
 }
-static PPS::GeometryComponentProxy<Quartic::QuartLDetector> gQUARTIC;
-

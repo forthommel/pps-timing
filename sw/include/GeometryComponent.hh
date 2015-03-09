@@ -10,8 +10,13 @@
 
 #include <string>
 
+#define BUILDERNM(obj) obj ## Builder
+#define REGISTER_COMPONENT(obj,type) class BUILDERNM(obj) : public PPS::GeometryComponentBuilder { public: BUILDERNM(obj)() { PPS::GeometryComponentStore::GetInstance()->AddComponent(type,this); } virtual PPS::GeometryComponent* create(std::string name) { return new obj(name); } }; static BUILDERNM(obj) g ## obj;
+
 namespace PPS
 {
+  class GeometryComponentBuilder;
+  typedef std::map<std::string, GeometryComponentBuilder*> GeometryComponentMap;
   /**
    * Mother object for all geometrical components defining the detector.
    * This includes passive, as well as active elements, such as beampockets
@@ -24,7 +29,7 @@ namespace PPS
   class GeometryComponent
   {
     public:
-      GeometryComponent(G4String);
+      GeometryComponent(G4String="");
       ~GeometryComponent();
 
       inline std::string GetName() const { return static_cast<std::string>(fName); }
@@ -67,6 +72,11 @@ namespace PPS
        * \brief Build the physical volume associated to the geometry component.
        */
       virtual G4VPhysicalVolume* Construct();
+      
+      /*inline static void registerType(const std::string& name, GeometryComponentBuilder* builder)
+      {
+        fBuilders[name] = builder;
+      }*/
   
     protected:
       G4String GetLogName() const {
@@ -103,6 +113,8 @@ namespace PPS
       G4String fSDname;
 
       void* fEvent;
+      
+      static GeometryComponentMap fBuilders;
   };
 }
 

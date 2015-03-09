@@ -43,8 +43,6 @@ namespace MBP
   {
     if (fParser) delete fParser;
   }
-}
 
-//REGISTER_COMPONENT(MBP::MBP)
-//PPS::ComponentsMap<MBP::MBP> gMBP;
-static PPS::GeometryComponentProxy<MBP::MBP> gMBP;
+  REGISTER_COMPONENT(MBP, "MBP")
+}

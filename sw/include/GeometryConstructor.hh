@@ -20,14 +20,7 @@
 
 #include "MaterialManager.hh"
 #include "GeometryConstructorMessenger.hh"
-
-#include <vector>
-#include <map>
-
-////////////////////////////////////////////////////////////////
-#include "detectors.hh"
-#include "beampockets.hh"
-////////////////////////////////////////////////////////////////
+#include "GeometryComponentStore.hh"
 
 namespace PPS
 {  
