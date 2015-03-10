@@ -20,7 +20,7 @@
 
 #include "MaterialManager.hh"
 #include "GeometryConstructorMessenger.hh"
-#include "GeometryComponentStore.hh"
+#include "GeometryComponent.hh"
 
 namespace PPS
 {  

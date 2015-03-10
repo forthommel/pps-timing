@@ -21,8 +21,6 @@ namespace Quartic
       virtual ~QuartLDetectorSD();
   
       G4bool ProcessHits(G4Step*, G4TouchableHistory*);
-    
-    private:
   };
 }
 

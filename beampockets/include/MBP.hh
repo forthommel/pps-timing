@@ -4,7 +4,7 @@
 #include "G4GDMLParser.hh"
 #include "globals.hh"
 
-#include "GeometryComponentStore.hh"
+#include "GeometryComponent.hh"
 
 namespace MBP
 {
@@ -13,10 +13,14 @@ namespace MBP
   public:
     MBP(G4String name="");
     virtual ~MBP();
-    static G4String GetType() { return "MBP"; }
+    
+    G4VPhysicalVolume* BuildOneStation();
+    inline void BeforeConstruct() {}
+    inline G4VPhysicalVolume* Construct() { return BuildOneStation(); }
     
   private:
     G4GDMLParser* fParser;
+    G4VPhysicalVolume* fWorld;
   };
 }
 
