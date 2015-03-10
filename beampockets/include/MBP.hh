@@ -19,7 +19,6 @@ namespace MBP
     inline G4VPhysicalVolume* Construct() { return BuildOneStation(); }
     
   private:
-    G4GDMLParser* fParser;
     G4VPhysicalVolume* fWorld;
   };
 }

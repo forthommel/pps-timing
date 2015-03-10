@@ -5,8 +5,7 @@ using namespace CLHEP;
 namespace MBP
 {
   MBP::MBP(G4String name) :
-    PPS::GeometryComponent(name),
-    fParser(0)
+    PPS::GeometryComponent(name)
   {}
   
   G4VPhysicalVolume*
@@ -28,12 +27,12 @@ namespace MBP
       0
     );
     
-    fParser = new G4GDMLParser;
-    fParser->Read("../data/MBP_v11.gdml");
+    G4GDMLParser parser;
+    parser.Read("../data/MBP_v11.gdml");
     
-    G4VPhysicalVolume* mbp_phys = fParser->GetWorldVolume();
+    G4VPhysicalVolume* mbp_phys = parser.GetWorldVolume();
     //G4cout << fParser->GetPosition("v1") << "\t" << G4endl;
-    mbp_phys->SetMotherLogical(fParentLog);
+    //mbp_phys->SetMotherLogical(fParentLog);
     mbp_phys->SetTranslation(fPosition);
     mbp_phys->SetRotation(&fRotation);
 
@@ -44,9 +43,7 @@ namespace MBP
   }
   
   MBP::~MBP()
-  {
-    if (fParser) delete fParser;
-  }
+  {}
 
   REGISTER_COMPONENT(MBP, "MBP")
 }

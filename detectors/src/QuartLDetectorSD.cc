@@ -24,9 +24,7 @@ namespace Quartic
       G4Track* track = step->GetTrack();
       G4ThreeVector mom3 = track->GetMomentum(), pos3 = track->GetPosition();
       PPS::TrackInformation* ti = static_cast<PPS::TrackInformation*>(track->GetUserInformation());
-      
-      //G4cout << __PRETTY_FUNCTION__ << " --> track " << track->GetTrackID() << " has parent " << ti->GetOriginalTrackID() << G4endl;
-      
+
       QuartLPhotonHit* hit = new QuartLPhotonHit;
       hit->SetIncomingParticle(fRunAction->GetRunInformation()->GetIncomingParticle(ti->GetOriginalTrackID()-1));
       hit->SetCellID(step->GetPreStepPoint()->GetPhysicalVolume()->GetCopyNo());
@@ -42,13 +40,13 @@ namespace Quartic
         pos3.z()/m,
         track->GetGlobalTime()/second
       ));
-      
+
       fEvent->AddPhoton(hit);
-      
+
       // One kills the particle after its arrival in the sensitive detector
       track->SetTrackStatus(fStopAndKill);
     }
-    
+
     return true;
   }
 }

@@ -18,7 +18,8 @@ namespace PPS
       ~MaterialManager();
 
       G4Material* Air;
-      G4Material* Sil;
+      G4Material* SilO;
+      G4Material* Silicon;
       G4Material* Sapphire;
       G4Material* Glass;
       G4Material* StainlessSteel;

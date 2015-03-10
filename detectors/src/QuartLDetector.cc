@@ -115,14 +115,7 @@ namespace Quartic
     
     G4Box* window_box = new G4Box("Window", wind_x/2., wind_z/2., wind_z/2.);
     
-    for (G4int i=0; i<nBar; i++) {
-      /*if (fNumBars>MAX_BARS) {
-      std::ostringstream ss;
-      ss << "Too many cells to be constructed for QUARTIC \"" << fName << "\" !" << G4endl
-         << "  Maximal number of cells : " << MAX_BARS;
-      G4Exception("QuartLDetector::BuildOneStation", "TooManyCells", FatalException, ss);
-      }*/
-      
+    for (G4int i=0; i<nBar; i++) {      
       barv_l = RadL[i];
       barh_l = LigL[i];
       
@@ -135,7 +128,7 @@ namespace Quartic
       ss << "Bar_" << i;
       
       Bar[fNumBars] = new G4UnionSolid("BarV+BarH", BarV[fNumBars], BarH[fNumBars], 0, Trans);
-      Bar_log[fNumBars] = new G4LogicalVolume(Bar[fNumBars], fMaterial->Sil, ss.str(), 0, 0, 0);
+      Bar_log[fNumBars] = new G4LogicalVolume(Bar[fNumBars], fMaterial->SilO, ss.str(), 0, 0, 0);
       //Bar_log[fNumBars] = new G4LogicalVolume(Bar[fNumBars], fMaterial->Sapphire, ss.str(), 0, 0, 0);
       Bar_phys[fNumBars] = new G4PVPlacement(
         0,

@@ -5,14 +5,15 @@ using namespace CLHEP;
 namespace PPS
 {
   MaterialManager::MaterialManager() :
-    Air(0), Sil(0), Sapphire(0), Glass(0),
+    Air(0), SilO(0), Silicon(0), Sapphire(0), Glass(0),
     StainlessSteel(0), AlBeMet(0), Beryllium(0),
     OpSilSurface(0)
   {
     G4NistManager* man = G4NistManager::Instance();
     
     Air = man->FindOrBuildMaterial("G4_AIR");
-    Sil = man->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
+    SilO = man->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
+    Silicon = man->FindOrBuildMaterial("G4_Si");
     Sapphire = man->FindOrBuildMaterial("G4_ALUMINUM_OXIDE");
     Glass = man->FindOrBuildMaterial("G4_GLASS_PLATE");
     StainlessSteel = man->FindOrBuildMaterial("G4_STAINLESS-STEEL");
@@ -71,7 +72,7 @@ namespace PPS
     G4MaterialPropertiesTable* MPT_Sil = new G4MaterialPropertiesTable();
     MPT_Sil->AddProperty("RINDEX", PhEn_Sil, RI_Sil, nEntries_Sil);
     MPT_Sil->AddProperty("ABSLENGTH", PhEn_Sil, Absor_Sil, nEntries_Sil);
-    Sil->SetMaterialPropertiesTable(MPT_Sil);
+    SilO->SetMaterialPropertiesTable(MPT_Sil);
     
     // Sapphire (Al2O3) Part
     

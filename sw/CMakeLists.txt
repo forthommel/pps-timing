@@ -17,13 +17,11 @@ file(GLOB dict_sources src/*.cpp)
 
 # message(STATUS "Headers for dictionary : " ${dict_headers})
 # message(STATUS "Sources for dictionary : " ${dict_sources})
-#message(STATUS "ROOT version: " ${ROOT_VERSION})
-#ROOT_GENERATE_DICTIONARY(PPSDict ${dict_headers} LINKDEF include/LinkDef.h)
+# message(STATUS "ROOT version: " ${ROOT_VERSION})
 GENERATE_DICTIONARY(PPSDict ${dict_headers} LINKDEF include/LinkDef.h)
 list(APPEND sources PPSDict.cxx)
 add_library(PPS SHARED ${dict_sources} PPSDict.cxx)
 target_link_libraries(PPS ${ROOT_LIBRARIES} ${ROOT_COMPONENT_LIBRARIES})
-##install(TARGETS PPS DESTINATION lib)
 
 list(APPEND headers ${dict_headers})
 

@@ -16,7 +16,9 @@ namespace PPS
   EventAction::BeginOfEventAction(const G4Event* event)
   {
     const G4int num_events = G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed();
-    G4cerr << "\tEvent " << event->GetEventID()+1 << " / " << num_events << G4endl;
+    if (!fmod(100.*(event->GetEventID()+1)/num_events, 10)) {
+      G4cerr << "\tEvent " << event->GetEventID()+1 << " / " << num_events << G4endl;
+    }
     fTimer->Start();
   }
  

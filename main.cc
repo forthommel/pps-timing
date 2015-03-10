@@ -91,9 +91,8 @@ int main(int argc,char** argv)
     ui = new G4UIExecutive(argc, argv);
     // Initialize visualization
 #ifdef G4VIS_USE
-    G4VisManager* visManager = new G4VisExecutive;
     // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
-    // G4VisManager* visManager = new G4VisExecutive("Quiet");
+    G4VisManager* visManager = new G4VisExecutive("Quiet");
     visManager->Initialize();
 #endif
     UImanager->ApplyCommand("/control/execute test/init_vis.mac");
@@ -106,9 +105,8 @@ int main(int argc,char** argv)
     G4String command = "/control/execute ";
     G4String fileName = argv[1];
 #ifdef G4VIS_USE
-    G4VisManager* visManager = new G4VisExecutive;
     // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
-    // G4VisManager* visManager = new G4VisExecutive("Quiet");
+    G4VisManager* visManager = new G4VisExecutive("Quiet");
     visManager->Initialize();
 #endif
     UImanager->ApplyCommand(command+fileName);
