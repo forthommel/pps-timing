@@ -86,7 +86,7 @@ namespace PPS
   {
     G4cout << __PRETTY_FUNCTION__ << " --> Let's add a \"" << type << "\", shall we ?" << G4endl;
     std::ostringstream ss; ss << type << "_" << fComponents.size();
-    GeometryComponent* c = static_cast<GeometryComponent*>(GeometryComponentStore::GetInstance()->GetByType(type)->create(ss.str()));
+    GeometryComponent* c = static_cast<GeometryComponent*>(GeometryComponentStore::GetInstance()->GetByType(type)->Build(ss.str()));
     if (!c) {
       G4cerr << " --> ERROR : invalid component type (\"" << type << "\") !" << G4endl;
       return -1;

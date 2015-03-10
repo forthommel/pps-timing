@@ -11,12 +11,11 @@
 #include <string>
 
 #define BUILDERNM(obj) obj ## Builder
-#define REGISTER_COMPONENT(obj,type) class BUILDERNM(obj) : public PPS::GeometryComponentBuilder { public: BUILDERNM(obj)() { PPS::GeometryComponentStore::GetInstance()->AddComponent(type,this); } virtual PPS::GeometryComponent* create(std::string name) { return new obj(name); } }; static BUILDERNM(obj) g ## obj;
+#define REGISTER_COMPONENT(obj,type) class BUILDERNM(obj) : public PPS::GeometryComponentBuilder { public: BUILDERNM(obj)() { PPS::GeometryComponentStore::GetInstance()->AddComponent(type,this); } virtual PPS::GeometryComponent* Build(std::string name) { return new obj(name); } }; static BUILDERNM(obj) g ## obj;
 
 namespace PPS
 {
   class GeometryComponentBuilder;
-  typedef std::map<std::string, GeometryComponentBuilder*> GeometryComponentMap;
   /**
    * Mother object for all geometrical components defining the detector.
    * This includes passive, as well as active elements, such as beampockets
@@ -33,7 +32,6 @@ namespace PPS
       ~GeometryComponent();
 
       inline std::string GetName() const { return static_cast<std::string>(fName); }
-      inline std::string GetType() const { return ""; }
       /**
        * \brief Set the mother logical volume associated to this component.
        */
@@ -72,18 +70,15 @@ namespace PPS
        * \brief Build the physical volume associated to the geometry component.
        */
       virtual G4VPhysicalVolume* Construct();
-      
-      /*inline static void registerType(const std::string& name, GeometryComponentBuilder* builder)
-      {
-        fBuilders[name] = builder;
-      }*/
   
     protected:
+      /// Get the name of the logical volume surrounding this component.
       G4String GetLogName() const {
         std::ostringstream out;
         out << GetName() << "_container_log";
         return out.str();
       }
+      /// Get the name of the physical volume surrounding this component.
       G4String GetPhysName() const {
         std::ostringstream out;
         out << GetName() << "_container_phys";
@@ -113,36 +108,62 @@ namespace PPS
       G4String fSDname;
 
       void* fEvent;
-      
-      static GeometryComponentMap fBuilders;
   };
 
+  /**
+   * \brief Builder class for a GeometryComponent object from the store.
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+   * \date 9 Mar 2015 
+   */
   class GeometryComponentBuilder
   {
     public:
-      virtual GeometryComponent* create(std::string)=0;
-      std::string GetType() const { return ""; }
+      /// Create one GeometryComponent out of this builder.
+      virtual GeometryComponent* Build(std::string)=0;
   };
 
+  /**
+   * Static object filled with all available GeometryComponent objects
+   * which can be constructed and added to the spectrometer geometry.
+   * 
+   * \brief Store full of GeometryComponent objects.
+   * \author Laurent Forthomme <laurent.forthomme@cern.ch>
+   * \date 9 Mar 2015 
+   */
   class GeometryComponentStore
   {
     private:
-      GeometryComponentStore() { std::cout << __PRETTY_FUNCTION__ << std::endl;}
+      GeometryComponentStore() {;}
+      /// The static object present everywhere at runtime.
       static GeometryComponentStore* fComponentsStore;
+      /// A boolean stating whether or not the static object is already
+      /// built.
       static bool fBuilt;
 
     public:
       typedef std::vector<std::string> Names;
+      /// The core of this components store : a map between the unique
+      /// component's name and its builder.
       typedef std::map<std::string, GeometryComponentBuilder*> Map;
       typedef std::pair<std::string, GeometryComponentBuilder*> Pair;
       
       ~GeometryComponentStore() { fBuilt=false; }
       static GeometryComponentStore* GetInstance();
       
+      /**
+       * \brief Add a new component to the present store instance.
+       * \param[in] type A unique name identifying the component.
+       * \param[in] comp A builder object to store for future instance
+       * creation(s).
+       */
       void AddComponent(std::string,GeometryComponentBuilder*);
       
+      /// Retrieve the number of unique components which can be built by
+      /// this instance.
       inline size_t GetNumRegisteredComponents() const { return fMap.size(); }
+      /// Retrieve a list of registered components names.
       Names GetRegisteredComponents() const;
+      /// Retrieve one component from the store by its unique name.
       GeometryComponentBuilder* GetByType(std::string);
 
     private:
