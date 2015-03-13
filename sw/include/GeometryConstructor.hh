@@ -75,6 +75,8 @@ namespace PPS
       G4bool SetSDname(G4int id=-1, G4String name="");
 
       void WriteGDML(G4String filename="geometry.gdml");
+
+      void LoadGDML(G4String filename="geometry.gdml");
   
     private:
       /**
