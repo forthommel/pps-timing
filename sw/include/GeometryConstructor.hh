@@ -21,6 +21,7 @@
 #include "MaterialManager.hh"
 #include "GeometryConstructorMessenger.hh"
 #include "GeometryComponent.hh"
+#include "BoundingBox.hh"
 
 namespace PPS
 {  
@@ -82,14 +83,8 @@ namespace PPS
        * \return A pointer to the physical volume setting the geometry
        */
       G4VPhysicalVolume* ConstructGeometry();
-    
-      G4double expHall_x;
-      G4double expHall_y;
-      G4double expHall_z;
 
-      G4VPhysicalVolume* expHall_phys;
-      G4LogicalVolume* expHall_log;
-
+      BoundingBox* fWorld;
       MaterialManager *fMaterial;
       GeometryConstructorMessenger *fMessenger;
 

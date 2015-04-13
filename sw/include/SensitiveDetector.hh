@@ -30,7 +30,7 @@ namespace PPS
       {}
       
       inline virtual ~SensitiveDetector() {
-        delete fEvent;
+        if (fEvent) delete fEvent;
       }
 
       /**
@@ -52,7 +52,10 @@ namespace PPS
       virtual void Initialize(G4HCofThisEvent*) {
         fEvent->Clear();
       }
-      virtual inline G4bool ProcessHits(G4Step*, G4TouchableHistory*) { return false; }
+      virtual inline G4bool ProcessHits(G4Step*, G4TouchableHistory*) {
+        G4cout << __PRETTY_FUNCTION__ << " WARNING: trying to process hits on a pure virtual sensitive detector object" << G4endl;
+        return false;
+      }
       /**
        * Method called at the end of each event. This can be used to store the event
        * into the output stream.

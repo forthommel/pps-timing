@@ -35,7 +35,6 @@ namespace Quartic
     fSD(0), fNumBars(0),
     fContainerMaterial(fMaterial->Air)
   {
-    G4cout << __PRETTY_FUNCTION__ << " New detector with name \"" << fName << "\" created" << G4endl;
     bar_x    =   3*mm;		// From Mike
     bar_y    =   3*mm;
     
@@ -54,10 +53,8 @@ namespace Quartic
   void
   QuartLDetector::BeforeConstruct()
   {
-    // ------------- Volumes  and Detector --------------
     fSD = new QuartLDetectorSD(fSDname);
-    G4SDManager* sd_manager = G4SDManager::GetSDMpointer();
-    sd_manager->AddNewDetector(fSD);
+    G4SDManager::GetSDMpointer()->AddNewDetector(fSD);
     fPhys = BuildOneStation();
   }
   

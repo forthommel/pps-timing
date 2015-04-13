@@ -18,11 +18,10 @@
 
 #pragma link C++ function PPS::FileReader::SetDetectorEventsAddress(TString,Quartic::QuartLEvent*)+;
 
-#if false
-#include "TrackingMaterialEvent.h"
+#include "EnvironmentalEvent.h"
 
-#pragma link C++ class TrackingMaterialEvent+;
-#pragma link C++ function PPS::FileReader::SetDetectorEventsAddress(TString,TrackingMaterialEvent*)+;
-#fi
+#pragma link C++ class EnvironmentalEvent+;
+#pragma link C++ class EnvironmentalHit+;
+#pragma link C++ function PPS::FileReader::SetDetectorEventsAddress(TString,EnvironmentalEvent*)+;
 
 #endif

@@ -63,7 +63,7 @@ int main(int argc,char** argv)
 
   //physics = new QuartLPhysicsList;
   //physics = new LHEP;    //22.01 from AK
-  physics = new QGSP_BERT(-1);
+  physics = new QGSP_BERT;
   //physics = new LBE;
   physics->SetVerboseLevel(-1);
   physics->RegisterPhysics(new G4OpticalPhysics);
@@ -104,12 +104,15 @@ int main(int argc,char** argv)
   else { // Batch mode
     G4String command = "/control/execute ";
     G4String fileName = argv[1];
+    //G4UIExecutive* ui;
+    //ui = new G4UIExecutive(argc, argv);
 #ifdef G4VIS_USE
     // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
     G4VisManager* visManager = new G4VisExecutive("Quiet");
     visManager->Initialize();
 #endif
     UImanager->ApplyCommand(command+fileName);
+    //ui->SessionStart();
 #ifdef G4VIS_USE
     delete visManager;
 #endif

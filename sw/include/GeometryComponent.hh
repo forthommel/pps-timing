@@ -29,17 +29,20 @@ namespace PPS
   {
     public:
       GeometryComponent(G4String="");
-      ~GeometryComponent();
+      virtual ~GeometryComponent();
 
       inline std::string GetName() const { return static_cast<std::string>(fName); }
+      
+      inline G4VPhysicalVolume* GetPhysicalVolume() { return fPhys; }
+      
       /**
-       * \brief Set the mother logical volume associated to this component.
+       * \brief Set the mother volume associated to this component.
        */
-      inline void SetParentLog(G4LogicalVolume* parent) { fParentLog=parent; }
-      /**
-       * \brief Set the mother physical volume associated to this component.
-       */
-      inline void SetParentPhys(G4VPhysicalVolume* parent) { fParentPhys=parent; }
+      inline void SetParent(GeometryComponent* parent) { 
+        fParentPhys = parent->GetPhysicalVolume();
+        fParentLog = parent->GetPhysicalVolume()->GetLogicalVolume();
+        G4cout << "parent set for component \"" << GetName() << "\": " << fParentLog->GetName() << G4endl;
+      }
       /**
        * \brief Set the position of this component, with respect to its mother volume.
        */
@@ -57,7 +60,9 @@ namespace PPS
        * (active) component.
        * \brief Set the Sensitive detector name of this component.
        */
-      inline void SetSDname(G4String name) { fSDname=name; if(!name.empty()) fIsSensitive=true; }
+      inline void SetSDname(G4String name) { 
+        fSDname = name;
+        fIsSensitive = !name.empty(); }
       /**
        * Method to be ran before constructing the physical volume of this component.
        * Typically this can be used to compute additional distances, angles, ... based
@@ -99,6 +104,8 @@ namespace PPS
       G4VPhysicalVolume* fParentPhys;
       /// Pointer to this component's physical volume
       G4VPhysicalVolume* fPhys;
+      /// Pointer to this component's logical volume
+      G4LogicalVolume* fLog;
       /// Material used for this component's container (air, gas, ...)
       G4Material* fContainerMaterial;
 

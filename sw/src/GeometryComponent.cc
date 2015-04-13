@@ -3,13 +3,10 @@
 namespace PPS
 {
   GeometryComponent::GeometryComponent(G4String name) :
-    fName(name),
-    fParentLog(0), fParentPhys(0), fPhys(0),
+    fName(name), fMaterial(((const RunAction*)G4RunManager::GetRunManager()->GetUserRunAction())->GetMaterialManager()),
+    fParentLog(0), fParentPhys(0), fPhys(0), fLog(0), fContainerMaterial(fMaterial->Air),
     fIsSensitive(false), fSDname(""), fEvent(0)
-  {
-    fMaterial = ((const RunAction*)G4RunManager::GetRunManager()->GetUserRunAction())->GetMaterialManager();
-    fContainerMaterial = fMaterial->Air;
-  }
+  {}
   
   GeometryComponent::~GeometryComponent()
   {}
@@ -20,6 +17,8 @@ namespace PPS
     G4cout << __PRETTY_FUNCTION__ << " Building a new component with name \"" << fName << "\"" << G4endl;
     return fPhys;
   }
+  
+  //////////////////////////////////////////////////////////////////////////////
   
   bool GeometryComponentStore::fBuilt = false;
   GeometryComponentStore* GeometryComponentStore::fComponentsStore = 0;

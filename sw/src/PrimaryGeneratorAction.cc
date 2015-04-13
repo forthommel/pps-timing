@@ -182,11 +182,11 @@ namespace PPS
       fNumHits[i] = c_hits;
       
       for (G4int j=0; j<c_hits; j++) {
-	fX[i][j] = x[j];
-	fY[i][j] = y[j];
-	fE[i][j] = energy[j];
-	fArrivalTime[i][j] = arrival_time[j];
-	fIsSignal[i][j] = signal[j];
+        fX[i][j] = x[j];
+        fY[i][j] = y[j];
+        fE[i][j] = energy[j];
+        fArrivalTime[i][j] = arrival_time[j];
+        fIsSignal[i][j] = signal[j];
       }
     }
     G4cout << "[PrimaryGeneratorAction::SetEventsCollection] Loaded a " << entries << " events collection" << G4endl;

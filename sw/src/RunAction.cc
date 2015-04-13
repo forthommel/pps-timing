@@ -29,8 +29,8 @@ namespace PPS
   {   
     fTimer->Stop();
     G4cerr << " Number of events = "
-	   << aRun->GetNumberOfEvent() << G4endl
-	   << " Timing : " << *fTimer << G4endl;
+           << aRun->GetNumberOfEvent() << G4endl
+           << " Timing : " << *fTimer << G4endl;
     fOutput->StoreRun();
   }
 }
