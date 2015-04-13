@@ -40,6 +40,9 @@ class EnvironmentalHit : public TObject
     inline void SetPosition(TLorentzVector pos) { fPosition=pos; }
     inline TLorentzVector GetPosition() const { return fPosition; }
     
+    inline void SetVertexPosition(TLorentzVector pos) { fVtxPosition=pos; }
+    inline TLorentzVector GetVertexPosition() const { return fVtxPosition; }
+    
     inline void SetMomentum(TLorentzVector mom) { fMomentum=mom; }
     inline TLorentzVector GetMomentum() const { return fMomentum; }
     
@@ -50,6 +53,7 @@ class EnvironmentalHit : public TObject
     
   private:
     TLorentzVector fPosition;
+    TLorentzVector fVtxPosition;
     TLorentzVector fMomentum;
     int fPDGId;
     

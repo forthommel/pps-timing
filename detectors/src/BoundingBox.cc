@@ -53,11 +53,13 @@ BoundingBoxSD::ProcessHits(G4Step* step, G4TouchableHistory*)
   if (ti->GetOriginalTrackID()==0) return false;
   
   G4ThreeVector mom = track->GetMomentum();
-  G4ThreeVector pos = track->GetVertexPosition();
+  G4ThreeVector vtx = track->GetVertexPosition();
+  G4ThreeVector pos = step->GetPostStepPoint()->GetPosition();
   
   EnvironmentalHit hit;
   hit.SetMomentum(TLorentzVector(mom.x()/GeV, mom.y()/GeV, mom.z()/GeV, track->GetTotalEnergy()/GeV));
-  hit.SetPosition(TLorentzVector(pos.x()/m, pos.y()/m, pos.z()/m, track->GetGlobalTime()/second));
+  hit.SetVertexPosition(TLorentzVector(vtx.x()/m, vtx.y()/m, vtx.z()/m, track->GetGlobalTime()/second));
+  hit.SetPosition(TLorentzVector(pos.x()/m, pos.y()/m, pos.z()/m, step->GetPostStepPoint()->GetGlobalTime()/second));
   hit.SetPDGId(track->GetDefinition()->GetPDGEncoding());
   fEvent->AddSecondaryHit(hit);
 
@@ -67,7 +69,7 @@ BoundingBoxSD::ProcessHits(G4Step* step, G4TouchableHistory*)
   //fEvent->AddHit(hit);
 
   // One kills the particle after its arrival in the sensitive detector
-  track->SetTrackStatus(fStopAndKill);
+  //track->SetTrackStatus(fStopAndKill);
 
   return true;
 

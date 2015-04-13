@@ -104,7 +104,7 @@ int main(int argc,char** argv)
   else { // Batch mode
     G4String command = "/control/execute ";
     G4String fileName = argv[1];
-    //G4UIExecutive* ui;
+    G4UIExecutive* ui;
     //ui = new G4UIExecutive(argc, argv);
 #ifdef G4VIS_USE
     // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.

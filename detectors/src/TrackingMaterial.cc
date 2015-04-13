@@ -4,7 +4,7 @@ using namespace CLHEP;
 
 TrackingMaterial::TrackingMaterial(G4String name) :
   PPS::GeometryComponent(name),
-  fSD(0), fThickness(300.*um)
+  fSD(0), fThickness(350.*um)
 {
   fMessenger = new TrackingMaterialMessenger(this);
 }
@@ -17,26 +17,6 @@ TrackingMaterial::~TrackingMaterial()
 G4VPhysicalVolume*
 TrackingMaterial::BuildOneStation()
 {
-  G4cout << __PRETTY_FUNCTION__ << G4endl;
-  
-  /*G4Box* container_box = new G4Box("Container", 10.*cm/2., 10.*cm/2., fThickness/2.);
-  G4LogicalVolume* container_log = new G4LogicalVolume(container_box, fMaterial->Silicon, GetLogName(), 0, 0, 0);
-  G4PVPlacement* container_phys = new G4PVPlacement(
-    &fRotation,
-    G4ThreeVector(
-      fPosition.x(),
-      fPosition.y(),
-      fPosition.z()-fThickness/2.
-    ),
-    container_log,
-    GetPhysName(),
-    fParentLog,
-    false,
-    0, true
-  );*/
-  
-  G4cout << "log container name=" << fParentLog->GetName() << G4endl;
-  
   G4Box* container_box = new G4Box("Container", 10.*cm/2., 10.*cm/2., fThickness/2.);
   G4LogicalVolume* container_log = new G4LogicalVolume(container_box, fContainerMaterial, GetLogName(), 0, 0, 0);
   G4PVPlacement* container_phys = new G4PVPlacement(
@@ -52,7 +32,6 @@ TrackingMaterial::BuildOneStation()
     false,
     0
   );
- G4cout << "physical container built" << G4endl;
   
   G4Box* sensor_box = new G4Box("sensor", 10.*cm/2., 10.*cm/2., fThickness/2.);
   G4LogicalVolume* sensor_log = new G4LogicalVolume(
