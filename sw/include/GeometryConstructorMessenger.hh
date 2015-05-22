@@ -37,6 +37,7 @@ namespace PPS
     G4UIcmdWithAString* fComponentSDname;
     G4UIcmdWithoutParameter* fUpdateGeometry;
     G4UIcmdWithAString* fGDMLOutput;
+    G4UIcmdWithAString* fGDMLLoad;
 
     G4int fLastComponentAdded;
   };

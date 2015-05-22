@@ -136,4 +136,14 @@ namespace PPS
     G4GDMLParser parser;
     parser.Write(filename, fWorld->GetPhysicalVolume(), true, "gdml/gdml.xsd");
   }
+
+  void
+  GeometryConstructor::LoadGDML(G4String filename)
+  {
+    G4GDMLParser parser;
+    parser.Read(filename, true); // true sets validation
+
+    G4cout << __PRETTY_FUNCTION__ << " ====> Load Geometry from GDML File !" << G4endl;
+    G4RunManager::GetRunManager()->DefineWorldVolume(parser.GetWorldVolume());
+  }
 }
