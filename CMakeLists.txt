@@ -1,6 +1,8 @@
-cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.4.3 FATAL_ERROR)
 project(PPSsimulation)
 set(PPS_MODULES detectors beampockets sw)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_C_STANDARD 14)
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -24,22 +26,9 @@ include(${Geant4_USE_FILE})
 #----------------------------------------------------------------------------
 
 find_package(ROOT REQUIRED)
+include(${ROOT_USE_FILE})
 include_directories(${ROOT_INCLUDE_DIR})
 link_directories(${ROOT_LIBRARY_DIR})
-if(${ROOT_VERSION} LESS 6.0)
-  set(GCC_COMPILE_FLAGS "-Wno-shadow -fPIC")
-else()
-  set(GCC_COMPILE_FLAGS "-Wno-shadow -fPIC -std=c++11")
-endif()
-add_definitions(${GCC_COMPILE_FLAGS})
-
-function(GENERATE_DICTIONARY dictionary)
-  if(${ROOT_VERSION} LESS 6.0)
-    ROOT_GENERATE_DICTIONARY(${dictionary} ${ARGN})
-  else()
-    ROOT_GENERATE_DICTIONARY(${dictionary} MODULE ${dictionary} ${ARGN})
-  endif()
-endfunction()
 
 #----------------------------------------------------------------------------
 # Modules to be compiled along with the output executable

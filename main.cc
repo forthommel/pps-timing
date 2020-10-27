@@ -22,9 +22,7 @@
 #include "ActionInitialization.hh"
 #include "GeometryConstructor.hh"
 
-#ifdef G4UI_USE
 #include "G4UIExecutive.hh"
-#endif
 
 #include "Randomize.hh"
 
@@ -56,9 +54,9 @@ int main(int argc,char** argv)
   // UserInitialization classes - mandatory
   //
   PPS::GeometryConstructor *geom_constructor = new PPS::GeometryConstructor;
-  
+
   runManager->SetUserInitialization(geom_constructor);
-  
+
   G4VModularPhysicsList* physics;
 
   //physics = new QuartLPhysicsList;

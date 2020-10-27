@@ -1,0 +1,11 @@
+<lcgdict>
+  <class name="Quartic::QuartLInformation"/>
+  <class name="Quartic::QuartLEvent"/>
+  <class name="Quartic::QuartLPhotonHit"/>
+  <class name="Quartic::HitsCollection"/>
+  <!-- function PPS::FileReader::SetDetectorEventsAddress(TString,Quartic::QuartLEvent*) -->
+
+  <class name="EnvironmentalEvent"/>
+  <class name="EnvironmentalHit"/>
+  <!-- function PPS::FileReader::SetDetectorEventsAddress(TString,EnvironmentalEvent*) -->
+</lcgdict>

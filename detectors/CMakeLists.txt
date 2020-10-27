@@ -12,16 +12,13 @@ file(GLOB headers include/*.hh)
 
 file(GLOB dict_headers include/*.h)
 list(APPEND dict_headers ${PROJECT_SOURCE_DIR}/sw/include/FileReader.h)
-list(REMOVE_ITEM dict_headers include/LinkDef.h)
-
-file(GLOB dict_sources src/*.cpp)
+REFLEX_GENERATE_DICTIONARY(Detectors ${dict_headers} SELECTION classes.xml OPTIONS "-O")
 
 # message(STATUS "Headers for dictionary : " ${dict_headers})
 # message(STATUS "Sources for dictionary : " ${dict_sources})
-GENERATE_DICTIONARY(DetectorsDict ${dict_headers} LINKDEF include/LinkDef.h)
-list(APPEND sources DetectorsDict.cxx)
-add_library(Detectors SHARED ${dict_sources} DetectorsDict.cxx)
-target_link_libraries(Detectors ${ROOT_LIBRARIES} ${ROOT_COMPONENT_LIBRARIES})
+list(APPEND sources Detectors.cxx)
+add_library(Detectors SHARED ${dict_sources} Detectors.cxx)
+#target_link_libraries(Detectors ${ROOT_LIBRARIES} ${ROOT_COMPONENT_LIBRARIES})
 #install(TARGETS PPS DESTINATION lib)
 
 list(APPEND headers ${dict_headers})
