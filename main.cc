@@ -85,8 +85,7 @@ int main(int argc,char** argv)
   G4UImanager* UImanager = G4UImanager::GetUIpointer();
 
   if (argc==1) { // Define UI session for interactive mode
-    G4UIExecutive* ui;
-    ui = new G4UIExecutive(argc, argv);
+    G4UIExecutive* ui = new G4UIExecutive(argc, argv);
     // Initialize visualization
 #ifdef G4VIS_USE
     // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
@@ -102,8 +101,7 @@ int main(int argc,char** argv)
   else { // Batch mode
     G4String command = "/control/execute ";
     G4String fileName = argv[1];
-    G4UIExecutive* ui;
-    //ui = new G4UIExecutive(argc, argv);
+    //G4UIExecutive* ui = new G4UIExecutive(argc, argv);
 #ifdef G4VIS_USE
     // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
     G4VisManager* visManager = new G4VisExecutive("Quiet");
